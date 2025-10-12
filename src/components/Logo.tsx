@@ -15,11 +15,11 @@ const Logo: Component<LogoProps> = originalProps => {
 		<A
 			href="/"
 			class={`flex flex-row gap-4 ${props.class ?? ''}`}
-			aria-label="metar.gg logo, links back to the home page">
+			aria-label="metar.live logo, links back to the home page">
 			<LogoSvg class="w-12 flex-shrink-0 rounded-full bg-white text-primary transition-colors dark:bg-transparent dark:text-white-light" />
 			<Show when={props.showText}>
 				<span class="my-auto font-display text-2xl text-primary transition-colors dark:text-white-light">
-					metar.gg
+					metar.live
 				</span>
 			</Show>
 		</A>

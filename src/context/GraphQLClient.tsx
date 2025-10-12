@@ -1,7 +1,7 @@
 import { createGraphQLClient, GraphQLClientQuery } from '@solid-primitives/graphql'
 import { createContext, ParentComponent, useContext } from 'solid-js'
 
-const client = createGraphQLClient('https://api.metar.gg/graphql')
+const client = createGraphQLClient('https://api.metar.live/graphql')
 
 const GraphQLContext = createContext<GraphQLClientQuery>(client)
 

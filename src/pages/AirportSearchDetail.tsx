@@ -251,7 +251,7 @@ const AirportSearchDetail: Component = () => {
 					<span class="m-auto text-gray-700 dark:text-white-dark">Failed to load weather data.</span>
 				</Match>
 				<Match when={airportStore.airport !== undefined}>
-					<Link href={`https://metar.gg/airport/${airportStore.airport?.identifier}`} rel="canonical" />
+					<Link href={`https://metar.live/airport/${airportStore.airport?.identifier}`} rel="canonical" />
 					<div class="mx-auto flex flex-col py-16 text-center dark:text-white-dark">
 						<h1 class="text-3xl">
 							<Switch>

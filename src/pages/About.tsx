@@ -14,7 +14,7 @@ const About = () => {
 
 				<h2 class="pt-16 text-3xl">What is this?</h2>
 				<p class="mt-4">
-					metar.gg is an open source aviation weather app, featuring weather reports and forecasts for about
+					metar.live is an open source aviation weather app, featuring weather reports and forecasts for about
 					5000 airports. For the airport data it uses the publicly available{' '}
 					<a href="https://www.ourairports.com/">OurAirports</a> database, while the weather data is imported
 					every 2 minutes directly from <a href="https://www.noaa.gov/">NOAA</a>.
@@ -41,7 +41,7 @@ const About = () => {
 				</p>
 				<ul class="mt-4 flex flex-col gap-2 pl-2">
 					<li>
-						<a class="flex gap-2" href="https://github.com/benjasper/metar.gg-web">
+						<a class="flex gap-2" href="https://github.com/benjasper/metar.live-web">
 							<AiOutlineGithub class="my-auto" size={24} />
 							<span class="my-auto">Web app</span>
 						</a>

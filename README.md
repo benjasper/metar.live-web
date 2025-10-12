@@ -1,12 +1,12 @@
-<h1 align="center">metar.gg</h1>
+<h1 align="center">metar.live</h1>
 <p align="center">🛫☀️🌦</p>
 <p align="center">Latest worldwide aviation weather</p>
 
 ## What is this?
 
-metar.gg is an app that fetches latest METAR and TAF data from [NOAA](https://www.aviationweather.gov) and presents it in an intuitive way.
+metar.live is an app that fetches latest METAR and TAF data from [NOAA](https://www.aviationweather.gov) and presents it in an intuitive way.
 
-The accompanying Go GraphQL API can be found [here](https://github.com/benjasper/metar.gg-backend).
+The accompanying Go GraphQL API can be found [here](https://github.com/benjasper/metar.live-backend).
 
 ### Features
 * ⚡ Latest, up to date METARs and TAFs
