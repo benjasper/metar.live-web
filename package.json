@@ -54,12 +54,11 @@
 		"suncalc": "^1.9.0"
 	},
 	"volta": {
-		"node": "18.15.0",
-		"pnpm": "9.10.0"
+		"node": "22.20.0",
+		"pnpm": "10.18.2"
 	},
 	"engines": {
-		"node": ">=18",
-		"npm": ">=8"
+		"node": ">=22"
 	},
 	"eslintIgnore": [
 		"graphql.schema.json"
