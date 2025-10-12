@@ -81,7 +81,7 @@ const SearchBar: Component<SearchBarProps> = (properties: SearchBarProps) => {
 		const id = untrack(selectedAirportId)
 		const untrackedEvent = untrack(event)
 
-		if (keys().length === 0 || keys().length > 1) {
+		if (keys().length === 0) {
 			return
 		}
 
@@ -91,7 +91,11 @@ const SearchBar: Component<SearchBarProps> = (properties: SearchBarProps) => {
 			return
 		}
 
-		if (keys().includes('ARROWDOWN') || keys().includes('TAB')) {
+		if (
+			keys().includes('ARROWDOWN') ||
+			keys().includes('TAB') ||
+			(keys().includes('CONTROL') && keys().includes('N'))
+		) {
 			untrackedEvent!.preventDefault()
 			setSelectedAirportId(prev =>
 				prev === undefined || prev < airportResults().length - 1 ? (prev ?? -1) + 1 : 0
@@ -99,7 +103,7 @@ const SearchBar: Component<SearchBarProps> = (properties: SearchBarProps) => {
 			return
 		}
 
-		if (keys().includes('ARROWUP')) {
+		if (keys().includes('ARROWUP') || (keys().includes('CONTROL') && keys().includes('P'))) {
 			untrackedEvent!.preventDefault()
 			setSelectedAirportId(prev =>
 				prev === undefined || prev > 0 ? (prev ?? 1) - 1 : airportResults().length - 1
