@@ -1,5 +1,6 @@
 {
 	"name": "metar.live",
+	"packageManager": "pnpm@10.18.2",
 	"version": "1.0.0",
 	"description": "",
 	"scripts": {
@@ -58,7 +59,7 @@
 		"pnpm": "10.18.2"
 	},
 	"engines": {
-		"node": ">=22"
+		"node": "22"
 	},
 	"eslintIgnore": [
 		"graphql.schema.json"
