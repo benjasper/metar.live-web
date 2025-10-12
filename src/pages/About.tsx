@@ -14,10 +14,10 @@ const About = () => {
 
 				<h2 class="pt-16 text-3xl">What is this?</h2>
 				<p class="mt-4">
-					metar.live is an open source aviation weather app, featuring weather reports and forecasts for about
-					5000 airports. For the airport data it uses the publicly available{' '}
-					<a href="https://www.ourairports.com/">OurAirports</a> database, while the weather data is imported
-					every 2 minutes directly from <a href="https://www.noaa.gov/">NOAA</a>.
+					metar.live <i>(previously known as metar.gg)</i>is an open source aviation weather app, featuring
+					weather reports and forecasts for about 5000 airports. For the airport data it uses the publicly
+					available <a href="https://www.ourairports.com/">OurAirports</a> database, while the weather data is
+					imported every 2 minutes directly from <a href="https://www.noaa.gov/">NOAA</a>.
 				</p>
 				<p class="mt-4">Features of the app include:</p>
 				<ul class="list-disc pl-6">

@@ -14,9 +14,9 @@ const Legal = () => {
 				<p class="mt-4">
 					Operator: Benjamin Jasper
 					<br />
-					Fischenzstr. 6
+					Bernhard-Göring-Str. 69
 					<br />
-					78462 Konstanz, Germany
+					04107 Leipzig
 				</p>
 				<h2 class="pt-8 text-3xl">Contact</h2>
 				<p>
