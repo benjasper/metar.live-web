@@ -1,5 +1,5 @@
 import { HiOutlineArrowPath } from 'solid-icons/hi'
-import { Component, createMemo, Show } from 'solid-js'
+import { Component, createEffect, createMemo, Show } from 'solid-js'
 import { useTimeStore } from '../context/TimeStore'
 import Duration from '../models/duration'
 import { AirportSearchFragment } from '../queries/generated/graphql'
@@ -36,6 +36,26 @@ const WeatherElements: Component<ParsedWeatherElementsProps> = props => {
 	const importTime = () => new Date(props.airport?.station?.metars?.edges[0]?.node.importTime) ?? undefined
 	const importTimeDuration = (): Duration => Duration.fromDates(importTime(), now())
 
+	const observationStatus = () => {
+		if (lastObservationDuration().asMinutes() <= 60) {
+			return 'successful'
+		}
+
+		if (lastObservationDuration().asMinutes() <= 120) {
+			return 'warning'
+		}
+
+		return 'danger'
+	}
+
+	const nextImportPredictionStatus = () => {
+		if (nextImportPredictionDuration().asMinutes() > 5 && nextImportPredictionDuration().isFuture()) {
+			return 'standard' // No highlight
+		}
+
+		return 'neutral'
+	}
+
 	return (
 		<>
 			<div class="flex flex-col justify-between md:flex-row">
@@ -44,7 +64,7 @@ const WeatherElements: Component<ParsedWeatherElementsProps> = props => {
 					<Show when={(props.airport?.station?.metars.edges.length ?? 0) > 0}>
 						<div class="flex flex-row flex-wrap justify-start gap-2 pt-2">
 							<Tag
-								intent={lastObservationDuration().asHours() <= 2 ? 'successful' : 'danger'}
+								intent={observationStatus()}
 								tooltip={metarObservationTime().toLocaleTimeString([], {
 									hour: 'numeric',
 									minute: '2-digit',
@@ -72,12 +92,7 @@ const WeatherElements: Component<ParsedWeatherElementsProps> = props => {
 									)
 								}>
 								<Tag
-									intent={
-										nextImportPredictionDuration().isPast() &&
-										nextImportPredictionDuration().asHours() > 2
-											? 'danger'
-											: 'successful'
-									}
+									intent={nextImportPredictionStatus()}
 									tooltip={nextImportPrediction().toLocaleTimeString([], {
 										hour: 'numeric',
 										minute: '2-digit',
