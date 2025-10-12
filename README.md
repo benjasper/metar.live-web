@@ -1,10 +1,10 @@
-<h1 align="center">metar.live</h1>
+<h1 align="center">metar.live </h1>
 <p align="center">🛫☀️🌦</p>
 <p align="center">Latest worldwide aviation weather</p>
 
 ## What is this?
 
-metar.live is an app that fetches latest METAR and TAF data from [NOAA](https://www.aviationweather.gov) and presents it in an intuitive way.
+metar.live <i>(previously known as metar.gg)</i> is an app that fetches latest METAR and TAF data from [NOAA](https://www.aviationweather.gov) and presents it in an intuitive way.
 
 The accompanying Go GraphQL API can be found [here](https://github.com/benjasper/metar.live-backend).
 
