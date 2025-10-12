@@ -501,6 +501,7 @@ export type QueryGetAirportsArgs = {
 	iata?: InputMaybe<Scalars['String']['input']>
 	icao?: InputMaybe<Scalars['String']['input']>
 	identifier?: InputMaybe<Scalars['String']['input']>
+	importance?: InputMaybe<Scalars['Int']['input']>
 	last?: InputMaybe<Scalars['Int']['input']>
 	order?: InputMaybe<Array<AirportOrder>>
 	search?: InputMaybe<Scalars['String']['input']>
@@ -825,6 +826,7 @@ export type AirportSearchQuery = {
 				iataCode?: string | null
 				gpsCode?: string | null
 				name: string
+				station?: { __typename?: 'WeatherStation'; stationID: string } | null
 			}
 		}>
 	}

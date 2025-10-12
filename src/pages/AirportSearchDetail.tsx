@@ -336,16 +336,18 @@ const AirportSearchDetail: Component = () => {
 							</Show>
 						</div>
 					</div>
-					<WeatherElements
-						airport={airportStore.airport!}
-						lastRefreshed={lastRefreshed()}
-						isNight={isNight()}
-					/>
-					<ForecastElements
-						airport={airportStore.airport!}
-						taf={airportStore.airport!.station?.tafs.edges[0]?.node}
-						isNight={isNight()}
-					/>
+					<Show when={airportStore.airport!.station !== null}>
+						<WeatherElements
+							airport={airportStore.airport!}
+							lastRefreshed={lastRefreshed()}
+							isNight={isNight()}
+						/>
+						<ForecastElements
+							airport={airportStore.airport!}
+							taf={airportStore.airport!.station?.tafs.edges[0]?.node}
+							isNight={isNight()}
+						/>
+					</Show>
 					<AirportsInVicinity
 						airportCoordinates={{
 							latitude: airportStore.airport!.latitude,

@@ -74,7 +74,7 @@ const SearchBar: Component<SearchBarProps> = (properties: SearchBarProps) => {
 	}
 
 	const onFocusLeave = (e: Event) => {
-		setTimeout(() => setIsFocused(false))
+		setTimeout(() => setIsFocused(false), 100)
 	}
 
 	createEffect(() => {
@@ -161,7 +161,7 @@ const SearchBar: Component<SearchBarProps> = (properties: SearchBarProps) => {
 						onFocus={e => setIsFocused(true)}
 						onFocusOut={e => onFocusLeave(e)}
 						class={
-							'dark:bg-black-200 dark:text-white-dark w-full rounded-full bg-white px-10 py-2 text-left text-xl text-gray-700 outline-hidden transition-all'
+							'dark:bg-black-200 dark:text-white-dark w-full rounded-full bg-white px-10 py-2 text-left text-xl text-gray-900 outline-hidden transition-all'
 						}
 					/>
 					<AiOutlineSearch
@@ -209,7 +209,7 @@ const SearchBar: Component<SearchBarProps> = (properties: SearchBarProps) => {
 					leaveFrom="opacity-100 rotate-0"
 					leaveTo="opacity-0">
 					<ul
-						class="ring-opacity-5 dark:bg-black-200 absolute left-0 z-20 mt-2 w-full origin-top-right overflow-y-auto rounded-md bg-white py-1 shadow-lg ring-1 ring-black focus:outline-hidden"
+						class="ring-opacity-5 dark:bg-black-200 absolute left-0 z-30 mt-2 w-full origin-top-right overflow-y-auto rounded-md bg-white py-1 shadow-lg ring-1 ring-black focus:outline-hidden"
 						role="listbox"
 						id="search-bar"
 						aria-label="Airport selection search bar"
@@ -226,8 +226,12 @@ const SearchBar: Component<SearchBarProps> = (properties: SearchBarProps) => {
 										aria-selected={i() === selectedAirportId()}
 										tabindex={i()}>
 										<A
-											class="dark:text-white-dark block w-full cursor-pointer px-6 py-2 text-sm text-gray-700"
-											classList={{ 'bg-gray-100 dark:bg-black-100': i() === selectedAirportId() }}
+											class="block w-full cursor-pointer px-6 py-2 text-sm"
+											classList={{
+												'bg-gray-100 dark:bg-black-100': i() === selectedAirportId(),
+												'dark:text-white-dark text-gray-900': airportNode.node.station !== null,
+												'dark:text-gray-400 text-gray-500': airportNode.node.station === null,
+											}}
 											href={`/airport/${airportNode.node.identifier}`}>
 											<Switch>
 												<Match when={airportNode.node.icaoCode && airportNode.node.iataCode}>

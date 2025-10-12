@@ -2,7 +2,7 @@ import { gql } from '@solid-primitives/graphql'
 
 export const AIRPORT_SEARCH = gql`
 	query AirportSearch($search: String!) {
-		getAirports(search: $search, hasWeather: true, first: 10) {
+		getAirports(search: $search, first: 10, importance: 3) {
 			pageInfo {
 				hasNextPage
 				endCursor
@@ -16,6 +16,9 @@ export const AIRPORT_SEARCH = gql`
 					iataCode
 					gpsCode
 					name
+					station {
+						stationID
+					}
 				}
 			}
 		}
