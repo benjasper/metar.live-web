@@ -134,7 +134,7 @@ const WindElement: Component<WindElementProps> = props => {
 	return (
 		<WeatherElementLayout
 			name="Wind"
-			class="flex-shrink-0"
+			class="shrink-0"
 			icon={<TbWindsock />}
 			unitType={unitConfigurations()}
 			updatePing={Math.sign((previousWindSpeed() ?? 0 + (previousWindGust() ?? 0)) - (windSpeed() + windGust()))}
@@ -160,7 +160,7 @@ const WindElement: Component<WindElementProps> = props => {
 					/>
 				</Show>
 			</Show>
-			<div class="flex flex-col text-center dark:text-white-dark">
+			<div class="dark:text-white-dark flex flex-col text-center">
 				<span class="text-lg">
 					<Show when={props.windData.windSpeed && props.windData.windSpeed != 0} fallback="Wind calm">
 						<Show when={props.windData.windDirection} fallback="Variable">

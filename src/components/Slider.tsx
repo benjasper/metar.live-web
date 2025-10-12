@@ -16,7 +16,7 @@ const SliderNavigation: Component<DotsProps> = props => {
 					aria-label="Previous forecast page"
 					onClick={() => helpers().prev()}
 					role="button"
-					class="absolute -bottom-6 left-0 hidden h-8 w-8 -translate-y-1/2 transform rounded-full bg-white text-black shadow-sm dark:bg-black-100 dark:text-white-dark md:flex">
+					class="dark:bg-black-100 dark:text-white-dark absolute -bottom-6 left-0 hidden h-8 w-8 -translate-y-1/2 transform cursor-pointer rounded-full bg-white text-black shadow-xs md:flex">
 					<TbChevronLeft class="m-auto" size={24} />
 				</button>
 			</Show>
@@ -26,10 +26,10 @@ const SliderNavigation: Component<DotsProps> = props => {
 					{(_, index) => (
 						<button
 							role="button"
-							class="h-2.5 w-2.5 rounded-full bg-gray-300 transition-all dark:bg-gray-700"
+							class="h-2.5 w-2.5 cursor-pointer rounded-full bg-gray-300 transition-all dark:bg-gray-700"
 							aria-label={`Select forecast ${index() + 1}`}
 							classList={{
-								'!bg-gray-500 !dark:bg-gray-400': helpers().current() === index(),
+								'bg-gray-500! !dark:bg-gray-400': helpers().current() === index(),
 								'hover:bg-gray-400 dark:hover:bg-gray-500': helpers().current() !== index(),
 							}}
 							disabled={helpers().current() === index()}
@@ -44,7 +44,7 @@ const SliderNavigation: Component<DotsProps> = props => {
 					aria-label="Next forecast page"
 					onClick={() => helpers().next()}
 					role="button"
-					class="absolute -bottom-6 right-0 hidden h-8 w-8 -translate-y-1/2 transform rounded-full bg-white text-black shadow-sm dark:bg-black-100 dark:text-white-dark md:flex">
+					class="dark:bg-black-100 dark:text-white-dark absolute right-0 -bottom-6 hidden h-8 w-8 -translate-y-1/2 transform cursor-pointer rounded-full bg-white text-black shadow-xs md:flex">
 					<TbChevronLeft class="m-auto rotate-180" size={24} />
 				</button>
 			</Show>
@@ -161,7 +161,7 @@ const Slider: ParentComponent<SliderProps> = props => {
 				when={props.items.length > 0}
 				fallback={
 					<Show when={props.noItemsMessage}>
-						<span class="mx-auto py-16 text-xl text-black dark:text-white-dark">
+						<span class="dark:text-white-dark mx-auto py-16 text-xl text-black">
 							{props.noItemsMessage}
 						</span>
 					</Show>

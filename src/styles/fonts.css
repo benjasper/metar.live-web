@@ -1,76 +1,82 @@
 /* inter-regular - latin */
 @font-face {
-  font-family: 'Inter';
-  font-display: swap;
-  font-style: normal;
-  font-weight: 400;
-  src: local(''),
-       url('../fonts/inter-v12-latin-regular.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
-       url('../fonts/inter-v12-latin-regular.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+	font-family: 'Inter';
+	font-display: swap;
+	font-style: normal;
+	font-weight: 400;
+	src:
+		local(''),
+		url('../fonts/inter-v12-latin-regular.woff2') format('woff2'),
+		/* Chrome 26+, Opera 23+, Firefox 39+ */ url('../fonts/inter-v12-latin-regular.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
 }
 
 /* inter-600 - latin */
 @font-face {
-  font-family: 'Inter';
-  font-display: swap;
-  font-style: normal;
-  font-weight: 600;
-  src: url('../fonts/inter-v12-latin-600.eot'); /* IE9 Compat Modes */
-  src: local(''),
-       url('../fonts/inter-v12-latin-600.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-       url('../fonts/inter-v12-latin-600.woff2') format('woff2'), /* Super Modern Browsers */
-       url('../fonts/inter-v12-latin-600.woff') format('woff'), /* Modern Browsers */
-       url('../fonts/inter-v12-latin-600.ttf') format('truetype'), /* Safari, Android, iOS */
-       url('../fonts/inter-v12-latin-600.svg#Inter') format('svg'); /* Legacy iOS */
+	font-family: 'Inter';
+	font-display: swap;
+	font-style: normal;
+	font-weight: 600;
+	src: url('../fonts/inter-v12-latin-600.eot'); /* IE9 Compat Modes */
+	src:
+		local(''),
+		url('../fonts/inter-v12-latin-600.eot?#iefix') format('embedded-opentype'),
+		/* IE6-IE8 */ url('../fonts/inter-v12-latin-600.woff2') format('woff2'),
+		/* Super Modern Browsers */ url('../fonts/inter-v12-latin-600.woff') format('woff'),
+		/* Modern Browsers */ url('../fonts/inter-v12-latin-600.ttf') format('truetype'),
+		/* Safari, Android, iOS */ url('../fonts/inter-v12-latin-600.svg#Inter') format('svg'); /* Legacy iOS */
 }
 
 /* inter-700 - latin */
 @font-face {
-  font-family: 'Inter';
-  font-display: swap;
-  font-style: normal;
-  font-weight: 700;
-  src: local(''),
-       url('../fonts/inter-v12-latin-700.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
-       url('../fonts/inter-v12-latin-700.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+	font-family: 'Inter';
+	font-display: swap;
+	font-style: normal;
+	font-weight: 700;
+	src:
+		local(''),
+		url('../fonts/inter-v12-latin-700.woff2') format('woff2'),
+		/* Chrome 26+, Opera 23+, Firefox 39+ */ url('../fonts/inter-v12-latin-700.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
 }
 /* inter-900 - latin */
 @font-face {
-  font-family: 'Inter';
-  font-display: swap;
-  font-style: normal;
-  font-weight: 900;
-  src: local(''),
-       url('../fonts/inter-v12-latin-900.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
-       url('../fonts/inter-v12-latin-900.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+	font-family: 'Inter';
+	font-display: swap;
+	font-style: normal;
+	font-weight: 900;
+	src:
+		local(''),
+		url('../fonts/inter-v12-latin-900.woff2') format('woff2'),
+		/* Chrome 26+, Opera 23+, Firefox 39+ */ url('../fonts/inter-v12-latin-900.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
 }
 
 /* varela-round-regular - latin */
 @font-face {
-  font-family: 'Varela Round';
-  font-display: swap;
-  font-style: normal;
-  font-weight: 400;
-  src: url('../fonts/varela-round-v19-latin-regular.eot'); /* IE9 Compat Modes */
-  src: local(''),
-       url('../fonts/varela-round-v19-latin-regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-       url('../fonts/varela-round-v19-latin-regular.woff2') format('woff2'), /* Super Modern Browsers */
-       url('../fonts/varela-round-v19-latin-regular.woff') format('woff'), /* Modern Browsers */
-       url('../fonts/varela-round-v19-latin-regular.ttf') format('truetype'), /* Safari, Android, iOS */
-       url('../fonts/varela-round-v19-latin-regular.svg#VarelaRound') format('svg'); /* Legacy iOS */
+	font-family: 'Varela Round';
+	font-display: swap;
+	font-style: normal;
+	font-weight: 400;
+	src: url('../fonts/varela-round-v19-latin-regular.eot'); /* IE9 Compat Modes */
+	src:
+		local(''),
+		url('../fonts/varela-round-v19-latin-regular.eot?#iefix') format('embedded-opentype'),
+		/* IE6-IE8 */ url('../fonts/varela-round-v19-latin-regular.woff2') format('woff2'),
+		/* Super Modern Browsers */ url('../fonts/varela-round-v19-latin-regular.woff') format('woff'),
+		/* Modern Browsers */ url('../fonts/varela-round-v19-latin-regular.ttf') format('truetype'),
+		/* Safari, Android, iOS */ url('../fonts/varela-round-v19-latin-regular.svg#VarelaRound') format('svg'); /* Legacy iOS */
 }
 
 /* fragment-mono-regular - latin */
 @font-face {
-  font-display: swap;
-  font-family: 'Fragment Mono';
-  font-style: normal;
-  font-weight: 400;
-  src: url('../fonts/fragment-mono-v1-latin-regular.eot'); /* IE9 Compat Modes */
-  src: local(''),
-       url('../fonts/fragment-mono-v1-latin-regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-       url('../fonts/fragment-mono-v1-latin-regular.woff2') format('woff2'), /* Super Modern Browsers */
-       url('../fonts/fragment-mono-v1-latin-regular.woff') format('woff'), /* Modern Browsers */
-       url('../fonts/fragment-mono-v1-latin-regular.ttf') format('truetype'), /* Safari, Android, iOS */
-       url('../fonts/fragment-mono-v1-latin-regular.svg#FragmentMono') format('svg'); /* Legacy iOS */
+	font-display: swap;
+	font-family: 'Fragment Mono';
+	font-style: normal;
+	font-weight: 400;
+	src: url('../fonts/fragment-mono-v1-latin-regular.eot'); /* IE9 Compat Modes */
+	src:
+		local(''),
+		url('../fonts/fragment-mono-v1-latin-regular.eot?#iefix') format('embedded-opentype'),
+		/* IE6-IE8 */ url('../fonts/fragment-mono-v1-latin-regular.woff2') format('woff2'),
+		/* Super Modern Browsers */ url('../fonts/fragment-mono-v1-latin-regular.woff') format('woff'),
+		/* Modern Browsers */ url('../fonts/fragment-mono-v1-latin-regular.ttf') format('truetype'),
+		/* Safari, Android, iOS */ url('../fonts/fragment-mono-v1-latin-regular.svg#FragmentMono') format('svg'); /* Legacy iOS */
 }

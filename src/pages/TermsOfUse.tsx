@@ -7,7 +7,7 @@ const TermsOfUse = () => {
 		<PageContent title="Terms of Use" description="">
 			<Meta name="robots" content="noindex" />
 
-			<div class="container text-black dark:text-white-dark">
+			<div class="dark:text-white-dark container text-black">
 				<Header />
 				<h1 class="pt-16 text-4xl font-bold">Terms of Use</h1>
 				<h2 class="pt-16 text-3xl">Usage Disclaimer</h2>

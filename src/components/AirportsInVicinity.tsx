@@ -80,7 +80,7 @@ const AirportsInVicinity: Component<AirportsInVicinityProps> = props => {
 	return (
 		<section class="flex flex-col">
 			<Show when={props.stations.length > 0}>
-				<h2 class="text-2xl dark:text-white-dark">Nearby airports</h2>
+				<h2 class="dark:text-white-dark text-2xl">Nearby airports</h2>
 				<div class="flex gap-2 pt-2">
 					<Tag>
 						{props.stations.length >= 10 ? 'At least 10' : props.stations.length}{' '}
@@ -92,7 +92,7 @@ const AirportsInVicinity: Component<AirportsInVicinityProps> = props => {
 						{airport => (
 							<A
 								href={`/airport/${airport.station.airport?.identifier}`}
-								class="flex cursor-pointer flex-col gap-4 rounded-2xl bg-white p-4 shadow-sm transition-colors hover:bg-gray-50 dark:bg-black-200 dark:text-white-dark hover:dark:bg-black-100">
+								class="dark:bg-black-200 dark:text-white-dark dark:hover:bg-black-100 flex cursor-pointer flex-col gap-4 rounded-2xl bg-white p-4 shadow-xs transition-colors hover:bg-gray-50">
 								<div class="flex flex-col whitespace-nowrap">
 									<h3 class="text-xl">
 										<Switch>

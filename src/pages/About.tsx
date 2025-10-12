@@ -8,7 +8,7 @@ const About = () => {
 		<PageContent
 			title="About"
 			description="An app for getting up to date METAR and TAF information. Get latest weather observations and forecasts here.">
-			<div class="container text-black dark:text-white-dark">
+			<div class="dark:text-white-dark container text-black">
 				<Header />
 				<h1 class="pt-16 text-4xl font-bold">About</h1>
 

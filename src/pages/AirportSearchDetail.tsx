@@ -233,7 +233,7 @@ const AirportSearchDetail: Component = () => {
 			<div class="flex w-full flex-col justify-between gap-6 md:flex-row">
 				<Logo class="mx-auto md:mx-0 md:w-1/4" />
 				<SearchBar
-					class="my-auto mb-auto flex-grow justify-center"
+					class="my-auto mb-auto grow justify-center"
 					onSearch={navigateTo}
 					placeholder="Search for another airport"
 				/>
@@ -243,16 +243,16 @@ const AirportSearchDetail: Component = () => {
 			</div>
 			<Switch>
 				<Match when={airportStore.airport === undefined && airportRequest.loading}>
-					<div class="flex h-full justify-center text-gray-700 dark:text-white-dark">
+					<div class="dark:text-white-dark flex h-full justify-center text-gray-700">
 						<ImSpinner5 class="m-auto w-16 animate-spin" size={36} />
 					</div>
 				</Match>
 				<Match when={airportRequest.error}>
-					<span class="m-auto text-gray-700 dark:text-white-dark">Failed to load weather data.</span>
+					<span class="dark:text-white-dark m-auto text-gray-700">Failed to load weather data.</span>
 				</Match>
 				<Match when={airportStore.airport !== undefined}>
 					<Link href={`https://metar.live/airport/${airportStore.airport?.identifier}`} rel="canonical" />
-					<div class="mx-auto flex flex-col py-16 text-center dark:text-white-dark">
+					<div class="dark:text-white-dark mx-auto flex flex-col py-16 text-center">
 						<h1 class="text-3xl">
 							<Switch>
 								<Match when={airportStore.airport!.icaoCode && airportStore.airport!.iataCode}>

@@ -69,7 +69,7 @@ const Tooltip: ParentComponent<TooltipProps> = props => {
 							left: `${position?.x ?? 0}px`,
 						}}
 						ref={setTooltip}
-						class="max-w-xs rounded-xl bg-white px-3 py-2 text-xs text-black shadow-xl dark:bg-black-150 dark:text-white-darker">
+						class="dark:bg-black-150 dark:text-white-darker max-w-xs rounded-xl bg-white px-3 py-2 text-xs text-black shadow-xl">
 						{props.text}
 						{props.component}
 					</div>

@@ -40,7 +40,7 @@ const WeatherElements: Component<ParsedWeatherElementsProps> = props => {
 		<>
 			<div class="flex flex-col justify-between md:flex-row">
 				<div class="flex flex-col">
-					<h2 class="text-2xl dark:text-white-dark">Current weather</h2>
+					<h2 class="dark:text-white-dark text-2xl">Current weather</h2>
 					<Show when={(props.airport?.station?.metars.edges.length ?? 0) > 0}>
 						<div class="flex flex-row flex-wrap justify-start gap-2 pt-2">
 							<Tag
@@ -98,7 +98,7 @@ const WeatherElements: Component<ParsedWeatherElementsProps> = props => {
 				<Tooltip
 					text={`Refreshed ${Duration.fromDates(props.lastRefreshed, now()).humanPrecise(false)}`}
 					delay={1000}>
-					<span class="mt-4 flex text-gray-700 dark:text-white-dark md:mt-auto">
+					<span class="dark:text-white-dark mt-4 flex text-gray-700 md:mt-auto">
 						<HiOutlineArrowPath class="my-auto mr-2" />
 						Constantly checking for updates
 					</span>
@@ -108,11 +108,11 @@ const WeatherElements: Component<ParsedWeatherElementsProps> = props => {
 				<Show
 					when={latestMetar()}
 					fallback={
-						<span class="mx-auto py-16 text-xl text-gray-700 dark:text-white-dark">
+						<span class="dark:text-white-dark mx-auto py-16 text-xl text-gray-700">
 							No recent weather available.
 						</span>
 					}>
-					<div class="flex flex-shrink-0 flex-col">
+					<div class="flex shrink-0 flex-col">
 						<WindElement
 							airport={props.airport}
 							windData={{
@@ -187,7 +187,7 @@ const WeatherElements: Component<ParsedWeatherElementsProps> = props => {
 			</div>
 			<Show when={props.airport && (props.airport?.station?.metars.edges[0] ?? false)}>
 				<div class="flex flex-col gap-4 py-16">
-					<p aria-label="METAR" class="text-center font-mono text-xl dark:text-white-dark">
+					<p aria-label="METAR" class="dark:text-white-dark text-center font-mono text-xl">
 						{props.airport!.station!.metars.edges[0].node.rawText}
 					</p>
 				</div>

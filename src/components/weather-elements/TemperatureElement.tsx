@@ -26,7 +26,7 @@ const TemperatureElement: Component<TemperatureElementProps> = props => {
 			updatePing={UpdatePing.Neutral}
 			updatePingOldValue={props.previousTemperature ? value(props.previousTemperature) : undefined}
 			updatePingNewValue={value(props.temperature)}>
-			<p class="text-center text-xl dark:text-white-dark">{value(props.temperature)}</p>
+			<p class="dark:text-white-dark text-center text-xl">{value(props.temperature)}</p>
 		</WeatherElementLayout>
 	)
 }

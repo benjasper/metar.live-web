@@ -1,15 +1,15 @@
 {
-  "compilerOptions": {
-    "target": "ESNext",
-    "module": "ESNext",
-    "moduleResolution": "node",
-    "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
-    "jsx": "preserve",
-    "strict": true,
-    "jsxImportSource": "solid-js",
-    "types": ["vite/client", "vite-plugin-solid-svg/types"],
-    "noEmit": true,
-    "isolatedModules": true
-  }
+	"compilerOptions": {
+		"target": "ESNext",
+		"module": "ESNext",
+		"moduleResolution": "node",
+		"allowSyntheticDefaultImports": true,
+		"esModuleInterop": true,
+		"jsx": "preserve",
+		"strict": true,
+		"jsxImportSource": "solid-js",
+		"types": ["vite/client", "vite-plugin-solid-svg/types"],
+		"noEmit": true,
+		"isolatedModules": true
+	}
 }

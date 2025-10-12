@@ -118,7 +118,7 @@ const RunwayPopup = (props: {
 			<Show when={props.windSpeed > 0 && props.windDirection != undefined}>
 				<div class="flex gap-1">
 					<div
-						class="my-auto h-3 w-3 flex-shrink-0 rounded-full border-[3px]"
+						class="my-auto h-3 w-3 shrink-0 rounded-full border-[3px]"
 						classList={{
 							'bg-gray-600': props.runwayDirection.favourableLevel === 0,
 							'bg-blue-600 dark:bg-blue-800': props.runwayDirection.favourableLevel === 1,
@@ -355,7 +355,7 @@ const RunwayAndWindRenderer = (props: {
 		<Show when={runways().length > 0}>
 			<div class="relative mx-auto w-full rounded-full md:mx-0">
 				<svg
-					class="flex h-full md:w-[22rem]"
+					class="flex h-full md:w-88"
 					viewBox={`${-centerX()} ${-centerY()}  ${realDiagonal() * 2} ${realDiagonal() * 2}`}
 					xmlns="http://www.w3.org/2000/svg">
 					{/* Compass circle */}
@@ -385,7 +385,7 @@ const RunwayAndWindRenderer = (props: {
 										transform-origin="center"
 										transform={`rotate(${arrow.angle})`}
 										stroke="currentColor"
-										class="stroke-gray-600 transition-colors dark:stroke-white-dark"
+										class="dark:stroke-white-dark stroke-gray-600 transition-colors"
 										classList={{ 'opacity-50': arrow.isVariable }}
 										stroke-linecap="round"
 										stroke-linejoin="round"

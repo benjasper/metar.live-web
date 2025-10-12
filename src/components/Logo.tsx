@@ -16,9 +16,9 @@ const Logo: Component<LogoProps> = originalProps => {
 			href="/"
 			class={`flex flex-row gap-4 ${props.class ?? ''}`}
 			aria-label="metar.live logo, links back to the home page">
-			<LogoSvg class="w-12 flex-shrink-0 rounded-full bg-white text-primary transition-colors dark:bg-transparent dark:text-white-light" />
+			<LogoSvg class="text-primary dark:text-white-light w-12 shrink-0 rounded-full bg-white transition-colors dark:bg-transparent" />
 			<Show when={props.showText}>
-				<span class="my-auto font-display text-2xl text-primary transition-colors dark:text-white-light">
+				<span class="font-display text-primary dark:text-white-light my-auto text-2xl transition-colors">
 					metar.live
 				</span>
 			</Show>

@@ -37,7 +37,7 @@ const VisibilityElement: Component<VisibilityElementProps> = props => {
 			updatePing={Math.sign((props.visibility ?? 0) - (props.previousVisibility ?? 0))}
 			updatePingOldValue={value(props.previousVisibility, props.previousVisibilityMoreThan ?? false)?.toString()}
 			updatePingNewValue={`${value(props.visibility, props.visibilityMoreThan)}`}>
-			<p class="text-center text-xl dark:text-white-dark">{value(props.visibility, props.visibilityMoreThan)}</p>
+			<p class="dark:text-white-dark text-center text-xl">{value(props.visibility, props.visibilityMoreThan)}</p>
 		</WeatherElementLayout>
 	)
 }

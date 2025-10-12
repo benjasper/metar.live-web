@@ -17,7 +17,7 @@ const Toggle: Component<ToggleProps> = props => {
 				pressed={props.checked}
 				// eslint-disable-next-line solid/reactivity
 				onChange={checked => props.onChange(checked)}
-				class="relative inline-flex h-[1.5rem] w-[3rem] shrink-0 cursor-pointer rounded-full transition-all"
+				class="relative inline-flex h-6 w-12 shrink-0 cursor-pointer rounded-full transition-all"
 				classList={{
 					'bg-primary dark:bg-primary-light': props.checked,
 					'bg-gray-200 dark:bg-black-100': !props.checked,
@@ -27,7 +27,7 @@ const Toggle: Component<ToggleProps> = props => {
 					aria-hidden="true"
 					class={`${
 						props.checked ? 'translate-x-[1.6rem]' : 'translate-x-[0.1rem]'
-					} pointer-events-none my-auto inline-block h-[1.3rem] w-[1.3rem] transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out dark:bg-white-dark`}
+					} dark:bg-white-dark pointer-events-none my-auto inline-block h-[1.3rem] w-[1.3rem] transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out`}
 				/>
 			</HeadlessToggle>
 			<label class="my-auto font-normal normal-case">{props.onLabel}</label>

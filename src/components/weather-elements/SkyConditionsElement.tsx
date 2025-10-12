@@ -18,7 +18,7 @@ const SkyConditionIcon = (props: { skyCover: SkyConditionSkyCover; class: string
 	const classes = () => `h-auto ${props.class ?? ''}`
 
 	return (
-		<div class="text-gray-600 dark:text-white-light">
+		<div class="dark:text-white-light text-gray-600">
 			<Switch>
 				<Match when={props.skyCover === SkyConditionSkyCover.Few}>
 					<Show when={props.isDayTime} fallback={<RiWeatherMoonCloudyLine class={classes()} />}>
@@ -143,11 +143,11 @@ const SkyConditionsElement: Component<SkyConditionsElementProps> = props => {
 			updatePing={UpdatePing.Neutral}
 			updatePingOldValue={skyConditionsToText(selected, convert, previousSortedSkyConditions())}
 			updatePingNewValue={skyConditionsToText(selected, convert, sortedSkyConditions())}>
-			<div class="flex flex-col gap-2 text-center text-xl dark:text-white-dark">
+			<div class="dark:text-white-dark flex flex-col gap-2 text-center text-xl">
 				<Show when={props.skyConditions.length > 1}>
 					<For each={sortedSkyConditions()}>
 						{(condition, i) => (
-							<div class="mx-auto flex flex-row gap-1 whitespace-nowrap text-center">
+							<div class="mx-auto flex flex-row gap-1 text-center whitespace-nowrap">
 								<SkyConditionIcon
 									skyCover={condition.skyCover}
 									class="my-auto w-5"

@@ -13,7 +13,7 @@ const Footer: Component = () => {
 					<Logo showText={false} />
 				</div>
 
-				<div class="flex flex-col items-start gap-4 border-l-gray-400 dark:text-white-light md:flex-row md:border-l md:pl-8">
+				<div class="dark:text-white-light flex flex-col items-start gap-4 border-l-gray-400 md:flex-row md:border-l md:pl-8">
 					<A class="mx-auto" href="/about">
 						About
 					</A>
@@ -38,7 +38,7 @@ const Footer: Component = () => {
 					</A>
 				</div>
 
-				<div class="flex flex-col items-start gap-4 border-l-gray-400 dark:text-white-light md:flex-row md:border-l md:pl-8">
+				<div class="dark:text-white-light flex flex-col items-start gap-4 border-l-gray-400 md:flex-row md:border-l md:pl-8">
 					<A href="https://github.com/benjasper/metar.live-web" class="mx-auto flex gap-2">
 						<AiOutlineGithub class="my-auto" size={18} />
 						GitHub

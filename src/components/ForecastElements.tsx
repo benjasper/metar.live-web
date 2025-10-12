@@ -134,8 +134,8 @@ const ForecastElements: Component<ForecastElementsProps> = props => {
 	}
 
 	return (
-		<section class="flex w-full flex-col dark:text-white-dark">
-			<h2 class="text-2xl dark:text-white-dark">Current forecast</h2>
+		<section class="dark:text-white-dark flex w-full flex-col">
+			<h2 class="dark:text-white-dark text-2xl">Current forecast</h2>
 			<Show when={props.taf} fallback={<span class="mx-auto py-16 text-xl">No forecast available.</span>}>
 				<>
 					<div class="flex w-full flex-row flex-wrap justify-between gap-2 pt-2">
@@ -147,7 +147,7 @@ const ForecastElements: Component<ForecastElementsProps> = props => {
 									day: 'numeric',
 									month: 'long',
 									year: 'numeric',
-									timeZone: isLocalTime() ? props.airport.timezone ?? '' : browserTimezone,
+									timeZone: isLocalTime() ? (props.airport.timezone ?? '') : browserTimezone,
 								})}>
 								Issued {issueTimeDuration().humanImprecise()}
 							</Tag>
@@ -156,11 +156,11 @@ const ForecastElements: Component<ForecastElementsProps> = props => {
 								tooltip={`Valid from ${validFrom().toLocaleDateString([], {
 									hour: 'numeric',
 									minute: '2-digit',
-									timeZone: isLocalTime() ? props.airport.timezone ?? '' : browserTimezone,
+									timeZone: isLocalTime() ? (props.airport.timezone ?? '') : browserTimezone,
 								})} to ${validTo().toLocaleDateString([], {
 									hour: 'numeric',
 									minute: '2-digit',
-									timeZone: isLocalTime() ? props.airport.timezone ?? '' : browserTimezone,
+									timeZone: isLocalTime() ? (props.airport.timezone ?? '') : browserTimezone,
 								})}`}>
 								<Switch>
 									<Match when={validSince().isFuture()}>
@@ -196,16 +196,16 @@ const ForecastElements: Component<ForecastElementsProps> = props => {
 								<div class="mb-auto flex flex-col gap-2">
 									<div class="flex flex-row flex-wrap gap-2">
 										<div class="inline-block">
-											<span class="text-left dark:text-white-dark">
+											<span class="dark:text-white-dark text-left">
 												{new Date(forecast.fromTime).toLocaleString('default', {
 													weekday: 'long',
 													...timeFormat,
 													timeZone: isLocalTime()
-														? props.airport.timezone ?? ''
+														? (props.airport.timezone ?? '')
 														: browserTimezone,
 												})}
 											</span>
-											<span class="text-left dark:text-white-dark">
+											<span class="dark:text-white-dark text-left">
 												{' '}
 												-{' '}
 												{new Date(forecast.toTime).toLocaleString('default', {
@@ -220,7 +220,7 @@ const ForecastElements: Component<ForecastElementsProps> = props => {
 															: undefined,
 													...timeFormat,
 													timeZone: isLocalTime()
-														? props.airport.timezone ?? ''
+														? (props.airport.timezone ?? '')
 														: browserTimezone,
 												})}
 											</span>
@@ -244,7 +244,7 @@ const ForecastElements: Component<ForecastElementsProps> = props => {
 											</Tag>
 										</Show>
 									</div>
-									<div class="flex w-full max-w-full flex-col flex-wrap gap-4 md:w-[30rem] md:flex-row">
+									<div class="flex w-full max-w-full flex-col flex-wrap gap-4 md:w-120 md:flex-row">
 										<Show when={forecast.visibilityHorizontal}>
 											<VisibilityElement
 												visibility={forecast.visibilityHorizontal!}
@@ -288,7 +288,7 @@ const ForecastElements: Component<ForecastElementsProps> = props => {
 							)}
 						</For>
 					</Slider>
-					<p aria-label="TAF" class="mx-auto w-full py-16 text-center font-mono text-xl dark:text-white-dark">
+					<p aria-label="TAF" class="dark:text-white-dark mx-auto w-full py-16 text-center font-mono text-xl">
 						{props.taf!.rawText}
 					</p>
 				</>

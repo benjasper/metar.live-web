@@ -22,7 +22,7 @@ const FlightCategorySymbol: Component<FlightCategorySymbolProps> = props => {
 
 	return (
 		<div
-			class={`relative mx-auto flex-shrink-0 rounded-full ${props.class} ${sizesOutside[props.size ?? 'medium']}`}
+			class={`relative mx-auto shrink-0 rounded-full ${props.class} ${sizesOutside[props.size ?? 'medium']}`}
 			classList={{
 				'bg-green-400 dark:bg-green-600': props.flightCategory === MetarFlightCategory.Vfr,
 				'bg-blue-400 dark:bg-blue-600': props.flightCategory === MetarFlightCategory.Mvfr,
@@ -30,7 +30,7 @@ const FlightCategorySymbol: Component<FlightCategorySymbolProps> = props => {
 				'bg-purple-400 dark:bg-purple-600': props.flightCategory === MetarFlightCategory.Lifr,
 			}}>
 			<div
-				class={`absolute left-1/2 top-1/2 flex-shrink-0 -translate-x-1/2 -translate-y-1/2 transform rounded-full ${
+				class={`absolute top-1/2 left-1/2 shrink-0 -translate-x-1/2 -translate-y-1/2 transform rounded-full ${
 					sizesInside[props.size ?? 'medium']
 				}`}
 				classList={{

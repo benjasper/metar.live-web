@@ -1,12 +1,60 @@
-@import 'fonts.css';
+@import './fonts.css' layer(base);
 
-.container {
-	max-width: 100vw;
+@import 'tailwindcss';
+
+@custom-variant dark (&:is(.dark *));
+
+@utility container {
+	margin-inline: auto;
+	padding-inline: 2rem;
 }
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@theme {
+	--font-*: initial;
+	--font-display: Varela Round, sans-serif;
+	--font-mono: Fragment Mono, monospace;
+
+	--color-primary: #03045e;
+	--color-primary-light: #6366f1;
+	--color-gray-light: #f5f5f7;
+	--color-gray-background: #f9f8f9;
+	--color-white-dark: rgb(208, 214, 224);
+	--color-white-darker: #c3c9d2;
+	--color-white-light: #e6ebf8;
+	--color-black: #000212;
+	--color-black-100: #242b3e;
+	--color-black-150: #1d2332;
+	--color-black-200: #191e2b;
+	--color-black-300: #060609;
+
+	--grid-template-rows-layout: 1fr auto;
+
+	--animate-ping-large: ping-large 1s cubic-bezier(0, 0, 0.2, 1) 3;
+}
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+	*,
+	::after,
+	::before,
+	::backdrop,
+	::file-selector-button {
+		border-color: var(--color-gray-200, currentcolor);
+	}
+}
+
+@layer base {
+	.container {
+		max-width: 100vw;
+	}
+}
 
 @layer base {
 	html {
@@ -47,7 +95,7 @@ p a {
 }
 
 label {
-	@apply flex gap-1 text-xs font-semibold uppercase text-gray-600 transition-colors dark:text-white-darker;
+	@apply dark:text-white-darker flex gap-1 text-xs font-semibold text-gray-600 uppercase transition-colors;
 }
 
 /* Slider */
@@ -60,7 +108,6 @@ label {
 }
 
 @keyframes ping-large {
-
 	75%,
 	100% {
 		transform: scale(6);

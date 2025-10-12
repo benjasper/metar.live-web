@@ -18,7 +18,7 @@ const ErrorPage: Component<ErrorPageProps> = props => {
 	return (
 		<PageContent title="Error" description="An error occured" contentFullHeight={true}>
 			<Header />
-			<div class="flex flex-1 flex-col items-center justify-center gap-8 text-black dark:text-white-dark">
+			<div class="dark:text-white-dark flex flex-1 flex-col items-center justify-center gap-8 text-black">
 				<h1 class="text-center text-4xl font-bold">Sorry, that didn't work</h1>
 				<p class="text-xl">{props.error.toString()}</p>
 				<Show when={props.reset !== undefined}>

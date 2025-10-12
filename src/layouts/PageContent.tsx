@@ -25,7 +25,7 @@ const PageContent: ParentComponent<PageContentProps> = props => {
 			<Meta name="twitter:description" content={props.description} />
 			<Meta name="twitter:image" content={metarGGLogo} />
 
-			<div class="grid min-h-screen grid-rows-layout bg-gray-light pt-6 transition-colors dark:bg-black">
+			<div class="grid-rows-layout bg-gray-light grid min-h-screen pt-6 transition-colors dark:bg-black">
 				<div
 					class="container flex flex-col transition-colors"
 					classList={{ 'min-h-screen': props.contentFullHeight ?? false }}>

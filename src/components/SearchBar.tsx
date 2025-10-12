@@ -74,7 +74,7 @@ const SearchBar: Component<SearchBarProps> = (properties: SearchBarProps) => {
 	}
 
 	const onFocusLeave = (e: Event) => {
-		setIsFocused(false)
+		setTimeout(() => setIsFocused(false))
 	}
 
 	createEffect(() => {
@@ -157,24 +157,24 @@ const SearchBar: Component<SearchBarProps> = (properties: SearchBarProps) => {
 						onFocus={e => setIsFocused(true)}
 						onFocusOut={e => onFocusLeave(e)}
 						class={
-							'w-full rounded-full bg-white px-10 py-2 text-left text-xl text-gray-700 outline-none transition-all dark:bg-black-200 dark:text-white-dark'
+							'dark:bg-black-200 dark:text-white-dark w-full rounded-full bg-white px-10 py-2 text-left text-xl text-gray-700 outline-hidden transition-all'
 						}
 					/>
 					<AiOutlineSearch
-						class="absolute left-3 top-1/2 -translate-y-1/2 transform fill-gray-700 dark:fill-white-dark"
+						class="dark:fill-white-dark absolute top-1/2 left-3 -translate-y-1/2 transform fill-gray-700"
 						size={20}
 					/>
 					<Transition
 						show={airportRequest.loading}
-						enter="transition duration-[25ms]"
+						enter="transition duration-25"
 						enterFrom="opacity-0"
 						enterTo="opacity-100"
 						leave="duration-200 transition ease-in-out"
 						leaveFrom="opacity-100"
 						leaveTo="opacity-0">
-						<div class="absolute right-3 top-1/2 -translate-y-1/2 transform">
+						<div class="absolute top-1/2 right-3 -translate-y-1/2 transform">
 							<svg
-								class="-ml-1 h-5 w-5 animate-spin text-gray-700 dark:text-white-dark"
+								class="dark:text-white-dark -ml-1 h-5 w-5 animate-spin text-gray-700"
 								xmlns="http://www.w3.org/2000/svg"
 								fill="none"
 								viewBox="0 0 24 24">
@@ -198,14 +198,14 @@ const SearchBar: Component<SearchBarProps> = (properties: SearchBarProps) => {
 				<Transition
 					class="my-auto flex flex-col gap-32"
 					show={isFocused() && currentInput() !== '' && airportRequest.latest !== undefined}
-					enter="transform transition duration-[200ms]"
+					enter="transform transition duration-200"
 					enterFrom="opacity-0"
 					enterTo="opacity-100"
 					leave="transform duration-200 transition ease-in-out"
 					leaveFrom="opacity-100 rotate-0"
 					leaveTo="opacity-0">
 					<ul
-						class="absolute left-0 z-20 mt-2 w-full origin-top-right overflow-y-auto rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:bg-black-200"
+						class="ring-opacity-5 dark:bg-black-200 absolute left-0 z-20 mt-2 w-full origin-top-right overflow-y-auto rounded-md bg-white py-1 shadow-lg ring-1 ring-black focus:outline-hidden"
 						role="listbox"
 						id="search-bar"
 						aria-label="Airport selection search bar"
@@ -222,7 +222,7 @@ const SearchBar: Component<SearchBarProps> = (properties: SearchBarProps) => {
 										aria-selected={i() === selectedAirportId()}
 										tabindex={i()}>
 										<A
-											class="block w-full cursor-pointer px-6 py-2 text-sm text-gray-700 dark:text-white-dark"
+											class="dark:text-white-dark block w-full cursor-pointer px-6 py-2 text-sm text-gray-700"
 											classList={{ 'bg-gray-100 dark:bg-black-100': i() === selectedAirportId() }}
 											href={`/airport/${airportNode.node.identifier}`}>
 											<Switch>
@@ -247,7 +247,7 @@ const SearchBar: Component<SearchBarProps> = (properties: SearchBarProps) => {
 						</Show>
 						<Show when={airportRequest() && airportRequest()?.getAirports.totalCount === 0}>
 							<li
-								class="pointer-events-none block w-full px-6 py-2 text-sm text-gray-700 dark:text-white-dark"
+								class="dark:text-white-dark pointer-events-none block w-full px-6 py-2 text-sm text-gray-700"
 								role="option">
 								Nothing found.
 							</li>

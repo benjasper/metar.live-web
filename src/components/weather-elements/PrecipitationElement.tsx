@@ -81,7 +81,7 @@ const PrecipitationConditionElement: Component<{ condition: string }> = props =>
 
 	return (
 		<div class="flex flex-row justify-center gap-1 text-xl">
-			<div class="my-auto text-gray-600 dark:text-white-dark">
+			<div class="dark:text-white-dark my-auto text-gray-600">
 				<Switch>
 					<Match when={precipitationType() === PrecipitationType.Drizzle}>
 						<RiWeatherDrizzleLine />
@@ -234,12 +234,12 @@ const PrecipitationElement: Component<PrecipitationElementProps> = props => {
 			updatePing={updatePingType()}
 			updatePingOldValue={props.previousWeather ? conditions(props.previousWeather).join(', ') : undefined}
 			updatePingNewValue={conditions(props.weather).join(', ')}>
-			<div class="flex flex-col gap-1 dark:text-white-dark">
+			<div class="dark:text-white-dark flex flex-col gap-1">
 				<For each={conditions(props.weather)}>
 					{condition => <PrecipitationConditionElement condition={condition} />}
 				</For>
 			</div>
-			<span class="mx-auto dark:text-white-dark">{props.weather}</span>
+			<span class="dark:text-white-dark mx-auto">{props.weather}</span>
 		</WeatherElementLayout>
 	)
 }

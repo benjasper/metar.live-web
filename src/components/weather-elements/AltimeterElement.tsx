@@ -31,7 +31,7 @@ const AltimeterElement: Component<AltimeterElementProps> = props => {
 			updatePing={UpdatePing.Neutral}
 			updatePingOldValue={props.previousAltimeter ? value(props.previousAltimeter) : undefined}
 			updatePingNewValue={value(props.altimeter)}>
-			<p class="text-center text-xl dark:text-white-dark">{value(props.altimeter)}</p>
+			<p class="dark:text-white-dark text-center text-xl">{value(props.altimeter)}</p>
 		</WeatherElementLayout>
 	)
 }
