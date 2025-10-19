@@ -24,36 +24,53 @@ const Tooltip: ParentComponent<TooltipProps> = props => {
 		middleware: [offset(5), autoPlacement()],
 	})
 
-	const onHover = () => {
+	const showTooltip = () => {
 		if (props.delay) {
 			timeout = setTimeout(() => {
 				setShow(true)
+				timeout = undefined
 			}, props.delay)
 		} else {
 			setShow(true)
 		}
 	}
 
+	const onHover = () => {
+		if (timeout) {
+			clearTimeout(timeout)
+		}
+		showTooltip()
+	}
+
 	const onLeave = () => {
 		setShow(false)
 		if (timeout) {
 			clearTimeout(timeout)
+			timeout = undefined
 		}
 	}
 
 	createEffect(() => {
-		const child = childRef() as HTMLElement
+		const child = childRef() as HTMLElement | undefined
+		if (!child) return
 
-		child.addEventListener('mouseover', onHover)
+		child.addEventListener('mouseenter', onHover)
 		child.addEventListener('mouseleave', onLeave)
+		child.addEventListener('focus', onHover)
+		child.addEventListener('blur', onLeave)
+
+		onCleanup(() => {
+			child.removeEventListener('mouseenter', onHover)
+			child.removeEventListener('mouseleave', onLeave)
+			child.removeEventListener('focus', onHover)
+			child.removeEventListener('blur', onLeave)
+		})
 	})
 
 	onCleanup(() => {
-		removeEventListener('mouseover', onHover)
-		removeEventListener('mouseleave', onLeave)
-
 		if (timeout) {
 			clearTimeout(timeout)
+			timeout = undefined
 		}
 	})
 
@@ -69,7 +86,7 @@ const Tooltip: ParentComponent<TooltipProps> = props => {
 							left: `${position?.x ?? 0}px`,
 						}}
 						ref={setTooltip}
-						class="dark:bg-black-150 dark:text-white-darker max-w-xs rounded-xl bg-white px-3 py-2 text-xs text-black shadow-xl">
+						class="pointer-events-none z-[60] max-w-xs rounded-lg border border-slate-200/80 bg-white/85 px-3 py-1.5 text-xs font-medium text-slate-700 shadow-md backdrop-blur-md dark:border-white/10 dark:bg-slate-900/75 dark:text-white/85 dark:shadow-lg dark:backdrop-blur-md">
 						{props.text}
 						{props.component}
 					</div>

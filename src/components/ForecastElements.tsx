@@ -193,7 +193,7 @@ const ForecastElements: Component<ForecastElementsProps> = props => {
 						noItemsMessage="No future forecasts available.">
 						<For each={forecasts()}>
 							{forecast => (
-								<div class="mb-auto flex flex-col gap-2">
+								<div class="mb-auto flex flex-col gap-3">
 									<div class="flex flex-row flex-wrap gap-2">
 										<div class="inline-block">
 											<span class="dark:text-white-dark text-left">

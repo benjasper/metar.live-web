@@ -119,7 +119,7 @@ const WeatherElements: Component<ParsedWeatherElementsProps> = props => {
 					</span>
 				</Tooltip>
 			</div>
-			<div class={'mt-4 flex flex-col justify-center gap-8 md:flex-row'}>
+			<div class={'mt-4 flex flex-col justify-center gap-6 md:flex-row md:flex-wrap md:items-stretch'}>
 				<Show
 					when={latestMetar()}
 					fallback={
@@ -147,7 +147,7 @@ const WeatherElements: Component<ParsedWeatherElementsProps> = props => {
 							size="large"
 						/>
 					</div>
-					<div class="flex flex-row flex-wrap justify-center gap-8 md:justify-start">
+					<div class="flex flex-row flex-wrap justify-center gap-6 md:flex-1 md:items-stretch md:justify-start">
 						<VisibilityElement
 							visibility={latestMetar()!.visibility}
 							visibilityMoreThan={latestMetar()!.visibilityIsMoreThan}
@@ -199,6 +199,24 @@ const WeatherElements: Component<ParsedWeatherElementsProps> = props => {
 						</Show>
 					</div>
 				</Show>
+			</div>
+			<div class="mt-6 flex flex-wrap items-center justify-center gap-4 text-xs font-medium text-slate-500 dark:text-slate-400">
+				<span class="flex items-center gap-1">
+					<span aria-hidden="true" class="h-2 w-2 rounded-full bg-emerald-400" />
+					<span>Conditions improved</span>
+				</span>
+				<span class="flex items-center gap-1">
+					<span aria-hidden="true" class="h-2 w-2 rounded-full bg-rose-500" />
+					<span>Conditions worsened</span>
+				</span>
+				<span class="flex items-center gap-1">
+					<span aria-hidden="true" class="h-2 w-2 rounded-full bg-sky-400" />
+					<span>Changed</span>
+				</span>
+				<span class="flex items-center gap-1">
+					<span aria-hidden="true" class="h-2 w-2 rounded-full bg-slate-400" />
+					<span>No change</span>
+				</span>
 			</div>
 			<Show when={props.airport && (props.airport?.station?.metars.edges[0] ?? false)}>
 				<div class="flex flex-col gap-4 py-16">

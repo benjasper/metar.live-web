@@ -1,6 +1,6 @@
 import { BsMoonStars } from 'solid-icons/bs'
 import { WiDaySunny } from 'solid-icons/wi'
-import { Component } from 'solid-js'
+import { Component, createSignal } from 'solid-js'
 import { ThemeMode, useSettingsStore } from '../context/SettingsStore'
 
 interface TabGroupProps {
@@ -9,26 +9,67 @@ interface TabGroupProps {
 
 const DarkModeToggle: Component<TabGroupProps> = props => {
 	const [settingsStore, { setTheme }] = useSettingsStore()
+	const isDark = () => settingsStore.theme === ThemeMode.Dark
+	const isLight = () => settingsStore.theme === ThemeMode.Light
+	const isSystem = () => settingsStore.theme === ThemeMode.System
+	const [expanded, setExpanded] = createSignal(false)
+	let toggleRef: HTMLDivElement | undefined
+
+	const expand = () => setExpanded(true)
+	const collapse = () => {
+		if (toggleRef?.matches(':focus-within')) return
+		setExpanded(false)
+	}
+	const handleFocusOut = (event: FocusEvent & { currentTarget: HTMLDivElement; relatedTarget: Node | null }) => {
+		if (!event.currentTarget.contains(event.relatedTarget as Node | null)) {
+			collapse()
+		}
+	}
 
 	return (
 		<div class="flex">
 			<div
 				aria-label="Theme mode toggle"
-				class={`bg-gray-background dark:bg-black-200 dark:text-white-light flex rounded-xl p-1 ${
+				class={`group dark:text-white-light flex items-center gap-1 rounded-2xl border border-slate-200/80 bg-white/85 p-1.5 shadow-sm backdrop-blur-md transition-all duration-300 dark:border-white/10 dark:bg-slate-900/70 dark:shadow-lg dark:backdrop-blur-md ${
 					props.class ?? ''
-				}`}>
+				}`}
+				ref={el => (toggleRef = el)}
+				onPointerEnter={expand}
+				onPointerLeave={collapse}
+				onFocusIn={expand}
+				onFocusOut={handleFocusOut}>
 				<button
 					type="button"
 					role="switch"
 					aria-checked={settingsStore.theme === ThemeMode.Dark}
 					aria-label="Dark mode"
 					onClick={() => setTheme(ThemeMode.Dark)}
-					class="flex cursor-pointer rounded-lg px-4 py-2 text-sm font-medium transition-all"
+					class="flex cursor-pointer items-center gap-0 rounded-xl px-2.5 py-2 text-[0.65rem] font-semibold text-slate-500 transition-[gap] transition-all duration-200 focus-visible:ring-2 focus-visible:ring-indigo-300/60 focus-visible:ring-offset-[1.5px] focus-visible:ring-offset-white focus-visible:outline-hidden md:px-3 dark:text-slate-300 dark:focus-visible:ring-indigo-400/50 dark:focus-visible:ring-offset-transparent"
 					classList={{
-						'bg-white dark:bg-black-100 dark:text-white-light bg-opacity-75 text-black cursor-default shadow-xs':
-							settingsStore.theme === ThemeMode.Dark,
+						'bg-white text-slate-900 shadow-sm ring-1 ring-slate-200 cursor-default dark:bg-white/15 dark:text-white dark:ring-white/20 dark:shadow-none':
+							isDark(),
+						'gap-1.5': expanded(),
+						'hover:bg-white/60': !isDark(),
+						'hover:text-slate-700': !isDark(),
+						'dark:hover:bg-white/10': !isDark(),
+						'dark:hover:text-white/90': !isDark(),
 					}}>
-					<BsMoonStars class="my-auto" size={16} />
+					<BsMoonStars
+						size={17}
+						class="transition-colors duration-200"
+						classList={{
+							'text-slate-900 dark:text-white': isDark(),
+							'text-slate-400 dark:text-slate-500': !isDark(),
+						}}
+					/>
+					<span
+						class="inline-flex max-w-0 overflow-hidden text-[0.65rem] font-semibold opacity-0 transition-all duration-200 ease-out"
+						classList={{
+							'max-w-[3rem]': expanded(),
+							'opacity-100': expanded(),
+						}}>
+						Dark
+					</span>
 				</button>
 				<button
 					type="button"
@@ -36,12 +77,32 @@ const DarkModeToggle: Component<TabGroupProps> = props => {
 					aria-checked={settingsStore.theme === ThemeMode.Light}
 					aria-label="Light mode"
 					onClick={() => setTheme(ThemeMode.Light)}
-					class="flex cursor-pointer rounded-lg px-4 py-2 align-middle text-sm font-medium transition-all"
+					class="flex cursor-pointer items-center gap-0 rounded-xl px-2.5 py-2 text-[0.65rem] font-semibold text-slate-500 transition-[gap] transition-all duration-200 focus-visible:ring-2 focus-visible:ring-indigo-300/60 focus-visible:ring-offset-[1.5px] focus-visible:ring-offset-white focus-visible:outline-hidden md:px-3 dark:text-slate-300 dark:focus-visible:ring-indigo-400/50 dark:focus-visible:ring-offset-transparent"
 					classList={{
-						'bg-white dark:bg-black-100 dark:text-white-light bg-opacity-75 text-black cursor-default shadow-xs':
-							settingsStore.theme === ThemeMode.Light,
+						'bg-white text-slate-900 shadow-sm ring-1 ring-slate-200 cursor-default dark:bg-white/15 dark:text-white dark:ring-white/20 dark:shadow-none':
+							isLight(),
+						'gap-1.5': expanded(),
+						'hover:bg-white/60': !isLight(),
+						'hover:text-slate-700': !isLight(),
+						'dark:hover:bg-white/10': !isLight(),
+						'dark:hover:text-white/90': !isLight(),
 					}}>
-					<WiDaySunny class="my-auto" size={26} />
+					<WiDaySunny
+						class="transition-colors duration-200"
+						classList={{
+							'text-slate-900 dark:text-white': isLight(),
+							'text-slate-400 dark:text-slate-500': !isLight(),
+						}}
+						size={22}
+					/>
+					<span
+						class="inline-flex max-w-0 overflow-hidden text-[0.65rem] font-semibold opacity-0 transition-all duration-200 ease-out"
+						classList={{
+							'max-w-[3rem]': expanded(),
+							'opacity-100': expanded(),
+						}}>
+						Light
+					</span>
 				</button>
 				<button
 					type="button"
@@ -49,12 +110,31 @@ const DarkModeToggle: Component<TabGroupProps> = props => {
 					aria-checked={settingsStore.theme === ThemeMode.System}
 					aria-label="System theme"
 					onClick={() => setTheme(ThemeMode.System)}
-					class="flex cursor-pointer rounded-lg px-4 py-2 align-middle text-sm font-medium transition-all"
+					class="flex cursor-pointer items-center gap-0 rounded-xl px-2.5 py-2 text-[0.65rem] font-semibold text-slate-500 transition-[gap] transition-all duration-200 focus-visible:ring-2 focus-visible:ring-indigo-300/60 focus-visible:ring-offset-[1.5px] focus-visible:ring-offset-white focus-visible:outline-hidden md:px-3 dark:text-slate-300 dark:focus-visible:ring-indigo-400/50 dark:focus-visible:ring-offset-transparent"
 					classList={{
-						'bg-white dark:bg-black-100 dark:text-white bg-opacity-75 text-black cursor-default shadow-xs':
-							settingsStore.theme === ThemeMode.System,
+						'bg-white text-slate-900 shadow-sm ring-1 ring-slate-200 cursor-default dark:bg-white/15 dark:text-white dark:ring-white/20 dark:shadow-none':
+							isSystem(),
+						'gap-1.5': expanded(),
+						'hover:bg-white/60': !isSystem(),
+						'hover:text-slate-700': !isSystem(),
+						'dark:hover:bg-white/10': !isSystem(),
+						'dark:hover:text-white/90': !isSystem(),
 					}}>
-					<span class="my-auto">System</span>
+					<span
+						class="flex h-[1.25rem] w-[1.25rem] items-center justify-center rounded-full border border-slate-300 text-[0.6rem] leading-none font-semibold text-slate-500 transition-colors duration-200 dark:border-white/30 dark:text-slate-400"
+						classList={{
+							'border-slate-400 text-slate-800 dark:border-white/60 dark:text-white': isSystem(),
+						}}>
+						S
+					</span>
+					<span
+						class="inline-flex max-w-0 overflow-hidden text-[0.65rem] font-semibold opacity-0 transition-all duration-200 ease-out"
+						classList={{
+							'max-w-[3.5rem]': expanded(),
+							'opacity-100': expanded(),
+						}}>
+						System
+					</span>
 				</button>
 			</div>
 		</div>

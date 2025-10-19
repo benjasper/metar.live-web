@@ -89,111 +89,145 @@ const RunwayPopup = (props: {
 	const tailwindComponent = () => (headwindComponent() ? -headwindComponent()! : undefined)
 
 	return (
-		<div class="flex flex-col gap-1">
-			<h4 class="text-sm font-semibold">Runway {props.runwayDirection.runway}</h4>
-			<div class="flex gap-1">
-				<RiMapCompass4Line
-					class="my-auto origin-center transform"
-					style={{
-						rotate: `${props.runwayDirection.heading - 45}deg`,
-					}}
-				/>
-				<span class="text-sm">Heading: {Math.round(props.runwayDirection.heading)}°</span>
-			</div>
-			<div class="flex gap-1">
-				<CgArrowsVAlt class="my-auto" />
-				<span class="text-sm">
-					Length: {Math.round(selectedLengthUnit().conversionFunction(props.runway.length))}{' '}
-					{selectedLengthUnit().symbol}
+		<div class="flex flex-col gap-2 text-[0.75rem] text-slate-500 dark:text-slate-300">
+			<div class="flex items-center justify-between">
+				<span class="text-sm font-semibold text-slate-800 dark:text-white">
+					Runway {props.runwayDirection.runway}
 				</span>
+				<Show
+					when={
+						props.windSpeed > 0 &&
+						props.windDirection != undefined &&
+						props.runwayDirection.windAngle !== undefined
+					}>
+					<span class="ml-4 flex items-center gap-1 text-[0.65rem] font-semibold tracking-wide uppercase">
+						<span
+							class="h-1.5 w-1.5 rounded-full"
+							classList={{
+								'bg-slate-400 dark:bg-slate-500': props.runwayDirection.favourableLevel === 0,
+								'bg-sky-400': props.runwayDirection.favourableLevel === 1,
+								'bg-emerald-400': props.runwayDirection.favourableLevel === 2,
+							}}
+						/>
+						<span class="text-slate-400 dark:text-slate-400">
+							{favourableToText(props.runwayDirection.favourableLevel)}
+						</span>
+					</span>
+				</Show>
 			</div>
-			<div class="flex gap-1">
-				<CgArrowsVAlt class="my-auto rotate-90 transform" />
-				<span class="text-sm">
-					Width: {Math.round(selectedLengthUnit().conversionFunction(props.runway.width))}{' '}
-					{selectedLengthUnit().symbol}
-				</span>
+
+			<div class="flex flex-col gap-1.5">
+				<div class="flex items-center justify-between">
+					<span class="flex items-center gap-1 text-slate-500 dark:text-slate-400">
+						<RiMapCompass4Line
+							class="h-3.5 w-3.5 text-slate-400 transition-colors dark:text-slate-500"
+							style={{
+								rotate: `${props.runwayDirection.heading - 45}deg`,
+							}}
+						/>
+						Heading
+					</span>
+					<span class="font-semibold text-slate-800 dark:text-white">
+						{Math.round(props.runwayDirection.heading)}°
+					</span>
+				</div>
+				<div class="flex items-center justify-between">
+					<span class="flex items-center gap-1 text-slate-500 dark:text-slate-400">
+						<CgArrowsVAlt class="h-3.5 w-3.5 text-slate-400 transition-colors dark:text-slate-500" />
+						Length
+					</span>
+					<span class="font-semibold text-slate-800 dark:text-white">
+						{Math.round(selectedLengthUnit().conversionFunction(props.runway.length))}{' '}
+						{selectedLengthUnit().symbol}
+					</span>
+				</div>
+				<div class="flex items-center justify-between">
+					<span class="flex items-center gap-1 text-slate-500 dark:text-slate-400">
+						<CgArrowsVAlt class="h-3.5 w-3.5 rotate-90 transform text-slate-400 transition-colors dark:text-slate-500" />
+						Width
+					</span>
+					<span class="font-semibold text-slate-800 dark:text-white">
+						{Math.round(selectedLengthUnit().conversionFunction(props.runway.width))}{' '}
+						{selectedLengthUnit().symbol}
+					</span>
+				</div>
 			</div>
 
 			<Show when={props.windSpeed > 0 && props.windDirection != undefined}>
-				<div class="flex gap-1">
-					<div
-						class="my-auto h-3 w-3 shrink-0 rounded-full border-[3px]"
-						classList={{
-							'bg-gray-600': props.runwayDirection.favourableLevel === 0,
-							'bg-blue-600 dark:bg-blue-800': props.runwayDirection.favourableLevel === 1,
-							'bg-green-600 dark:bg-green-800': props.runwayDirection.favourableLevel === 2,
-							'border-gray-600': props.runwayDirection.favourableLevel === 0,
-							'border-blue-400 dark:border-blue-600': props.runwayDirection.favourableLevel === 1,
-							'border-green-400 dark:border-green-600': props.runwayDirection.favourableLevel === 2,
-						}}
-						aria-label={`Wind direction is ${favourableToText(props.runwayDirection.favourableLevel)}`}
-					/>
+				<div class="mt-1 flex flex-col gap-1 pt-1">
 					<Show when={props.runwayDirection.windAngle !== undefined}>
-						<span class="text-sm">
-							Wind angle: {favourableToText(props.runwayDirection.favourableLevel)} (
-							{Math.round(props.runwayDirection.windAngle!)}°)
-						</span>
+						<div class="flex items-baseline justify-between">
+							<span>Wind angle</span>
+							<span class="font-semibold text-slate-800 dark:text-white">
+								{Math.round(props.runwayDirection.windAngle!)}°
+							</span>
+						</div>
 					</Show>
-				</div>
-			</Show>
 
-			<Show
-				when={
-					props.windDirection !== undefined &&
-					headwindComponent() != undefined &&
-					Math.round(selectedSpeedUnit().conversionFunction(headwindComponent()!)) > 0
-				}>
-				<div class="flex gap-1">
-					<BsArrowUp
-						class="my-auto origin-center transform"
-						style={{
-							rotate: `${180 % 360}deg`,
-						}}
-					/>
-					<span class="text-sm">
-						Headwind: {Math.round(selectedSpeedUnit().conversionFunction(headwindComponent()!))}{' '}
-						{selectedSpeedUnit().symbol}
-					</span>
-				</div>
-			</Show>
-			<Show
-				when={
-					props.windDirection != undefined &&
-					crosswindComponent() != undefined &&
-					Math.round(selectedSpeedUnit().conversionFunction(crosswindComponent()!)) > 0
-				}>
-				<div class="flex gap-1">
-					<BsArrowUp
-						class="my-auto origin-center transform"
-						style={{
-							rotate:
-								crosswindDirection() === 'right' ? `${(90 + 180) % 360}deg` : `${(270 + 180) % 360}deg`,
-						}}
-					/>
-					<span class="text-sm">
-						Crosswind: {Math.round(selectedSpeedUnit().conversionFunction(crosswindComponent()!))}{' '}
-						{selectedSpeedUnit().symbol} from the {crosswindDirection()}{' '}
-					</span>
-				</div>
-			</Show>
-			<Show
-				when={
-					tailwindComponent() != undefined &&
-					props.windDirection != undefined &&
-					Math.round(selectedSpeedUnit().conversionFunction(tailwindComponent()!)) > 0
-				}>
-				<div class="flex gap-1">
-					<BsArrowUp
-						class="my-auto origin-center transform"
-						style={{
-							rotate: `${0}deg`,
-						}}
-					/>
-					<span class="text-sm">
-						Tailwind: {Math.round(selectedSpeedUnit().conversionFunction(tailwindComponent()!))}{' '}
-						{selectedSpeedUnit().symbol}
-					</span>
+					<Show
+						when={
+							props.windDirection !== undefined &&
+							headwindComponent() != undefined &&
+							Math.round(selectedSpeedUnit().conversionFunction(headwindComponent()!)) > 0
+						}>
+						<div class="flex items-center justify-between">
+							<span class="flex items-center gap-1">
+								<BsArrowUp class="h-3.5 w-3.5 rotate-180 text-slate-400 dark:text-slate-300" />
+								Headwind
+							</span>
+							<span class="font-semibold text-slate-800 dark:text-white">
+								{Math.round(selectedSpeedUnit().conversionFunction(headwindComponent()!))}{' '}
+								{selectedSpeedUnit().symbol}
+							</span>
+						</div>
+					</Show>
+
+					<Show
+						when={
+							props.windDirection != undefined &&
+							crosswindComponent() != undefined &&
+							Math.round(selectedSpeedUnit().conversionFunction(crosswindComponent()!)) > 0
+						}>
+						<div class="flex items-center justify-between">
+							<span class="flex items-center gap-1">
+								<BsArrowUp
+									class="h-3.5 w-3.5 text-slate-400 dark:text-slate-300"
+									style={{
+										rotate:
+											crosswindDirection() === 'right'
+												? `${(90 + 180) % 360}deg`
+												: `${(270 + 180) % 360}deg`,
+									}}
+								/>
+								Crosswind
+							</span>
+							<span class="font-semibold text-slate-800 dark:text-white">
+								{Math.round(selectedSpeedUnit().conversionFunction(crosswindComponent()!))}{' '}
+								{selectedSpeedUnit().symbol}{' '}
+								<span class="text-[0.6rem] text-slate-400 uppercase dark:text-slate-500">
+									from {crosswindDirection()}
+								</span>
+							</span>
+						</div>
+					</Show>
+
+					<Show
+						when={
+							tailwindComponent() != undefined &&
+							props.windDirection != undefined &&
+							Math.round(selectedSpeedUnit().conversionFunction(tailwindComponent()!)) > 0
+						}>
+						<div class="flex items-center justify-between">
+							<span class="flex items-center gap-1">
+								<BsArrowUp class="h-3.5 w-3.5 text-slate-400 dark:text-slate-300" />
+								Tailwind
+							</span>
+							<span class="font-semibold text-slate-800 dark:text-white">
+								{Math.round(selectedSpeedUnit().conversionFunction(tailwindComponent()!))}{' '}
+								{selectedSpeedUnit().symbol}
+							</span>
+						</div>
+					</Show>
 				</div>
 			</Show>
 		</div>
@@ -353,19 +387,26 @@ const RunwayAndWindRenderer = (props: {
 
 	return (
 		<Show when={runways().length > 0}>
-			<div class="relative mx-auto w-full rounded-full md:mx-0">
+			<div class="relative mx-auto flex w-full max-w-[360px] items-center justify-center rounded-[2.5rem] bg-white/20 p-6 backdrop-blur-sm transition-colors md:mx-0 md:max-w-[380px] dark:bg-transparent dark:p-0 dark:backdrop-blur-none">
 				<svg
-					class="flex h-full md:w-88"
+					class="flex h-full w-full max-w-[320px]"
 					viewBox={`${-centerX()} ${-centerY()}  ${realDiagonal() * 2} ${realDiagonal() * 2}`}
 					xmlns="http://www.w3.org/2000/svg">
+					<defs>
+						<radialGradient id="runwayCircleGradient" cx="50%" cy="50%" r="52%">
+							<stop offset="0%" stop-color="#ffffff" stop-opacity="0.65" />
+							<stop offset="100%" stop-color="#e2e8f0" stop-opacity="0.9" />
+						</radialGradient>
+					</defs>
+
 					{/* Compass circle */}
 					<circle
 						transform-origin="center"
-						class="fill-gray-100 transition-colors dark:fill-[#212637]"
-						stroke-width="0.2"
+						class="fill-[url(#runwayCircleGradient)] stroke-slate-300/35 transition-colors dark:fill-white/5 dark:stroke-white/10"
+						stroke-width="0.6"
 						cx={realCenterX()}
 						cy={realCenterY()}
-						r={realDiagonal() * 0.85}
+						r={realDiagonal() * 0.82}
 					/>
 
 					{/* Wind arrow */}
@@ -385,7 +426,7 @@ const RunwayAndWindRenderer = (props: {
 										transform-origin="center"
 										transform={`rotate(${arrow.angle})`}
 										stroke="currentColor"
-										class="dark:stroke-white-dark stroke-gray-600 transition-colors"
+										class="stroke-slate-500/70 transition-colors dark:stroke-white/65"
 										classList={{ 'opacity-50': arrow.isVariable }}
 										stroke-linecap="round"
 										stroke-linejoin="round"
@@ -407,17 +448,19 @@ const RunwayAndWindRenderer = (props: {
 									y1={r.direction1.y}
 									x2={r.direction2.x}
 									y2={r.direction2.y}
-									class="stroke-gray-600"
-									stroke-width="0.9"
+									class="stroke-slate-500/55 transition-colors dark:stroke-white/30"
+									stroke-linecap="round"
+									stroke-width="1.2"
 								/>
 								<line
 									x1={r.direction1.x}
 									y1={r.direction1.y}
 									x2={r.direction2.x}
 									y2={r.direction2.y}
-									class="stroke-white-dark"
-									stroke-width="0.1"
-									stroke-dasharray="0.6,0.4"
+									class="stroke-white/70 transition-colors dark:stroke-white/35"
+									stroke-linecap="round"
+									stroke-width="0.35"
+									stroke-dasharray="1,0.5"
 								/>
 							</>
 						)}
@@ -437,15 +480,18 @@ const RunwayAndWindRenderer = (props: {
 										/>
 									}>
 									<circle
-										class="transition-colors"
+										class="stroke-white/80 transition-colors dark:stroke-white/20"
 										classList={{
-											'fill-red-400 dark:fill-red-600': r.direction1.favourableLevel === 0,
-											'fill-blue-400 dark:fill-blue-600': r.direction1.favourableLevel === 1,
-											'fill-green-400 dark:fill-green-600': r.direction1.favourableLevel === 2,
+											'fill-slate-400/70 dark:fill-slate-600/65':
+												r.direction1.favourableLevel === 0,
+											'fill-sky-400/80 dark:fill-sky-400/60': r.direction1.favourableLevel === 1,
+											'fill-emerald-400/80 dark:fill-emerald-400/60':
+												r.direction1.favourableLevel === 2,
 										}}
 										cx={r.direction1.x}
 										cy={r.direction1.y}
-										r={r.direction1.favourableLevel === 0 ? 1.5 : 2}
+										r={r.direction1.favourableLevel === 0 ? 1.75 : 2}
+										stroke-width="0.25"
 									/>
 								</Tooltip>
 								<Tooltip
@@ -458,48 +504,20 @@ const RunwayAndWindRenderer = (props: {
 										/>
 									}>
 									<circle
-										class="transition-colors"
+										class="stroke-white/80 transition-colors dark:stroke-white/20"
 										classList={{
-											'fill-red-400 dark:fill-red-600': r.direction2.favourableLevel === 0,
-											'fill-blue-400 dark:fill-blue-600': r.direction2.favourableLevel === 1,
-											'fill-green-400 dark:fill-green-600': r.direction2.favourableLevel === 2,
+											'fill-slate-400/70 dark:fill-slate-600/65':
+												r.direction2.favourableLevel === 0,
+											'fill-sky-400/80 dark:fill-sky-400/60': r.direction2.favourableLevel === 1,
+											'fill-emerald-400/80 dark:fill-emerald-400/60':
+												r.direction2.favourableLevel === 2,
 										}}
 										cx={r.direction2.x}
 										cy={r.direction2.y}
-										r={r.direction2.favourableLevel === 0 ? 1.5 : 2}
+										r={r.direction2.favourableLevel === 0 ? 1.75 : 2}
+										stroke-width="0.25"
 									/>
 								</Tooltip>
-							</>
-						)}
-					</For>
-
-					{/* Runway bubbles inside */}
-					<For each={runways()}>
-						{(r, i) => (
-							<>
-								<circle
-									class="pointer-events-none transition-colors"
-									classList={{
-										'fill-gray-600': r.direction1.favourableLevel === 0,
-										'fill-blue-600 dark:fill-blue-800': r.direction1.favourableLevel === 1,
-										'fill-green-600 dark:fill-green-800': r.direction1.favourableLevel === 2,
-									}}
-									cx={r.direction1.x}
-									cy={r.direction1.y}
-									r="1.5"
-								/>
-
-								<circle
-									class="pointer-events-none transition-colors"
-									classList={{
-										'fill-gray-600': r.direction2.favourableLevel === 0,
-										'fill-blue-600 dark:fill-blue-800': r.direction2.favourableLevel === 1,
-										'fill-green-600 dark:fill-green-800': r.direction2.favourableLevel === 2,
-									}}
-									cx={r.direction2.x}
-									cy={r.direction2.y}
-									r="1.5"
-								/>
 							</>
 						)}
 					</For>
@@ -509,7 +527,7 @@ const RunwayAndWindRenderer = (props: {
 						{(r, i) => (
 							<>
 								<text
-									class="pointer-events-none fill-white text-[1.1px]"
+									class="pointer-events-none fill-white text-[1.2px] font-semibold tracking-wide drop-shadow-[0_1px_1px_rgba(15,23,42,0.35)]"
 									x={r.direction1.x}
 									y={r.direction1.y}
 									dominant-baseline="middle"
@@ -518,7 +536,7 @@ const RunwayAndWindRenderer = (props: {
 									{r.direction1.runway}
 								</text>
 								<text
-									class="pointer-events-none fill-white text-[1.1px]"
+									class="pointer-events-none fill-white text-[1.2px] font-semibold tracking-wide drop-shadow-[0_1px_1px_rgba(15,23,42,0.35)]"
 									x={r.direction2.x}
 									y={r.direction2.y}
 									dominant-baseline="middle"

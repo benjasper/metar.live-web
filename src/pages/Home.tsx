@@ -30,7 +30,7 @@ const Home: Component = () => {
 						Find live aviation weather for any airport worldwide
 					</h2>
 					<div class="flex flex-col">
-						<SearchBar onSearch={doSearch} />
+						<SearchBar onSearch={doSearch} autofocus={true} />
 						<span class="dark:text-white-darker mx-auto mt-2 text-center text-gray-600">
 							Simply start typing
 						</span>

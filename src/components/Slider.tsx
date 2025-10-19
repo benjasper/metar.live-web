@@ -11,43 +11,50 @@ const SliderNavigation: Component<DotsProps> = props => {
 
 	return (
 		<Show when={props.items.length > 1}>
-			<Show when={helpers().current() > 0}>
-				<button
-					aria-label="Previous forecast page"
-					onClick={() => helpers().prev()}
-					role="button"
-					class="dark:bg-black-100 dark:text-white-dark absolute -bottom-6 left-0 hidden h-8 w-8 -translate-y-1/2 transform cursor-pointer rounded-full bg-white text-black shadow-xs md:flex">
-					<TbChevronLeft class="m-auto" size={24} />
-				</button>
-			</Show>
+			<div class="relative mx-auto mt-8 flex items-center justify-center gap-3 md:gap-4">
+				<Show when={helpers().current() > 0}>
+					<button
+						aria-label="Previous forecast page"
+						onClick={() => helpers().prev()}
+						role="button"
+						class="hidden h-9 w-9 cursor-pointer items-center justify-center rounded-full border border-slate-300 bg-white text-slate-800 transition-colors focus-visible:ring-2 focus-visible:ring-sky-300 focus-visible:ring-offset-2 focus-visible:ring-offset-white focus-visible:outline-hidden md:flex dark:border-white/25 dark:bg-slate-800 dark:text-white/80">
+						<TbChevronLeft class="m-auto" size={20} />
+					</button>
+				</Show>
 
-			<div class="relative mx-auto mt-8 flex justify-center gap-3">
-				<For each={props.items}>
-					{(_, index) => (
-						<button
-							role="button"
-							class="h-2.5 w-2.5 cursor-pointer rounded-full bg-gray-300 transition-all dark:bg-gray-700"
-							aria-label={`Select forecast ${index() + 1}`}
-							classList={{
-								'bg-gray-500! !dark:bg-gray-400': helpers().current() === index(),
-								'hover:bg-gray-400 dark:hover:bg-gray-500': helpers().current() !== index(),
-							}}
-							disabled={helpers().current() === index()}
-							onClick={() => helpers().moveTo(index())}
-						/>
-					)}
-				</For>
+				<div class="flex items-center gap-2.5">
+					<For each={props.items}>
+						{(_, index) => {
+							const isActive = () => helpers().current() === index()
+
+							return (
+								<button
+									role="button"
+									class="h-2.5 w-2.5 rounded-full bg-slate-400 transition-all duration-200 focus-visible:ring-2 focus-visible:ring-sky-300 focus-visible:ring-offset-2 focus-visible:ring-offset-white focus-visible:outline-hidden dark:bg-white/25 dark:focus-visible:ring-sky-500/60 dark:focus-visible:ring-offset-transparent"
+									aria-label={`Select forecast ${index() + 1}`}
+									classList={{
+										'pointer-events-none w-6 bg-slate-700 dark:bg-white/70': isActive(),
+										'hover:bg-slate-400 dark:hover:bg-white/35 cursor-pointer': !isActive(),
+									}}
+									aria-current={isActive() ? 'true' : undefined}
+									disabled={isActive()}
+									onClick={() => helpers().moveTo(index())}
+								/>
+							)
+						}}
+					</For>
+				</div>
+
+				<Show when={helpers().current() < props.items.length - 2}>
+					<button
+						aria-label="Next forecast page"
+						onClick={() => helpers().next()}
+						role="button"
+						class="hidden h-9 w-9 cursor-pointer items-center justify-center rounded-full border border-slate-300 bg-white text-slate-800 transition-colors focus-visible:ring-2 focus-visible:ring-sky-300 focus-visible:ring-offset-2 focus-visible:ring-offset-white focus-visible:outline-hidden md:flex dark:border-white/25 dark:bg-slate-800 dark:text-white/80">
+						<TbChevronLeft class="m-auto rotate-180" size={20} />
+					</button>
+				</Show>
 			</div>
-
-			<Show when={helpers().current() < props.items.length - 2}>
-				<button
-					aria-label="Next forecast page"
-					onClick={() => helpers().next()}
-					role="button"
-					class="dark:bg-black-100 dark:text-white-dark absolute right-0 -bottom-6 hidden h-8 w-8 -translate-y-1/2 transform cursor-pointer rounded-full bg-white text-black shadow-xs md:flex">
-					<TbChevronLeft class="m-auto rotate-180" size={24} />
-				</button>
-			</Show>
 		</Show>
 	)
 }

@@ -25,13 +25,21 @@ const PageContent: ParentComponent<PageContentProps> = props => {
 			<Meta name="twitter:description" content={props.description} />
 			<Meta name="twitter:image" content={metarGGLogo} />
 
-			<div class="grid-rows-layout bg-gray-light grid min-h-screen pt-6 transition-colors dark:bg-black">
-				<div
-					class="container flex flex-col transition-colors"
-					classList={{ 'min-h-screen': props.contentFullHeight ?? false }}>
-					{props.children}
+			<div class="relative min-h-screen overflow-hidden">
+				<div class="pointer-events-none absolute inset-0 -z-10">
+					<div class="bg-gray-light h-full w-full transition-colors dark:bg-black" />
+					<div class="absolute top-0 left-1/2 h-[32rem] w-[120%] -translate-x-1/2 translate-z-0 rounded-b-[55%] bg-[radial-gradient(circle_at_top,_rgba(99,102,241,0.28),transparent_65%)] blur-3xl transition-[opacity] duration-500 ease-out dark:bg-[radial-gradient(circle_at_top,_rgba(56,189,248,0.22),transparent_70%)]" />
+					<div class="absolute bottom-[-35%] left-1/2 h-[30rem] w-[95%] -translate-x-1/2 translate-z-0 rounded-[50%] bg-[radial-gradient(circle,_rgba(99,102,241,0.18),transparent_70%)] blur-3xl transition-[opacity] duration-700 ease-out dark:bg-[radial-gradient(circle,_rgba(45,212,191,0.18),transparent_72%)]" />
+					<div class="absolute inset-0 bg-[linear-gradient(135deg,_rgba(255,255,255,0.2)_0%,_rgba(255,255,255,0)_35%,_rgba(15,23,42,0.25)_100%)] opacity-70 transition-opacity dark:opacity-40" />
 				</div>
-				<Footer />
+				<div class="grid-rows-layout relative grid min-h-screen pt-6 transition-colors">
+					<div
+						class="relative container flex flex-col transition-colors"
+						classList={{ 'min-h-screen': props.contentFullHeight ?? false }}>
+						{props.children}
+					</div>
+					<Footer />
+				</div>
 			</div>
 		</>
 	)
