@@ -6,18 +6,24 @@ import PageContent from '../layouts/PageContent'
 const About = () => {
 	return (
 		<PageContent
-			title="About"
-			description="An app for getting up to date METAR and TAF information. Get latest weather observations and forecasts here.">
+			title="About metar.live"
+			description="Learn how metar.live delivers live METAR and TAF aviation weather, runway wind tools, and open-source data for pilots worldwide.">
 			<div class="dark:text-white-dark container text-black">
 				<Header />
-				<h1 class="pt-16 text-4xl font-bold">About</h1>
+				<h1 class="pt-16 text-4xl font-bold">About metar.live</h1>
 
 				<h2 class="pt-16 text-3xl">What is this?</h2>
 				<p class="mt-4">
-					metar.live <i>(previously known as metar.gg)</i> is an open source aviation weather app, featuring
-					weather reports and forecasts for about 5000 airports. For the airport data it uses the publicly
-					available <a href="https://www.ourairports.com/">OurAirports</a> database, while the weather data is
-					imported every 2 minutes directly from <a href="https://www.noaa.gov/">NOAA</a>.
+					metar.live <i>(previously known as metar.gg)</i> is an open source aviation weather platform built
+					to keep pilots, dispatchers, and avgeeks informed with live METAR reports and TAF forecasts for more
+					than 5,000 airports. The app enriches raw data from the publicly available{' '}
+					<a href="https://www.ourairports.com/">OurAirports</a> database and near real-time weather feeds
+					imported every two minutes directly from <a href="https://www.noaa.gov/">NOAA</a>.
+				</p>
+				<p class="mt-4">
+					By decoding complex weather strings into readable insights, metar.live makes it faster to understand
+					visibility, crosswinds, and rapidly changing flight conditions—whether you are preparing a flight
+					plan or tracking a loved one's journey.
 				</p>
 				<p class="mt-4">Features of the app include:</p>
 				<ul class="list-disc pl-6">
