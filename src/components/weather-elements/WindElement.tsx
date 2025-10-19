@@ -134,7 +134,7 @@ const WindElement: Component<WindElementProps> = props => {
 	return (
 		<WeatherElementLayout
 			name="Wind"
-			class="shrink-0"
+			class="md:flex-[1_1_520px] md:basis-[calc(100%-1.5rem)] lg:flex-[1_1_560px] lg:basis-[calc(66%-1.5rem)]"
 			icon={<TbWindsock />}
 			unitType={unitConfigurations()}
 			updatePing={Math.sign((previousWindSpeed() ?? 0 + (previousWindGust() ?? 0)) - (windSpeed() + windGust()))}

@@ -92,9 +92,9 @@ const AirportsInVicinity: Component<AirportsInVicinityProps> = props => {
 						{airport => (
 							<A
 								href={`/airport/${airport.station.airport?.identifier}`}
-								class="dark:bg-black-200 dark:text-white-dark dark:hover:bg-black-100 flex cursor-pointer flex-col gap-4 rounded-2xl bg-white p-4 shadow-xs transition-colors hover:bg-gray-50">
+								class="group dark:text-white-light relative flex h-auto min-h-[10.5rem] w-full flex-1 basis-full flex-col justify-center gap-3 rounded-3xl border border-slate-200/70 bg-white px-6 py-5 text-slate-900 transition-colors duration-200 md:mx-0 dark:border-white/10 dark:bg-slate-900/70">
 								<div class="flex flex-col whitespace-nowrap">
-									<h3 class="text-xl">
+									<h3 class="text-lg font-semibold text-slate-900 dark:text-white">
 										<Switch>
 											<Match
 												when={
@@ -114,7 +114,7 @@ const AirportsInVicinity: Component<AirportsInVicinityProps> = props => {
 										</Switch>
 									</h3>
 									<span class="text-sm">{airport.station.airport?.name}</span>
-									<div class="mt-2 flex gap-2">
+									<div class="mt-3 flex flex-row gap-2 md:flex-nowrap">
 										<Tag intent="neutral">
 											<AirportClassification type={airport.station.airport!.type} />
 										</Tag>
@@ -123,7 +123,7 @@ const AirportsInVicinity: Component<AirportsInVicinityProps> = props => {
 												airport.station.metars.edges.length > 0 &&
 												airport.station.metars.edges[0].node.flightCategory
 											}>
-											<Tag intent="neutral">
+											<Tag intent="neutral" class="w-fit">
 												<FlightCategorySymbol
 													size="small"
 													class="my-auto"
@@ -137,13 +137,13 @@ const AirportsInVicinity: Component<AirportsInVicinityProps> = props => {
 									</div>
 								</div>
 								<TbArrowUpCircle
-									class="mx-auto my-2 origin-center transform"
-									size={36}
+									class="group-hover:text-primary dark:text-white-dark mx-auto my-2 origin-center transform text-slate-400 transition-colors duration-300"
+									size={40}
 									style={{
 										rotate: `${bearing(airport)}deg`,
 									}}
 								/>
-								<span class="mx-auto whitespace-nowrap">
+								<span class="mx-auto text-sm font-medium whitespace-nowrap text-slate-600 dark:text-white/80">
 									{Math.round(selectedLengthUnit().conversionFunction(airport.distance))}{' '}
 									{selectedLengthUnit().symbol} ({degreeToDirection(bearing(airport))})
 								</span>

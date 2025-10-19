@@ -23,6 +23,7 @@ interface SearchBarProps {
 	class?: string
 	onSearch: (airportIdentifier: string) => void
 	placeholder?: string
+	autofocus?: boolean
 }
 
 const SearchBar: Component<SearchBarProps> = (properties: SearchBarProps) => {
@@ -139,12 +140,16 @@ const SearchBar: Component<SearchBarProps> = (properties: SearchBarProps) => {
 
 	return (
 		<div class={`flex flex-col ${props.class}`}>
-			<div ref={root} class={'relative mx-auto w-full max-w-lg'}>
-				<div class="flex flex-col">
+			<div ref={root} class="relative mx-auto w-full max-w-xl">
+				<div
+					class="group relative overflow-hidden rounded-[1.65rem] border border-slate-200/80 bg-white px-3 py-0.5 transition-colors duration-200 ease-out dark:border-white/10 dark:bg-white/10"
+					classList={{
+						'ring-2 ring-indigo-300/80 shadow-sm dark:ring-indigo-400/70 dark:shadow-none': isFocused(),
+					}}>
 					<input
 						ref={input}
 						type="text"
-						autofocus={true}
+						autofocus={props.autofocus ?? false}
 						spellcheck={false}
 						tabIndex={-1}
 						role="combobox"
@@ -160,13 +165,11 @@ const SearchBar: Component<SearchBarProps> = (properties: SearchBarProps) => {
 						onInput={e => handleInput(e)}
 						onFocus={e => setIsFocused(true)}
 						onFocusOut={e => onFocusLeave(e)}
-						class={
-							'dark:bg-black-200 dark:text-white-dark w-full rounded-full bg-white px-10 py-2 text-left text-xl text-gray-900 outline-hidden transition-all'
-						}
+						class="dark:text-white-dark dark:placeholder:text-white-darker w-full rounded-[1.5rem] border-none bg-transparent py-2.5 pr-11 pl-11 text-left text-lg font-medium text-slate-900 outline-hidden transition-colors duration-200 placeholder:text-slate-400 focus:outline-hidden"
 					/>
 					<AiOutlineSearch
-						class="dark:fill-white-dark absolute top-1/2 left-3 -translate-y-1/2 transform fill-gray-700"
-						size={20}
+						class="dark:text-white-darker pointer-events-none absolute top-1/2 left-5 -translate-y-1/2 transform text-slate-400 transition-colors duration-300 group-hover:text-slate-500"
+						size={18}
 					/>
 					<Transition
 						show={airportRequest.loading}
@@ -176,9 +179,9 @@ const SearchBar: Component<SearchBarProps> = (properties: SearchBarProps) => {
 						leave="duration-200 transition ease-in-out"
 						leaveFrom="opacity-100"
 						leaveTo="opacity-0">
-						<div class="absolute top-1/2 right-3 -translate-y-1/2 transform">
+						<div class="absolute top-1/2 right-5 -translate-y-1/2 transform">
 							<svg
-								class="dark:text-white-dark -ml-1 h-5 w-5 animate-spin text-gray-700"
+								class="dark:text-white-darker h-5 w-5 animate-spin text-slate-400"
 								xmlns="http://www.w3.org/2000/svg"
 								fill="none"
 								viewBox="0 0 24 24">
@@ -209,28 +212,30 @@ const SearchBar: Component<SearchBarProps> = (properties: SearchBarProps) => {
 					leaveFrom="opacity-100 rotate-0"
 					leaveTo="opacity-0">
 					<ul
-						class="ring-opacity-5 dark:bg-black-200 absolute left-0 z-30 mt-2 w-full origin-top-right overflow-y-auto rounded-md bg-white py-1 shadow-lg ring-1 ring-black focus:outline-hidden"
+						class="ring-opacity-5 absolute left-0 z-40 mt-3 w-full origin-top-right overflow-y-auto rounded-2xl border border-slate-200/80 bg-white/85 p-2 shadow-lg ring-1 ring-black/5 backdrop-blur-md focus:outline-hidden dark:border-white/10 dark:bg-slate-900/75 dark:ring-white/10 dark:backdrop-blur-md"
 						role="listbox"
 						id="search-bar"
 						aria-label="Airport selection search bar"
 						aria-orientation="vertical"
 						aria-activedescendant={`search-bar-item-${selectedAirportId()}`}
-						tabindex="-1">
+						tabIndex={-1}>
 						<Show when={airportRequest.latest && (airportRequest()?.getAirports.totalCount ?? 0) > 0}>
 							<For each={airportResults()}>
 								{(airportNode, i) => (
 									<li
 										id={`search-bar-item-${i()}`}
-										onMouseEnter={e => setSelectedAirportId(i())}
+										onMouseEnter={_ => setSelectedAirportId(i())}
 										role="option"
 										aria-selected={i() === selectedAirportId()}
-										tabindex={i()}>
+										tabIndex={i()}>
 										<A
-											class="block w-full cursor-pointer px-6 py-2 text-sm"
+											class="block w-full cursor-pointer rounded-xl px-5 py-3 text-sm font-medium transition-all duration-200"
 											classList={{
-												'bg-gray-100 dark:bg-black-100': i() === selectedAirportId(),
-												'dark:text-white-dark text-gray-900': airportNode.node.station !== null,
-												'dark:text-gray-400 text-gray-500': airportNode.node.station === null,
+												'bg-white text-slate-900 ring-1 ring-slate-200 shadow-sm dark:bg-white/10 dark:text-white-dark dark:ring-0 dark:shadow-none':
+													i() === selectedAirportId(),
+												'text-slate-600 hover:bg-slate-100/70 dark:text-slate-300 dark:hover:bg-white/10':
+													i() !== selectedAirportId() && airportNode.node.station !== null,
+												'text-slate-400 dark:text-slate-500': airportNode.node.station === null,
 											}}
 											href={`/airport/${airportNode.node.identifier}`}>
 											<Switch>
@@ -255,7 +260,7 @@ const SearchBar: Component<SearchBarProps> = (properties: SearchBarProps) => {
 						</Show>
 						<Show when={airportRequest() && airportRequest()?.getAirports.totalCount === 0}>
 							<li
-								class="dark:text-white-dark pointer-events-none block w-full px-6 py-2 text-sm text-gray-700"
+								class="dark:text-white-dark pointer-events-none block w-full rounded-xl px-5 py-3 text-sm font-medium text-slate-500"
 								role="option">
 								Nothing found.
 							</li>

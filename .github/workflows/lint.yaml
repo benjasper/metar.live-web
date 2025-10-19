@@ -15,12 +15,12 @@ jobs:
               with:
                   node-version: 18
 
-            - uses: pnpm/action-setup@v2
-              name: Install pnpm
+            - name: Enable Corepack
+              run: corepack enable
+
+            - name: Install pnpm
               id: pnpm-install
-              with:
-                  version: 8
-                  run_install: false
+              run: corepack prepare pnpm@10 --activate
 
             - name: Get pnpm store directory
               id: pnpm-cache

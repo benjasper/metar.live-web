@@ -20,15 +20,17 @@ const Home: Component = () => {
 	return (
 		<>
 			<PageContent
-				title="Latest aviation weather"
-				description="Find the latest aviation weather observations and forecasts for any airport around the world. Get your METARs and TAFs here."
+				title="Live METAR & TAF Aviation Weather Reports"
+				description="Search 5,000+ airports for real-time METARs, TAF forecasts, runway winds, and automated aviation weather updates with metar.live."
 				contentFullHeight={true}>
 				<Header />
 				<div class="mt-[15vh] flex flex-col gap-8 transition-all md:mt-[20vh]">
 					<Logo showText={false} class="mx-auto hidden md:flex" />
-					<h2 class="dark:text-white-dark text-center">What's the weather like in...</h2>
+					<h2 class="dark:text-white-dark text-center">
+						Find live aviation weather for any airport worldwide
+					</h2>
 					<div class="flex flex-col">
-						<SearchBar onSearch={doSearch} />
+						<SearchBar onSearch={doSearch} autofocus={true} />
 						<span class="dark:text-white-darker mx-auto mt-2 text-center text-gray-600">
 							Simply start typing
 						</span>

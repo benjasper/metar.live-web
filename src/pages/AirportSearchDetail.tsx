@@ -87,32 +87,46 @@ const AirportSearchDetail: Component = () => {
 
 	const title = createMemo(() => {
 		if (airportStore.airport === undefined) {
-			return `Loading ${params.airportIdentifier}...`
+			return `Loading METAR & TAF weather for ${params.airportIdentifier}...`
 		}
 
 		if (airportStore.airport.icaoCode && airportStore.airport.iataCode) {
-			return `${airportStore.airport.icaoCode} / ${airportStore.airport.iataCode} - ${airportStore.airport.name} weather`
+			return `${airportStore.airport.icaoCode} / ${airportStore.airport.iataCode} - ${airportStore.airport.name} METAR & TAF Weather`
 		}
 
 		if (airportStore.airport.icaoCode) {
-			return `${airportStore.airport.icaoCode} - ${airportStore.airport.name} weather`
+			return `${airportStore.airport.icaoCode} - ${airportStore.airport.name} METAR & TAF Weather`
 		}
 
 		if (airportStore.airport.iataCode) {
-			return `${airportStore.airport.iataCode} - ${airportStore.airport.name} weather`
+			return `${airportStore.airport.iataCode} - ${airportStore.airport.name} METAR & TAF Weather`
 		}
 
-		return `${airportStore.airport.identifier} - ${airportStore.airport.name} weather`
+		return `${airportStore.airport.identifier} - ${airportStore.airport.name} METAR & TAF Weather`
 	})
 
 	const description = createMemo(() => {
-		return airportStore.airport
-			? `Get real time METAR and TAF updates for ${airportStore.airport.name} (${
-					airportStore.airport.identifier
-				}${airportStore.airport.iataCode ? ' / ' + airportStore.airport.iataCode : ''}) located in ${
-					airportStore.airport.municipality ? airportStore.airport.municipality + ',' : ''
-				} ${airportStore.airport.country?.name ?? ''}.`
-			: ''
+		if (!airportStore.airport) {
+			return 'Live METAR and TAF aviation weather for airports worldwide with decoded forecasts and runway insights.'
+		}
+
+		const airport = airportStore.airport
+		const formattedCodes = `${airport.identifier}${airport.iataCode ? ' / ' + airport.iataCode : ''}`
+		const locationCity = airport.municipality ? airport.municipality : ''
+		const locationCountry = airport.country?.name ?? ''
+		const locationParts: string[] = []
+
+		if (locationCity !== '') {
+			locationParts.push(locationCity)
+		}
+
+		if (locationCountry !== '') {
+			locationParts.push(locationCountry)
+		}
+
+		const locationSuffix = locationParts.length > 0 ? ` in ${locationParts.join(', ')}` : ''
+
+		return `View live METARs, TAF forecasts, runway wind analysis, and sunrise/sunset times for ${airport.name} (${formattedCodes})${locationSuffix} with automatic updates from metar.live.`
 	})
 
 	const refetchInterval = setInterval(() => {

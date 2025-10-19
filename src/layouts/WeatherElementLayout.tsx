@@ -107,10 +107,10 @@ const WeatherElementLayout: ParentComponent<ParsedWeatherElementLayoutProps> = p
 
 	return (
 		<div
-			class={`dark:bg-black-200 dark:text-white-light relative flex h-auto w-auto grow flex-col justify-center gap-2 rounded-2xl bg-gray-50 px-8 py-6 text-black shadow-xs transition-colors md:mx-0 lg:px-12 ${
+			class={`group dark:text-white-light relative flex h-auto min-h-[10.5rem] w-full flex-1 basis-full flex-col justify-center gap-3 rounded-3xl border border-slate-200/70 bg-white px-6 py-5 text-slate-900 transition-colors duration-200 md:mx-0 md:min-w-[220px] md:flex-[1_1_220px] md:basis-[calc(50%-1.5rem)] lg:basis-[calc(33%-1.5rem)] dark:border-white/10 dark:bg-slate-900/70 ${
 				props.class ?? ''
 			}`}>
-			<label class="dark:text-white-darker mx-auto flex gap-1 text-xs font-semibold text-gray-500 uppercase transition-colors">
+			<label class="relative z-10 mx-auto flex items-center gap-2 px-4 text-center text-[0.66rem] font-semibold tracking-[0.3em] text-slate-500 uppercase transition-colors dark:text-white/70">
 				<Show when={props.icon}>
 					<div class="my-auto">{props.icon}</div>
 				</Show>
@@ -118,21 +118,21 @@ const WeatherElementLayout: ParentComponent<ParsedWeatherElementLayoutProps> = p
 				<Show when={hasUpdate()}>
 					<Tooltip text={`Previously ${props.updatePingOldValue}`}>
 						<span
-							class="relative z-10 my-auto ml-1 inline-flex h-2 w-2 rounded-full transition-all"
+							class="relative z-10 my-auto ml-1 inline-flex h-2.5 w-2.5 rounded-full transition-all"
 							classList={{
-								'bg-sky-500': props.updatePing === UpdatePing.Neutral && isDifferent(),
-								'bg-gray-500': props.updatePing === UpdatePing.Neutral && !isDifferent(),
-								'bg-green-400': props.updatePing === UpdatePing.Better,
-								'bg-red-500': props.updatePing === UpdatePing.Worse,
+								'bg-sky-400': props.updatePing === UpdatePing.Neutral && isDifferent(),
+								'bg-slate-400': props.updatePing === UpdatePing.Neutral && !isDifferent(),
+								'bg-emerald-400': props.updatePing === UpdatePing.Better,
+								'bg-rose-500': props.updatePing === UpdatePing.Worse,
 							}}>
 							<span
-								class="absolute my-auto inline-flex h-full w-full rounded-full opacity-80 transition-all"
+								class="absolute my-auto inline-flex h-full w-full rounded-full opacity-70 transition-all"
 								classList={{
 									'animate-ping-large': triggerPing(),
-									'bg-sky-500': props.updatePing === UpdatePing.Neutral && isDifferent(),
-									'bg-gray-500': props.updatePing === UpdatePing.Neutral && !isDifferent(),
-									'bg-green-400': props.updatePing === UpdatePing.Better,
-									'bg-red-500': props.updatePing === UpdatePing.Worse,
+									'bg-sky-400': props.updatePing === UpdatePing.Neutral && isDifferent(),
+									'bg-slate-400': props.updatePing === UpdatePing.Neutral && !isDifferent(),
+									'bg-emerald-400': props.updatePing === UpdatePing.Better,
+									'bg-rose-500': props.updatePing === UpdatePing.Worse,
 								}}
 							/>
 						</span>
@@ -140,7 +140,7 @@ const WeatherElementLayout: ParentComponent<ParsedWeatherElementLayoutProps> = p
 				</Show>
 			</label>
 			<Show when={unitConfigurations().length > 0 || hasUpdate()}>
-				<div class="absolute top-4 right-2 flex gap-1 px-2 md:right-0">
+				<div class="absolute top-2 right-2 flex gap-1 px-2 md:right-0">
 					<Show when={unitConfigurations().length > 0}>
 						<Show when={lockedUnits().length > 0}>
 							<div class="invisible my-auto md:visible">
@@ -164,8 +164,11 @@ const WeatherElementLayout: ParentComponent<ParsedWeatherElementLayoutProps> = p
 							aria-label={`Context menu for ${props.name}. Includes unit conversions.`}
 							onClick={() => setIsOpen(!isOpen())}
 							ref={setReference}
-							class="group hover:bg-gray-light dark:text-white-darker dark:hover:bg-black-100 my-auto inline-flex cursor-pointer items-center rounded-full p-2 text-base font-medium text-black transition-all"
-							classList={{ 'bg-gray-light dark:bg-black-100': isOpen() }}>
+							class="group my-auto inline-flex cursor-pointer items-center justify-center rounded-full border border-gray-200 bg-white/85 p-2 text-base font-medium text-slate-500 shadow-sm transition-colors duration-200 hover:border-gray-300 hover:text-slate-800 focus-visible:ring-2 focus-visible:ring-sky-300 focus-visible:ring-offset-2 focus-visible:ring-offset-white focus-visible:outline-hidden dark:border-white/15 dark:bg-slate-800 dark:text-white/70 dark:hover:border-white/25 dark:hover:text-white"
+							classList={{
+								'border-gray-300 bg-white text-slate-800 shadow-md dark:border-white/25 dark:bg-slate-800/90 dark:text-white':
+									isOpen(),
+							}}>
 							<BsThreeDotsVertical />
 						</button>
 						<Show when={isOpen()}>
@@ -181,11 +184,11 @@ const WeatherElementLayout: ParentComponent<ParsedWeatherElementLayoutProps> = p
 									<Menu
 										aria-label={`Context menu for ${props.name}. Includes unit conversion.`}
 										id={`context-menu-${id()}`}
-										class="dark:bg-black-150 flex shrink-0 flex-col overflow-hidden rounded-lg bg-white shadow-md dark:shadow-xl">
+										class="flex shrink-0 flex-col gap-1 overflow-hidden rounded-2xl border border-gray-200/80 bg-white/95 p-2 shadow-xl backdrop-blur-sm dark:border-white/10 dark:bg-slate-900/85 dark:shadow-lg">
 										<For each={unitConfigurations()}>
 											{(unitConfiguration, index) => (
 												<>
-													<span class="dark:text-white-darker px-4 pt-2 text-xs font-semibold text-black">
+													<span class="px-4 pt-2 text-[0.68rem] font-semibold tracking-[0.2em] text-slate-500 uppercase dark:text-white/60">
 														{unitConfiguration.name ?? props.name} unit conversion
 													</span>
 													<For each={unitConfiguration.configuration!.units}>
@@ -198,30 +201,74 @@ const WeatherElementLayout: ParentComponent<ParsedWeatherElementLayoutProps> = p
 																onClick={() =>
 																	selectUnit(unitConfiguration.type!, unit.symbol)
 																}
-																class="dark:text-white-darker flex gap-1 rounded-sm px-4 py-2 text-left text-sm whitespace-nowrap text-black transition-all disabled:opacity-60"
+																class="flex gap-2 rounded-xl px-4 py-2 text-left text-sm font-medium whitespace-nowrap text-slate-600 transition-colors duration-200 hover:text-slate-900 focus-visible:outline-hidden disabled:cursor-not-allowed disabled:opacity-60 dark:text-white/85 dark:hover:bg-white/10 dark:hover:text-white"
 																classList={{
-																	'cursor-default ':
+																	'cursor-default':
 																		unitStore[unitConfiguration.type!].units[
 																			unitStore[unitConfiguration.type!].selected
 																		].symbol === unit.symbol,
-																	'enabled:hover:bg-gray-light dark:enabled:hover:bg-black-100':
+																	'bg-white':
+																		unitStore[unitConfiguration.type!].units[
+																			unitStore[unitConfiguration.type!].selected
+																		].symbol === unit.symbol,
+																	'text-slate-900':
+																		unitStore[unitConfiguration.type!].units[
+																			unitStore[unitConfiguration.type!].selected
+																		].symbol === unit.symbol,
+																	'shadow-sm':
+																		unitStore[unitConfiguration.type!].units[
+																			unitStore[unitConfiguration.type!].selected
+																		].symbol === unit.symbol,
+																	'ring-1':
+																		unitStore[unitConfiguration.type!].units[
+																			unitStore[unitConfiguration.type!].selected
+																		].symbol === unit.symbol,
+																	'ring-indigo-300/70 dark:ring-indigo-500/60':
+																		unitStore[unitConfiguration.type!].units[
+																			unitStore[unitConfiguration.type!].selected
+																		].symbol === unit.symbol,
+																	'dark:bg-white/10':
+																		unitStore[unitConfiguration.type!].units[
+																			unitStore[unitConfiguration.type!].selected
+																		].symbol === unit.symbol,
+																	'dark:text-white':
+																		unitStore[unitConfiguration.type!].units[
+																			unitStore[unitConfiguration.type!].selected
+																		].symbol === unit.symbol,
+																	'enabled:hover:bg-gray-100':
+																		unitStore[unitConfiguration.type!].units[
+																			unitStore[unitConfiguration.type!].selected
+																		].symbol !== unit.symbol,
+																	'dark:enabled:hover:bg-white/10':
 																		unitStore[unitConfiguration.type!].units[
 																			unitStore[unitConfiguration.type!].selected
 																		].symbol !== unit.symbol,
 																}}>
 																<div class="flex items-center gap-2">
 																	<div
-																		class="dark:bg-white-darker h-2 w-2 rounded-full bg-gray-300 transition-all duration-300"
+																		class="h-2.5 w-2.5 rounded-full border border-gray-300 bg-white transition-all duration-300 dark:border-white/40 dark:bg-transparent"
 																		classList={{
-																			'bg-primary! dark:bg-primary-light!':
+																			'border-indigo-500/80 bg-indigo-500/90 dark:border-indigo-400 dark:bg-indigo-400':
 																				unitStore[unitConfiguration.type!]
 																					.units[
 																					unitStore[unitConfiguration.type!]
 																						.selected
 																				].symbol === unit.symbol,
-																		}}
-																	/>
-																	<span class="dark:text-white-darker text-sm font-medium text-gray-900">
+																		}}>
+																		<span
+																			class="block h-full w-full rounded-full"
+																			classList={{
+																				'bg-indigo-600 dark:bg-indigo-400':
+																					unitStore[unitConfiguration.type!]
+																						.units[
+																						unitStore[
+																							unitConfiguration.type!
+																						].selected
+																					].symbol === unit.symbol,
+																			}}
+																		/>
+																	</div>
+																	<span class="text-sm font-medium text-slate-700 dark:text-white/85">
 																		Display in {unit.name} ({unit.symbol})
 																	</span>
 																</div>
@@ -240,11 +287,11 @@ const WeatherElementLayout: ParentComponent<ParsedWeatherElementLayoutProps> = p
 																	)
 																: unlockUnit(unitConfiguration.type!)
 														}
-														class="hover:bg-gray-light dark:text-white-darker dark:hover:bg-black-100 flex gap-2 rounded-sm px-4 py-2 text-left text-sm whitespace-nowrap text-black transition-all">
+														class="flex gap-2 rounded-xl px-4 py-2 text-left text-sm font-medium text-slate-600 transition-colors duration-200 hover:bg-slate-100/70 hover:text-slate-900 focus-visible:outline-hidden dark:text-white/85 dark:hover:bg-white/10 dark:hover:text-white">
 														<div
-															class="dark:text-white-darker my-auto flex flex-col items-center text-gray-300 transition-all duration-300"
+															class="my-auto flex flex-col items-center text-slate-400 transition-colors duration-200 dark:text-white/70"
 															classList={{
-																'text-primary! dark:text-primary-light!':
+																'text-slate-900 dark:text-primary-light!':
 																	unitStore[unitConfiguration.type!].locked !== '',
 															}}>
 															<Switch>
@@ -262,7 +309,7 @@ const WeatherElementLayout: ParentComponent<ParsedWeatherElementLayoutProps> = p
 																</Match>
 															</Switch>
 														</div>
-														<span>
+														<span class="text-sm">
 															{unitStore[unitConfiguration.type!].locked === ''
 																? 'Lock'
 																: 'Unlock'}{' '}
@@ -280,7 +327,7 @@ const WeatherElementLayout: ParentComponent<ParsedWeatherElementLayoutProps> = p
 															index() !== (unitConfigurations().length ?? 0) - 1 &&
 															(unitConfigurations().length ?? 0) > 0
 														}>
-														<hr class="border-gray-300 dark:border-gray-600" />
+														<hr class="border-gray-200/80 dark:border-white/15" />
 													</Show>
 												</>
 											)}
