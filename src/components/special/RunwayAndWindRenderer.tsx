@@ -326,8 +326,10 @@ const RunwayAndWindRenderer = (props: {
 		}
 
 		const { minX, minY, maxX, maxY } = calculateMinMaxOfCoordinates(preparingRunways)
-
-		const scaling = Math.sqrt((maxX - minX) * (maxX - minX) + (maxY - minY) * (maxY - minY)) * scale
+		const width = maxX - minX
+		const height = maxY - minY
+		const largestDimension = Math.max(width, height)
+		const scaling = largestDimension === 0 ? 1 : largestDimension * scale
 
 		for (const runway of preparingRunways) {
 			runway.direction1.x = (runway.direction1.x - minX) / scaling
@@ -337,12 +339,14 @@ const RunwayAndWindRenderer = (props: {
 		}
 
 		const maximums = calculateMinMaxOfCoordinates(preparingRunways)
+		const normalizedWidth = maximums.maxX - maximums.minX
+		const normalizedHeight = maximums.maxY - maximums.minY
+		const diagramSize = Math.max(normalizedWidth, normalizedHeight)
+		const diagonal = (diagramSize === 0 ? 1 : diagramSize) * 0.9
 
-		// Scaling size lower is bigger
-		setRealDiagonal(Math.sqrt(Math.pow(maximums.maxX, 2) + Math.pow(maximums.maxY, 2)) * 0.8)
-
-		setCenterX(realDiagonal() - maximums.maxX / 2)
-		setCenterY(realDiagonal() - maximums.maxY / 2)
+		setRealDiagonal(diagonal)
+		setCenterX(diagonal - maximums.maxX / 2)
+		setCenterY(diagonal - maximums.maxY / 2)
 
 		setRunways(preparingRunways)
 	})
@@ -387,9 +391,9 @@ const RunwayAndWindRenderer = (props: {
 
 	return (
 		<Show when={runways().length > 0}>
-			<div class="relative mx-auto flex w-full max-w-[360px] items-center justify-center rounded-[2.5rem] bg-white/20 p-6 backdrop-blur-sm transition-colors md:mx-0 md:max-w-[380px] dark:bg-transparent dark:p-0 dark:backdrop-blur-none">
+			<div class="relative mx-auto flex w-full max-w-[520px] items-center justify-center rounded-[2.5rem] bg-white/20 p-6 backdrop-blur-sm transition-colors md:mx-0 md:max-w-[560px] dark:bg-transparent dark:p-0 dark:backdrop-blur-none">
 				<svg
-					class="flex h-full w-full max-w-[320px]"
+					class="flex h-full w-full max-w-[480px]"
 					viewBox={`${-centerX()} ${-centerY()}  ${realDiagonal() * 2} ${realDiagonal() * 2}`}
 					xmlns="http://www.w3.org/2000/svg">
 					<defs>

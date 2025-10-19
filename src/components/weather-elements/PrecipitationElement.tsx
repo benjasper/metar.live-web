@@ -235,7 +235,7 @@ const PrecipitationElement: Component<PrecipitationElementProps> = props => {
 			return []
 		}
 
-		const tokens = weather.match(/(?:\+|-)?(?:VC|RE)?[A-Z]{2,3}|NSW/g)
+		const tokens = weather.match(/(?:\+|-)?(?:VC|RE)?(?:NSW|[A-Z]{2,})/g)
 
 		if (tokens && tokens.length > 0) {
 			return tokens
