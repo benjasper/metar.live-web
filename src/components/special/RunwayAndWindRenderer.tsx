@@ -249,7 +249,7 @@ const RunwayAndWindRenderer = (props: {
 	const [realDiagonal, setRealDiagonal] = createSignal(0)
 
 	// Scaling zoom
-	const scale = 0.03
+	const scale = 0.035
 
 	createEffect(() => {
 		const preparingRunways: Runway[] = []
@@ -352,7 +352,7 @@ const RunwayAndWindRenderer = (props: {
 	})
 
 	// Calculate the radius around the center of the airport, to show a wind arrow
-	const radius = () => realDiagonal() * 0.95
+	const radius = () => realDiagonal() * 0.99
 
 	const realCenterX = () => -centerX() + realDiagonal()
 	const realCenterY = () => -centerY() + realDiagonal()
@@ -391,9 +391,9 @@ const RunwayAndWindRenderer = (props: {
 
 	return (
 		<Show when={runways().length > 0}>
-			<div class="relative mx-auto flex w-full max-w-[520px] items-center justify-center rounded-[2.5rem] bg-white/20 p-6 backdrop-blur-sm transition-colors md:mx-0 md:max-w-[560px] dark:bg-transparent dark:p-0 dark:backdrop-blur-none">
+			<div class="relative mx-auto flex w-full items-center justify-center rounded-[2.5rem] bg-white/20 p-6 backdrop-blur-sm transition-colors md:mx-0 dark:bg-transparent dark:backdrop-blur-none">
 				<svg
-					class="flex h-full w-full max-w-[480px]"
+					class="flex h-full w-full"
 					viewBox={`${-centerX()} ${-centerY()}  ${realDiagonal() * 2} ${realDiagonal() * 2}`}
 					xmlns="http://www.w3.org/2000/svg">
 					<defs>
@@ -410,7 +410,7 @@ const RunwayAndWindRenderer = (props: {
 						stroke-width="0.6"
 						cx={realCenterX()}
 						cy={realCenterY()}
-						r={realDiagonal() * 0.82}
+						r={realDiagonal() * 0.9}
 					/>
 
 					{/* Wind arrow */}
@@ -531,7 +531,7 @@ const RunwayAndWindRenderer = (props: {
 						{(r, i) => (
 							<>
 								<text
-									class="pointer-events-none fill-white text-[1.2px] font-semibold tracking-wide drop-shadow-[0_1px_1px_rgba(15,23,42,0.35)]"
+									class="pointer-events-none fill-white text-[1.3px] font-semibold tracking-wide drop-shadow-[0_1px_1px_rgba(15,23,42,0.35)]"
 									x={r.direction1.x}
 									y={r.direction1.y}
 									dominant-baseline="middle"
@@ -540,7 +540,7 @@ const RunwayAndWindRenderer = (props: {
 									{r.direction1.runway}
 								</text>
 								<text
-									class="pointer-events-none fill-white text-[1.2px] font-semibold tracking-wide drop-shadow-[0_1px_1px_rgba(15,23,42,0.35)]"
+									class="pointer-events-none fill-white text-[1.3px] font-semibold tracking-wide drop-shadow-[0_1px_1px_rgba(15,23,42,0.35)]"
 									x={r.direction2.x}
 									y={r.direction2.y}
 									dominant-baseline="middle"
