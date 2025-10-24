@@ -112,6 +112,10 @@ const SearchBar: Component<SearchBarProps> = (properties: SearchBarProps) => {
 			return
 		}
 
+		if (keys().length >= 2) {
+			return
+		}
+
 		if (keys().includes('ENTER')) {
 			if (
 				id === undefined ||
