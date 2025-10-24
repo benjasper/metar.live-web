@@ -1,5 +1,5 @@
 import { A } from '@solidjs/router'
-import { AiOutlineGithub } from 'solid-icons/ai'
+import { AiOutlineBug, AiOutlineGithub } from 'solid-icons/ai'
 import { FiExternalLink } from 'solid-icons/fi'
 import { Component } from 'solid-js'
 import DarkModeToggle from './DarkModeToggle'
@@ -48,6 +48,16 @@ const Footer: Component = () => {
 				<div class="flex flex-col md:hidden">
 					<DarkModeToggle />
 				</div>
+			</div>
+			<div class="container flex justify-center pt-4 text-gray-700 dark:text-white-light md:pt-0">
+				<A
+					class="flex items-center gap-2 text-sm hover:underline"
+					href="https://github.com/benjasper/metar.live-web/issues/new"
+					rel="noopener noreferrer"
+					target="_blank">
+					<AiOutlineBug size={16} />
+					Report a problem
+				</A>
 			</div>
 		</footer>
 	)
