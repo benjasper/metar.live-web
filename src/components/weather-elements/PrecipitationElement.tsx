@@ -36,6 +36,7 @@ enum PrecipitationType {
 	Drizzle = 'DZ',
 	Rain = 'RA',
 	Snow = 'SN',
+	SnowGrains = 'SG',
 	Hail = 'GR',
 	SmallHail = 'GS',
 	IcePellets = 'PL',
@@ -108,7 +109,11 @@ const PrecipitationConditionElement: Component<{ condition: string }> = props =>
 						<Match when={descriptor() === Descriptor.Thunderstorm}>
 							<RiWeatherThunderstormsLine />
 						</Match>
-						<Match when={precipitationType() === PrecipitationType.Snow}>
+						<Match
+							when={
+								precipitationType() === PrecipitationType.Snow ||
+								precipitationType() === PrecipitationType.SnowGrains
+							}>
 							<RiWeatherSnowyLine />
 						</Match>
 						<Match
@@ -178,6 +183,7 @@ const PrecipitationConditionElement: Component<{ condition: string }> = props =>
 							<Match when={precipitationType() === PrecipitationType.Drizzle}>Drizzle</Match>
 							<Match when={precipitationType() === PrecipitationType.Rain}>Rain</Match>
 							<Match when={precipitationType() === PrecipitationType.Snow}>Snow</Match>
+							<Match when={precipitationType() === PrecipitationType.SnowGrains}>Snow grains</Match>
 							<Match when={precipitationType() === PrecipitationType.Hail}>Hail</Match>
 							<Match when={precipitationType() === PrecipitationType.SmallHail}>Small hail</Match>
 							<Match when={precipitationType() === PrecipitationType.IcePellets}>Ice pellets</Match>
