@@ -32,6 +32,7 @@ import {
 	GetSingleAirportQuery,
 	GetSingleAirportQueryVariables,
 } from '../queries/generated/graphql'
+import Tooltip from '../components/Tooltip'
 
 const AirportSearchDetail: Component = () => {
 	const params = useParams()
@@ -298,18 +299,24 @@ const AirportSearchDetail: Component = () => {
 							<span class="relative">
 								{airportStore.airport!.name}
 								<Show when={airportStore.airport!.identifier}>
-									<button
-										type="button"
-										class="absolute cursor-pointer rounded-full p-1 text-slate-500 transition-colors hover:text-amber-400 focus-visible:ring-2 focus-visible:ring-amber-300 focus-visible:ring-offset-2 focus-visible:ring-offset-white focus-visible:outline-hidden dark:text-slate-500 dark:hover:text-amber-300 dark:focus-visible:ring-amber-300/70 dark:focus-visible:ring-offset-slate-900"
-										onClick={() =>
-											favoritePayload() && favoriteActions.toggleFavorite(favoritePayload()!)
-										}
-										aria-pressed={isFavoriteAirport()}
-										aria-label={isFavoriteAirport() ? 'Remove from favorites' : 'Add to favorites'}>
-										<Show when={isFavoriteAirport()} fallback={<AiOutlineStar size={22} />}>
-											<AiFillStar class="text-amber-400" size={22} />
-										</Show>
-									</button>
+									<Tooltip
+										text={isFavoriteAirport() ? 'Remove from favorites' : 'Add to favorites'}
+										delay={1000}>
+										<button
+											type="button"
+											class="absolute cursor-pointer rounded-full p-1 text-slate-500 transition-colors hover:text-amber-400 focus-visible:ring-2 focus-visible:ring-amber-300 focus-visible:ring-offset-2 focus-visible:ring-offset-white focus-visible:outline-hidden dark:text-slate-500 dark:hover:text-amber-300 dark:focus-visible:ring-amber-300/70 dark:focus-visible:ring-offset-slate-900"
+											onClick={() =>
+												favoritePayload() && favoriteActions.toggleFavorite(favoritePayload()!)
+											}
+											aria-pressed={isFavoriteAirport()}
+											aria-label={
+												isFavoriteAirport() ? 'Remove from favorites' : 'Add to favorites'
+											}>
+											<Show when={isFavoriteAirport()} fallback={<AiOutlineStar size={22} />}>
+												<AiFillStar class="text-amber-400" size={22} />
+											</Show>
+										</button>
+									</Tooltip>
 								</Show>
 							</span>
 						</div>
