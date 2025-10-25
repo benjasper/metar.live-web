@@ -1,5 +1,5 @@
 import { TbChevronLeft } from 'solid-icons/tb'
-import { Component, createEffect, For, ParentComponent, Show, useContext } from 'solid-js'
+import { Component, createEffect, createSignal, For, onMount, ParentComponent, Show, useContext } from 'solid-js'
 import { Slider as SolidSlider, SliderContext, SliderProvider } from 'solid-slider'
 
 interface DotsProps {
@@ -9,21 +9,33 @@ interface DotsProps {
 const SliderNavigation: Component<DotsProps> = props => {
 	const [helpers] = useContext(SliderContext)
 
+	const [slider, setSlider] = createSignal(helpers().slider())
+	onMount(() => {
+		setSlider(helpers().slider())
+	})
+
+	const maxItems = () => slider()?.track.details.maxIdx ?? 0
+
+	const sliderLength = () => {
+		return slider()?.track.details.length ?? 0
+	}
+
 	return (
-		<Show when={props.items.length > 1}>
+		<Show when={props.items.length > 1 && sliderLength() > 0}>
 			<div class="relative mx-auto mt-8 flex items-center justify-center gap-3 md:gap-4">
-				<Show when={helpers().current() > 0}>
-					<button
-						aria-label="Previous forecast page"
-						onClick={() => helpers().prev()}
-						role="button"
-						class="hidden h-9 w-9 cursor-pointer items-center justify-center rounded-full border border-slate-300 bg-white text-slate-800 transition-colors focus-visible:ring-2 focus-visible:ring-sky-300 focus-visible:ring-offset-2 focus-visible:ring-offset-white focus-visible:outline-hidden md:flex dark:border-white/25 dark:bg-slate-800 dark:text-white/80">
-						<TbChevronLeft class="m-auto" size={20} />
-					</button>
-				</Show>
+				<button
+					aria-label="Previous forecast page"
+					onClick={() => helpers().prev()}
+					classList={{
+						'opacity-0 pointer-events-none': helpers().current() <= 0,
+					}}
+					role="button"
+					class="hidden h-9 w-9 cursor-pointer items-center justify-center rounded-full border border-slate-300 bg-white text-slate-800 transition-all focus-visible:ring-2 focus-visible:ring-sky-300 focus-visible:ring-offset-2 focus-visible:ring-offset-white focus-visible:outline-hidden md:flex dark:border-white/25 dark:bg-slate-800 dark:text-white/80">
+					<TbChevronLeft class="m-auto" size={20} />
+				</button>
 
 				<div class="flex items-center gap-2.5">
-					<For each={props.items}>
+					<For each={Array(maxItems() + 1)}>
 						{(_, index) => {
 							const isActive = () => helpers().current() === index()
 
@@ -45,15 +57,16 @@ const SliderNavigation: Component<DotsProps> = props => {
 					</For>
 				</div>
 
-				<Show when={helpers().current() < props.items.length - 2}>
-					<button
-						aria-label="Next forecast page"
-						onClick={() => helpers().next()}
-						role="button"
-						class="hidden h-9 w-9 cursor-pointer items-center justify-center rounded-full border border-slate-300 bg-white text-slate-800 transition-colors focus-visible:ring-2 focus-visible:ring-sky-300 focus-visible:ring-offset-2 focus-visible:ring-offset-white focus-visible:outline-hidden md:flex dark:border-white/25 dark:bg-slate-800 dark:text-white/80">
-						<TbChevronLeft class="m-auto rotate-180" size={20} />
-					</button>
-				</Show>
+				<button
+					aria-label="Next page"
+					onClick={() => helpers().next()}
+					role="button"
+					classList={{
+						'opacity-0 pointer-events-none': helpers().current() >= maxItems(),
+					}}
+					class="hidden h-9 w-9 cursor-pointer items-center justify-center rounded-full border border-slate-300 bg-white text-slate-800 transition-all focus-visible:ring-2 focus-visible:ring-sky-300 focus-visible:ring-offset-2 focus-visible:ring-offset-white focus-visible:outline-hidden md:flex dark:border-white/25 dark:bg-slate-800 dark:text-white/80">
+					<TbChevronLeft class="m-auto rotate-180" size={20} />
+				</button>
 			</div>
 		</Show>
 	)
@@ -163,7 +176,7 @@ const Slider: ParentComponent<SliderProps> = props => {
 	}
 
 	return (
-		<div class={`relative ${props.class ?? ''} flex max-w-full flex-col`}>
+		<div class={`relative ${props.class ?? ''} flex w-full max-w-full flex-col`}>
 			<Show
 				when={props.items.length > 0}
 				fallback={
