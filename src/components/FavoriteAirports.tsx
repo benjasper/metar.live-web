@@ -13,7 +13,7 @@ const FavoriteAirports: Component = () => {
 	const [favoriteStore, favoriteActions] = useFavoriteAirportsStore()
 
 	const sortedFavorites = createMemo(() => {
-		return [...favoriteStore.favorites].sort((a, b) => b.addedAt - a.addedAt)
+		return [...favoriteStore.favorites].sort((a, b) => b.addedAt - a.addedAt).slice(0, 10)
 	})
 
 	const hasFavorites = () => sortedFavorites().length > 0
