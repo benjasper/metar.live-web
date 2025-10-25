@@ -2906,7 +2906,7 @@
 							},
 							{
 								"name": "importance",
-								"description": "Filter on the importance of the airport. This is a greater than filter.\n            The mapping is as follows:\n            0: Closed\n            1: Seaplane base\n            2: Heliport\n            3: Small airport\n            4: Medium airport\n            5: Large airport",
+								"description": "Filter on the importance of the airport. This is a greater than equals filter.\n            The mapping is as follows:\n            0: Closed\n            1: Seaplane base\n            2: Heliport\n            3: Small airport\n            4: Medium airport\n            5: Large airport",
 								"type": {
 									"kind": "SCALAR",
 									"name": "Int",
