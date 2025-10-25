@@ -80,7 +80,7 @@ const AirportsInVicinity: Component<AirportsInVicinityProps> = props => {
 	return (
 		<section class="flex flex-col">
 			<Show when={props.stations.length > 0}>
-				<h2 class="dark:text-white-dark text-2xl">Nearby airports</h2>
+				<h3 class="font-semibold text-slate-900 dark:text-white">Nearby airports</h3>
 				<div class="flex gap-2 pt-2">
 					<Tag>
 						{props.stations.length >= 10 ? 'At least 10' : props.stations.length}{' '}
