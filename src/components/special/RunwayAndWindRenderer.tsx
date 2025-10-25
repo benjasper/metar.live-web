@@ -4,9 +4,9 @@ import { CgArrowsVAlt } from 'solid-icons/cg'
 import { RiMapCompass4Line } from 'solid-icons/ri'
 import { createEffect, createSignal, For, Show } from 'solid-js'
 import { useUnitStore } from '../../context/UnitStore'
+import { VariableWind } from '../../models/weather'
 import { AirportSearchFragment } from '../../queries/generated/graphql'
 import Tooltip from '../Tooltip'
-import { VariableWind } from '../weather-elements/WindElement'
 
 const cartesianCoordinates = (lat: number, lon: number) => {
 	const x = merc.fromLatLngToPoint({ lat: lat, lng: lon }).x
@@ -234,8 +234,10 @@ const RunwayPopup = (props: {
 	)
 }
 
+type RunwayRenderableAirport = Pick<AirportSearchFragment, 'runways'>
+
 const RunwayAndWindRenderer = (props: {
-	airport: AirportSearchFragment
+	airport: RunwayRenderableAirport
 	windSpeed: number
 	windDirection?: number
 	variableWind: VariableWind | undefined
@@ -391,7 +393,7 @@ const RunwayAndWindRenderer = (props: {
 
 	return (
 		<Show when={runways().length > 0}>
-			<div class="relative mx-auto flex w-full items-center justify-center rounded-[2.5rem] bg-white/20 p-6 backdrop-blur-sm transition-colors md:mx-0 dark:bg-transparent dark:backdrop-blur-none">
+			<div class="relative mx-auto flex w-full items-center justify-center rounded-[2.5rem] bg-white/20 backdrop-blur-sm transition-colors md:mx-0 dark:bg-transparent dark:backdrop-blur-none">
 				<svg
 					class="flex h-full w-full"
 					viewBox={`${-centerX()} ${-centerY()}  ${realDiagonal() * 2} ${realDiagonal() * 2}`}

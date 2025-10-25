@@ -1,7 +1,7 @@
 import { useKeyDownEvent, useKeyDownList } from '@solid-primitives/keyboard'
 import { debounce } from '@solid-primitives/scheduled'
 import { Transition } from 'solid-headless'
-import { AiOutlineSearch } from 'solid-icons/ai'
+import { AiFillStar, AiOutlineSearch } from 'solid-icons/ai'
 import {
 	Component,
 	createEffect,
@@ -14,6 +14,7 @@ import {
 	Switch,
 	untrack,
 } from 'solid-js'
+import { useFavoriteAirportsStore } from '../context/FavoriteAirportsStore'
 import { useGraphQL } from '../context/GraphQLClient'
 import { AIRPORT_SEARCH } from '../queries/AirportQueries'
 import { AirportSearchQuery, AirportSearchQueryVariables } from '../queries/generated/graphql'
@@ -41,6 +42,7 @@ const SearchBar: Component<SearchBarProps> = (properties: SearchBarProps) => {
 	const event = useKeyDownEvent()
 
 	const newQuery = useGraphQL()
+	const [, favoriteActions] = useFavoriteAirportsStore()
 
 	// eslint-disable-next-line solid/reactivity
 	const [airportRequest, refetch] = newQuery<AirportSearchQuery, AirportSearchQueryVariables>(
@@ -169,7 +171,7 @@ const SearchBar: Component<SearchBarProps> = (properties: SearchBarProps) => {
 						onInput={e => handleInput(e)}
 						onFocus={e => setIsFocused(true)}
 						onFocusOut={e => onFocusLeave(e)}
-						class="dark:text-white-dark dark:placeholder:text-white-darker w-full rounded-[1.5rem] border-none bg-transparent py-2.5 pr-11 pl-11 text-left text-lg font-medium text-slate-900 outline-hidden transition-colors duration-200 placeholder:text-slate-400 focus:outline-hidden"
+						class="dark:text-white-dark dark:placeholder:text-white-darker w-full rounded-3xl border-none bg-transparent py-2.5 pr-11 pl-11 text-left text-lg font-medium text-slate-900 outline-hidden transition-colors duration-200 placeholder:text-slate-400 focus:outline-hidden"
 					/>
 					<AiOutlineSearch
 						class="dark:text-white-darker pointer-events-none absolute top-1/2 left-5 -translate-y-1/2 transform text-slate-400 transition-colors duration-300 group-hover:text-slate-500"
@@ -225,41 +227,61 @@ const SearchBar: Component<SearchBarProps> = (properties: SearchBarProps) => {
 						tabIndex={-1}>
 						<Show when={airportRequest.latest && (airportRequest()?.getAirports.totalCount ?? 0) > 0}>
 							<For each={airportResults()}>
-								{(airportNode, i) => (
-									<li
-										id={`search-bar-item-${i()}`}
-										onMouseEnter={_ => setSelectedAirportId(i())}
-										role="option"
-										aria-selected={i() === selectedAirportId()}
-										tabIndex={i()}>
-										<A
-											class="block w-full cursor-pointer rounded-xl px-5 py-3 text-sm font-medium transition-all duration-200"
-											classList={{
-												'bg-white text-slate-900 ring-1 ring-slate-200 shadow-sm dark:bg-white/10 dark:text-white-dark dark:ring-0 dark:shadow-none':
-													i() === selectedAirportId(),
-												'text-slate-600 hover:bg-slate-100/70 dark:text-slate-300 dark:hover:bg-white/10':
-													i() !== selectedAirportId() && airportNode.node.station !== null,
-												'text-slate-400 dark:text-slate-500': airportNode.node.station === null,
-											}}
-											href={`/airport/${airportNode.node.identifier}`}>
-											<Switch>
-												<Match when={airportNode.node.icaoCode && airportNode.node.iataCode}>
-													{airportNode.node.icaoCode} / {airportNode.node.iataCode} •{' '}
-													{airportNode.node.name}
-												</Match>
-												<Match when={airportNode.node.icaoCode}>
-													{airportNode.node.icaoCode} • {airportNode.node.name}
-												</Match>
-												<Match when={airportNode.node.gpsCode}>
-													{airportNode.node.gpsCode} • {airportNode.node.name}
-												</Match>
-												<Match when={true}>
-													{airportNode.node.identifier} • {airportNode.node.name}
-												</Match>
-											</Switch>
-										</A>
-									</li>
-								)}
+								{(airportNode, i) => {
+									const airportIdentifier = () => airportNode.node.identifier
+									const isFavorite = () => favoriteActions.isFavorite(airportIdentifier())
+
+									return (
+										<li
+											id={`search-bar-item-${i()}`}
+											onMouseEnter={_ => setSelectedAirportId(i())}
+											role="option"
+											aria-selected={i() === selectedAirportId()}
+											tabIndex={i()}
+											class="relative">
+											<A
+												class="block w-full cursor-pointer rounded-xl px-5 py-3 pr-14 text-sm font-medium transition-all duration-200"
+												classList={{
+													'bg-white text-slate-900 ring-1 ring-slate-200 shadow-sm dark:bg-white/10 dark:text-white-dark dark:ring-0 dark:shadow-none':
+														i() === selectedAirportId(),
+													'text-slate-600 hover:bg-slate-100/70 dark:text-slate-300 dark:hover:bg-white/10':
+														i() !== selectedAirportId() &&
+														airportNode.node.station !== null,
+													'text-slate-400 dark:text-slate-500':
+														airportNode.node.station === null,
+												}}
+												href={`/airport/${airportNode.node.identifier}`}>
+												<Switch>
+													<Match
+														when={airportNode.node.icaoCode && airportNode.node.iataCode}>
+														{airportNode.node.icaoCode} / {airportNode.node.iataCode} •{' '}
+														{airportNode.node.name}
+													</Match>
+													<Match when={airportNode.node.icaoCode}>
+														{airportNode.node.icaoCode} • {airportNode.node.name}
+													</Match>
+													<Match when={airportNode.node.gpsCode}>
+														{airportNode.node.gpsCode} • {airportNode.node.name}
+													</Match>
+													<Match when={true}>
+														{airportNode.node.identifier} • {airportNode.node.name}
+													</Match>
+												</Switch>
+												<span
+													role="img"
+													aria-label={isFavorite() ? 'Saved to favorites' : 'Not favorited'}
+													class="absolute top-1/2 right-4 -translate-y-1/2 transform text-slate-300 dark:text-slate-500"
+													classList={{
+														'text-amber-400 drop-shadow-sm': isFavorite(),
+													}}>
+													<Show when={isFavorite()}>
+														<AiFillStar size={18} />
+													</Show>
+												</span>
+											</A>
+										</li>
+									)
+								}}
 							</For>
 						</Show>
 						<Show when={airportRequest() && airportRequest()?.getAirports.totalCount === 0}>

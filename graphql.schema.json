@@ -2986,6 +2986,55 @@
 						"deprecationReason": null
 					},
 					{
+						"name": "getAirportsByIds",
+						"description": "Get multiple specific airports. If airport could not be found, it won't be contained in the result.",
+						"args": [
+							{
+								"name": "identifiers",
+								"description": null,
+								"type": {
+									"kind": "NON_NULL",
+									"name": null,
+									"ofType": {
+										"kind": "LIST",
+										"name": null,
+										"ofType": {
+											"kind": "NON_NULL",
+											"name": null,
+											"ofType": {
+												"kind": "SCALAR",
+												"name": "String",
+												"ofType": null
+											}
+										}
+									}
+								},
+								"defaultValue": null,
+								"isDeprecated": false,
+								"deprecationReason": null
+							}
+						],
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "LIST",
+								"name": null,
+								"ofType": {
+									"kind": "NON_NULL",
+									"name": null,
+									"ofType": {
+										"kind": "OBJECT",
+										"name": "Airport",
+										"ofType": null
+									}
+								}
+							}
+						},
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
 						"name": "getStation",
 						"description": "Get a single weather station by it's id or identifier.",
 						"args": [

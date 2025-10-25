@@ -3,6 +3,7 @@ import { TbWindsock } from 'solid-icons/tb'
 import { Component, createEffect, createMemo, Show } from 'solid-js'
 import { Unit, useUnitStore } from '../../context/UnitStore'
 import WeatherElementLayout, { ParsedWeatherElementLayoutProps } from '../../layouts/WeatherElementLayout'
+import { parseVariableWindFromMetar, VariableWind } from '../../models/weather'
 import { AirportSearchFragment, MetarFragment } from '../../queries/generated/graphql'
 import RunwayAndWindRenderer from '../special/RunwayAndWindRenderer'
 
@@ -21,10 +22,6 @@ interface WindElementProps {
 	previousWindDate?: WindData
 
 	size: 'large' | 'small'
-}
-export interface VariableWind {
-	from: number
-	to: number
 }
 
 function getWindText(
@@ -62,22 +59,6 @@ function getWindText(
 	}
 
 	return windText
-}
-
-function parseVariableWindFromMetar(metar?: string): VariableWind | undefined {
-	const result = metar?.match(/\d{3}V\d{3}/g)
-	const vWindString = result ? result[0] : undefined
-
-	if (vWindString === undefined) {
-		return undefined
-	}
-
-	const fromTo = vWindString.split('V').map(v => parseInt(v))
-
-	return {
-		from: fromTo[0],
-		to: fromTo[1],
-	}
 }
 
 const WindElement: Component<WindElementProps> = props => {

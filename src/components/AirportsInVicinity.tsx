@@ -92,7 +92,7 @@ const AirportsInVicinity: Component<AirportsInVicinityProps> = props => {
 						{airport => (
 							<A
 								href={`/airport/${airport.station.airport?.identifier}`}
-								class="group dark:text-white-light relative flex h-auto min-h-[10.5rem] w-full max-w-72 flex-1 basis-full flex-col justify-center gap-3 rounded-3xl border border-slate-200/70 bg-white px-6 py-5 text-slate-900 transition-colors duration-200 md:mx-0 dark:border-white/10 dark:bg-slate-900/70">
+								class="group relative flex h-full flex-col gap-3 rounded-3xl border border-slate-200/70 bg-white px-5 py-5 text-left text-slate-900 transition-colors duration-200 hover:border-slate-300 hover:bg-white/90 md:mx-0 dark:border-white/10 dark:bg-slate-900/70 dark:text-white dark:hover:border-white/20 dark:hover:bg-slate-900/80">
 								<div class="flex flex-col whitespace-nowrap">
 									<h3 class="text-lg font-semibold text-slate-900 dark:text-white">
 										<Switch>
@@ -137,7 +137,7 @@ const AirportsInVicinity: Component<AirportsInVicinityProps> = props => {
 									</div>
 								</div>
 								<TbArrowUpCircle
-									class="group-hover:text-primary dark:text-white-dark mx-auto my-2 origin-center transform text-slate-400 transition-colors duration-300"
+									class="dark:text-white-dark mx-auto my-2 origin-center transform text-slate-400 transition-colors duration-300"
 									size={40}
 									style={{
 										rotate: `${bearing(airport)}deg`,

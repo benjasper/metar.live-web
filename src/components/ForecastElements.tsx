@@ -135,7 +135,7 @@ const ForecastElements: Component<ForecastElementsProps> = props => {
 
 	return (
 		<section class="dark:text-white-dark flex w-full flex-col">
-			<h2 class="dark:text-white-dark text-2xl">Current forecast</h2>
+			<h3 class="font-semibold text-slate-900 dark:text-white">Current forecast</h3>
 			<Show when={props.taf} fallback={<span class="mx-auto py-16 text-xl">No forecast available.</span>}>
 				<>
 					<div class="flex w-full flex-row flex-wrap justify-between gap-2 pt-2">

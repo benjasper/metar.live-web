@@ -4,6 +4,7 @@ import { Navigate, Route, Router, useParams } from '@solidjs/router'
 import { Component, ErrorBoundary } from 'solid-js'
 import { render } from 'solid-js/web'
 import { GraphQLProvider } from './context/GraphQLClient'
+import { FavoriteAirportsStoreProvider } from './context/FavoriteAirportsStore'
 import { SettingsStoreProvider } from './context/SettingsStore'
 import { TimeStoreProvider } from './context/TimeStore'
 import { UnitStoreProvider } from './context/UnitStore'
@@ -21,24 +22,26 @@ const App: Component = () => {
 		<MetaProvider>
 			<SettingsStoreProvider>
 				<UnitStoreProvider>
-					<TimeStoreProvider>
-						<GraphQLProvider>
-							<Router>
-								<Route path="/" component={Home} />
-								<Route path="/about" component={About} />
-								<Route path="/legal" component={Legal} />
-								<Route path="/terms" component={TermsOfUse} />
-								<Route path="/privacy" component={PrivacyPolicy} />
-								<Route path="/airport/:airportIdentifier" component={AirportSearchDetail} />
-								<Route
-									path="/:airportIdentifier"
-									component={() => (
-										<Navigate href={() => '/airport/' + useParams().airportIdentifier} />
-									)}
-								/>
-							</Router>
-						</GraphQLProvider>
-					</TimeStoreProvider>
+					<FavoriteAirportsStoreProvider>
+						<TimeStoreProvider>
+							<GraphQLProvider>
+								<Router>
+									<Route path="/" component={Home} />
+									<Route path="/about" component={About} />
+									<Route path="/legal" component={Legal} />
+									<Route path="/terms" component={TermsOfUse} />
+									<Route path="/privacy" component={PrivacyPolicy} />
+									<Route path="/airport/:airportIdentifier" component={AirportSearchDetail} />
+									<Route
+										path="/:airportIdentifier"
+										component={() => (
+											<Navigate href={() => '/airport/' + useParams().airportIdentifier} />
+										)}
+									/>
+								</Router>
+							</GraphQLProvider>
+						</TimeStoreProvider>
+					</FavoriteAirportsStoreProvider>
 				</UnitStoreProvider>
 			</SettingsStoreProvider>
 		</MetaProvider>

@@ -60,7 +60,7 @@ const WeatherElements: Component<ParsedWeatherElementsProps> = props => {
 		<>
 			<div class="flex flex-col justify-between md:flex-row">
 				<div class="flex flex-col">
-					<h2 class="dark:text-white-dark text-2xl">Current weather</h2>
+					<h3 class="font-semibold text-slate-900 dark:text-white">Current weather</h3>
 					<Show when={(props.airport?.station?.metars.edges.length ?? 0) > 0}>
 						<div class="flex flex-row flex-wrap justify-start gap-2 pt-2">
 							<Tag

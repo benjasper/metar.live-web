@@ -208,3 +208,49 @@ export const AIRPORT_SINGLE =
 			}
 		}
 	`
+
+export const MULTIPLE_AIRPORTS_BY_IDS = gql`
+	fragment MultipleAirport on Airport {
+		identifier
+		icaoCode
+		iataCode
+		gpsCode
+		name
+		type
+		runways(closed: false) {
+			closed
+			surface
+			width(unit: KILOMETER)
+			length(unit: KILOMETER)
+			lowRunwayHeading
+			lowRunwayIdentifier
+			lowRunwayLatitude
+			lowRunwayLongitude
+			highRunwayHeading
+			highRunwayIdentifier
+			highRunwayLatitude
+			highRunwayLongitude
+		}
+		station {
+			metars(first: 1) {
+				edges {
+					node {
+						observationTime
+						windDirection
+						windSpeed
+						windGust
+						rawText
+						windDirectionVariable
+						flightCategory
+					}
+				}
+			}
+		}
+	}
+
+	query MultipleAirportsByIds($identifiers: [String!]!) {
+		getAirportsByIds(identifiers: $identifiers) {
+			...MultipleAirport
+		}
+	}
+`

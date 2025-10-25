@@ -480,6 +480,8 @@ export type Query = {
 	getAirport?: Maybe<Airport>
 	/** Search for airports by a variety of criteria. */
 	getAirports: AirportConnection
+	/** Get multiple specific airports. If airport could not be found, it won't be contained in the result. */
+	getAirportsByIds: Array<Airport>
 	/** Get a single weather station by it's id or identifier. */
 	getStation?: Maybe<WeatherStation>
 	/** Search for weather stations by it's identifier. */
@@ -506,6 +508,10 @@ export type QueryGetAirportsArgs = {
 	order?: InputMaybe<Array<AirportOrder>>
 	search?: InputMaybe<Scalars['String']['input']>
 	type?: InputMaybe<AirportType>
+}
+
+export type QueryGetAirportsByIdsArgs = {
+	identifiers: Array<Scalars['String']['input']>
 }
 
 export type QueryGetStationArgs = {
@@ -1497,6 +1503,101 @@ export type GetSingleAirportQuery = {
 			}
 		}>
 	} | null
+}
+
+export type MultipleAirportFragment = {
+	__typename?: 'Airport'
+	identifier: string
+	icaoCode?: string | null
+	iataCode?: string | null
+	gpsCode?: string | null
+	name: string
+	type: AirportType
+	runways: Array<{
+		__typename?: 'Runway'
+		closed: boolean
+		surface?: string | null
+		width?: number | null
+		length?: number | null
+		lowRunwayHeading?: number | null
+		lowRunwayIdentifier: string
+		lowRunwayLatitude?: number | null
+		lowRunwayLongitude?: number | null
+		highRunwayHeading?: number | null
+		highRunwayIdentifier: string
+		highRunwayLatitude?: number | null
+		highRunwayLongitude?: number | null
+	}>
+	station?: {
+		__typename?: 'WeatherStation'
+		metars: {
+			__typename?: 'MetarConnection'
+			edges: Array<{
+				__typename?: 'MetarEdge'
+				node: {
+					__typename?: 'Metar'
+					observationTime: any
+					windDirection?: number | null
+					windSpeed?: number | null
+					windGust?: number | null
+					rawText: string
+					windDirectionVariable: boolean
+					flightCategory?: MetarFlightCategory | null
+				}
+			}>
+		}
+	} | null
+}
+
+export type MultipleAirportsByIdsQueryVariables = Exact<{
+	identifiers: Array<Scalars['String']['input']> | Scalars['String']['input']
+}>
+
+export type MultipleAirportsByIdsQuery = {
+	__typename?: 'Query'
+	getAirportsByIds: Array<{
+		__typename?: 'Airport'
+		identifier: string
+		icaoCode?: string | null
+		iataCode?: string | null
+		gpsCode?: string | null
+		name: string
+		type: AirportType
+		runways: Array<{
+			__typename?: 'Runway'
+			closed: boolean
+			surface?: string | null
+			width?: number | null
+			length?: number | null
+			lowRunwayHeading?: number | null
+			lowRunwayIdentifier: string
+			lowRunwayLatitude?: number | null
+			lowRunwayLongitude?: number | null
+			highRunwayHeading?: number | null
+			highRunwayIdentifier: string
+			highRunwayLatitude?: number | null
+			highRunwayLongitude?: number | null
+		}>
+		station?: {
+			__typename?: 'WeatherStation'
+			metars: {
+				__typename?: 'MetarConnection'
+				edges: Array<{
+					__typename?: 'MetarEdge'
+					node: {
+						__typename?: 'Metar'
+						observationTime: any
+						windDirection?: number | null
+						windSpeed?: number | null
+						windGust?: number | null
+						rawText: string
+						windDirectionVariable: boolean
+						flightCategory?: MetarFlightCategory | null
+					}
+				}>
+			}
+		} | null
+	}>
 }
 
 export interface PossibleTypesResultData {

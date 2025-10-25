@@ -2,6 +2,7 @@ import { debounce } from '@solid-primitives/scheduled'
 import { createScriptLoader } from '@solid-primitives/script-loader'
 import { Link } from '@solidjs/meta'
 import { useNavigate, useParams } from '@solidjs/router'
+import { AiFillStar, AiOutlineStar } from 'solid-icons/ai'
 import { CgWebsite } from 'solid-icons/cg'
 import { FiExternalLink } from 'solid-icons/fi'
 import { HiSolidClock } from 'solid-icons/hi'
@@ -19,6 +20,7 @@ import Logo from '../components/Logo'
 import SearchBar from '../components/SearchBar'
 import { LinkTag, Tag } from '../components/Tag'
 import WeatherElements from '../components/WeatherElements'
+import { useFavoriteAirportsStore } from '../context/FavoriteAirportsStore'
 import { useGraphQL } from '../context/GraphQLClient'
 import { useTimeStore } from '../context/TimeStore'
 import { useUnitStore } from '../context/UnitStore'
@@ -35,6 +37,7 @@ const AirportSearchDetail: Component = () => {
 	const params = useParams()
 	const navigate = useNavigate()
 	const newQuery = useGraphQL()
+	const [, favoriteActions] = useFavoriteAirportsStore()
 
 	const [unitStore, { selectUnit }] = useUnitStore()
 	const selectedHeightUnit = () => unitStore.height.units[unitStore.height.selected]
@@ -65,6 +68,20 @@ const AirportSearchDetail: Component = () => {
 
 		return { nextSunrise, nextSunset } as const
 	})
+
+	const favoritePayload = createMemo(() => {
+		if (!airportStore.airport) {
+			return undefined
+		}
+
+		return {
+			identifier: airportStore.airport.identifier,
+		}
+	})
+
+	const isFavoriteAirport = createMemo(() =>
+		favoritePayload() ? favoriteActions.isFavorite(favoritePayload()!.identifier) : false
+	)
 
 	const isNight = () =>
 		sunEvents()!.nextSunrise.getTime() - now().getTime() < sunEvents()!.nextSunset.getTime() - now().getTime()
@@ -267,7 +284,7 @@ const AirportSearchDetail: Component = () => {
 				<Match when={airportStore.airport !== undefined}>
 					<Link href={`https://metar.live/airport/${airportStore.airport?.identifier}`} rel="canonical" />
 					<div class="dark:text-white-dark mx-auto flex flex-col py-16 text-center">
-						<h1 class="text-3xl">
+						<h1 class="font-semibold text-slate-900 dark:text-white">
 							<Switch>
 								<Match when={airportStore.airport!.icaoCode && airportStore.airport!.iataCode}>
 									{airportStore.airport!.icaoCode} / {airportStore.airport!.iataCode}
@@ -277,7 +294,25 @@ const AirportSearchDetail: Component = () => {
 								<Match when={true}>{airportStore.airport!.identifier}</Match>
 							</Switch>
 						</h1>
-						<span class="mt-1 text-lg">{airportStore.airport!.name}</span>
+						<div class="mt-1 flex items-center justify-center gap-2 text-lg">
+							<span class="relative">
+								{airportStore.airport!.name}
+								<Show when={airportStore.airport!.identifier}>
+									<button
+										type="button"
+										class="absolute cursor-pointer rounded-full p-1 text-slate-500 transition-colors hover:text-amber-400 focus-visible:ring-2 focus-visible:ring-amber-300 focus-visible:ring-offset-2 focus-visible:ring-offset-white focus-visible:outline-hidden dark:text-slate-500 dark:hover:text-amber-300 dark:focus-visible:ring-amber-300/70 dark:focus-visible:ring-offset-slate-900"
+										onClick={() =>
+											favoritePayload() && favoriteActions.toggleFavorite(favoritePayload()!)
+										}
+										aria-pressed={isFavoriteAirport()}
+										aria-label={isFavoriteAirport() ? 'Remove from favorites' : 'Add to favorites'}>
+										<Show when={isFavoriteAirport()} fallback={<AiOutlineStar size={22} />}>
+											<AiFillStar class="text-amber-400" size={22} />
+										</Show>
+									</button>
+								</Show>
+							</span>
+						</div>
 
 						<div class="flex max-w-lg flex-wrap justify-center gap-2 pt-4">
 							<Tag>

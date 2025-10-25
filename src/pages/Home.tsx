@@ -1,5 +1,6 @@
 import { useNavigate } from '@solidjs/router'
 import { Component } from 'solid-js'
+import FavoriteAirports from '../components/FavoriteAirports'
 import Header from '../components/Header'
 import Logo from '../components/Logo'
 import SearchBar from '../components/SearchBar'
@@ -24,9 +25,9 @@ const Home: Component = () => {
 				description="Search 5,000+ airports for real-time METARs, TAF forecasts, runway winds, and automated aviation weather updates with metar.live."
 				contentFullHeight={true}>
 				<Header />
-				<div class="mt-[15vh] flex flex-col gap-8 transition-all md:mt-[20vh]">
+				<div class="mt-16 flex flex-col gap-8 transition-all md:mt-[20vh]">
 					<Logo showText={false} class="mx-auto hidden md:flex" />
-					<h2 class="dark:text-white-dark text-center">
+					<h2 class="text-center text-2xl text-slate-900 dark:text-white">
 						Find live aviation weather for any airport worldwide
 					</h2>
 					<div class="flex flex-col">
@@ -36,6 +37,7 @@ const Home: Component = () => {
 						</span>
 					</div>
 				</div>
+				<FavoriteAirports />
 			</PageContent>
 		</>
 	)

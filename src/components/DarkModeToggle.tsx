@@ -44,7 +44,7 @@ const DarkModeToggle: Component<TabGroupProps> = props => {
 					aria-checked={settingsStore.theme === ThemeMode.Dark}
 					aria-label="Dark mode"
 					onClick={() => setTheme(ThemeMode.Dark)}
-					class="flex cursor-pointer items-center gap-0 rounded-xl px-2.5 py-2 text-[0.65rem] font-semibold text-slate-500 transition-[gap] transition-all duration-200 focus-visible:ring-2 focus-visible:ring-indigo-300/60 focus-visible:ring-offset-[1.5px] focus-visible:ring-offset-white focus-visible:outline-hidden md:px-3 dark:text-slate-300 dark:focus-visible:ring-indigo-400/50 dark:focus-visible:ring-offset-transparent"
+					class="flex cursor-pointer items-center gap-0 rounded-xl px-2.5 py-2 text-[0.65rem] font-semibold text-slate-500 transition-all duration-200 focus-visible:ring-2 focus-visible:ring-indigo-300/60 focus-visible:ring-offset-[1.5px] focus-visible:ring-offset-white focus-visible:outline-hidden md:px-3 dark:text-slate-300 dark:focus-visible:ring-indigo-400/50 dark:focus-visible:ring-offset-transparent"
 					classList={{
 						'bg-white text-slate-900 shadow-sm ring-1 ring-slate-200 cursor-default dark:bg-white/15 dark:text-white dark:ring-white/20 dark:shadow-none':
 							isDark(),
@@ -65,7 +65,7 @@ const DarkModeToggle: Component<TabGroupProps> = props => {
 					<span
 						class="inline-flex max-w-0 overflow-hidden text-[0.65rem] font-semibold opacity-0 transition-all duration-200 ease-out"
 						classList={{
-							'max-w-[3rem]': expanded(),
+							'max-w-12': expanded(),
 							'opacity-100': expanded(),
 						}}>
 						Dark
@@ -77,7 +77,7 @@ const DarkModeToggle: Component<TabGroupProps> = props => {
 					aria-checked={settingsStore.theme === ThemeMode.Light}
 					aria-label="Light mode"
 					onClick={() => setTheme(ThemeMode.Light)}
-					class="flex cursor-pointer items-center gap-0 rounded-xl px-2.5 py-2 text-[0.65rem] font-semibold text-slate-500 transition-[gap] transition-all duration-200 focus-visible:ring-2 focus-visible:ring-indigo-300/60 focus-visible:ring-offset-[1.5px] focus-visible:ring-offset-white focus-visible:outline-hidden md:px-3 dark:text-slate-300 dark:focus-visible:ring-indigo-400/50 dark:focus-visible:ring-offset-transparent"
+					class="flex cursor-pointer items-center gap-0 rounded-xl px-2.5 py-2 text-[0.65rem] font-semibold text-slate-500 transition-all duration-200 focus-visible:ring-2 focus-visible:ring-indigo-300/60 focus-visible:ring-offset-[1.5px] focus-visible:ring-offset-white focus-visible:outline-hidden md:px-3 dark:text-slate-300 dark:focus-visible:ring-indigo-400/50 dark:focus-visible:ring-offset-transparent"
 					classList={{
 						'bg-white text-slate-900 shadow-sm ring-1 ring-slate-200 cursor-default dark:bg-white/15 dark:text-white dark:ring-white/20 dark:shadow-none':
 							isLight(),
@@ -98,7 +98,7 @@ const DarkModeToggle: Component<TabGroupProps> = props => {
 					<span
 						class="inline-flex max-w-0 overflow-hidden text-[0.65rem] font-semibold opacity-0 transition-all duration-200 ease-out"
 						classList={{
-							'max-w-[3rem]': expanded(),
+							'max-w-12': expanded(),
 							'opacity-100': expanded(),
 						}}>
 						Light
@@ -110,7 +110,7 @@ const DarkModeToggle: Component<TabGroupProps> = props => {
 					aria-checked={settingsStore.theme === ThemeMode.System}
 					aria-label="System theme"
 					onClick={() => setTheme(ThemeMode.System)}
-					class="flex cursor-pointer items-center gap-0 rounded-xl px-2.5 py-2 text-[0.65rem] font-semibold text-slate-500 transition-[gap] transition-all duration-200 focus-visible:ring-2 focus-visible:ring-indigo-300/60 focus-visible:ring-offset-[1.5px] focus-visible:ring-offset-white focus-visible:outline-hidden md:px-3 dark:text-slate-300 dark:focus-visible:ring-indigo-400/50 dark:focus-visible:ring-offset-transparent"
+					class="flex cursor-pointer items-center gap-0 rounded-xl px-2.5 py-2 text-[0.65rem] font-semibold text-slate-500 transition-all duration-200 focus-visible:ring-2 focus-visible:ring-indigo-300/60 focus-visible:ring-offset-[1.5px] focus-visible:ring-offset-white focus-visible:outline-hidden md:px-3 dark:text-slate-300 dark:focus-visible:ring-indigo-400/50 dark:focus-visible:ring-offset-transparent"
 					classList={{
 						'bg-white text-slate-900 shadow-sm ring-1 ring-slate-200 cursor-default dark:bg-white/15 dark:text-white dark:ring-white/20 dark:shadow-none':
 							isSystem(),
@@ -121,7 +121,7 @@ const DarkModeToggle: Component<TabGroupProps> = props => {
 						'dark:hover:text-white/90': !isSystem(),
 					}}>
 					<span
-						class="flex h-[1.25rem] w-[1.25rem] items-center justify-center rounded-full border border-slate-300 text-[0.6rem] leading-none font-semibold text-slate-500 transition-colors duration-200 dark:border-white/30 dark:text-slate-400"
+						class="flex h-5 w-5 items-center justify-center rounded-full border border-slate-300 text-[0.6rem] leading-none font-semibold text-slate-500 transition-colors duration-200 dark:border-white/30 dark:text-slate-400"
 						classList={{
 							'border-slate-400 text-slate-800 dark:border-white/60 dark:text-white': isSystem(),
 						}}>
@@ -130,7 +130,7 @@ const DarkModeToggle: Component<TabGroupProps> = props => {
 					<span
 						class="inline-flex max-w-0 overflow-hidden text-[0.65rem] font-semibold opacity-0 transition-all duration-200 ease-out"
 						classList={{
-							'max-w-[3.5rem]': expanded(),
+							'max-w-14': expanded(),
 							'opacity-100': expanded(),
 						}}>
 						System
