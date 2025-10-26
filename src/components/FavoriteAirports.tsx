@@ -18,12 +18,20 @@ const FavoriteAirports: Component = () => {
 
 	const hasFavorites = () => sortedFavorites().length > 0
 
+	const favoriteAirportsVariables = (): MultipleAirportsByIdsQueryVariables | false => {
+		if (sortedFavorites().length === 0) {
+			return false
+		}
+
+		return {
+			identifiers: sortedFavorites().map(favorite => favorite.identifier),
+		}
+	}
+
 	const [airportRequest, { refetch }] = newQuery<MultipleAirportsByIdsQuery, MultipleAirportsByIdsQueryVariables>(
 		MULTIPLE_AIRPORTS_BY_IDS,
 		// eslint-disable-next-line solid/reactivity
-		() => ({
-			identifiers: sortedFavorites().map(favorite => favorite.identifier),
-		})
+		favoriteAirportsVariables()
 	)
 
 	const refetchInterval = setInterval(() => {
