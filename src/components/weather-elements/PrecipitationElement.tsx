@@ -11,7 +11,7 @@ import {
 	RiWeatherWindyLine,
 } from 'solid-icons/ri'
 import { TbGrain } from 'solid-icons/tb'
-import { Component, For, Match, Show, Switch } from 'solid-js'
+import { Component, For, JSXElement, Show, createMemo } from 'solid-js'
 import WeatherElementLayout, { UpdatePing } from '../../layouts/WeatherElementLayout'
 
 enum IntensityOrProximity {
@@ -65,165 +65,244 @@ enum Other {
 	NoSignificantWeather = 'NSW',
 }
 
+type ParsedCondition = {
+	intensity?: IntensityOrProximity
+	descriptor?: Descriptor
+	precipitation?: PrecipitationType
+	obscuration?: Obscuration
+	other?: Other
+}
+
+const detectIntensityOrProximity = (condition: string): IntensityOrProximity | undefined =>
+	Object.values(IntensityOrProximity).find(key => condition.startsWith(key))
+
+const detectDescriptor = (condition: string): Descriptor | undefined =>
+	Object.values(Descriptor).find(key => condition.includes(key))
+
+const detectPrecipitationType = (condition: string): PrecipitationType | undefined =>
+	Object.values(PrecipitationType).find(key => condition.includes(key))
+
+const detectObscuration = (condition: string): Obscuration | undefined =>
+	Object.values(Obscuration).find(key => condition.includes(key))
+
+const detectOther = (condition: string): Other | undefined => Object.values(Other).find(key => condition.includes(key))
+
+const parseCondition = (condition: string): ParsedCondition => ({
+	intensity: detectIntensityOrProximity(condition),
+	descriptor: detectDescriptor(condition),
+	precipitation: detectPrecipitationType(condition),
+	obscuration: detectObscuration(condition),
+	other: detectOther(condition),
+})
+
+const hasStructuredData = (parsed: ParsedCondition, condition: string) =>
+	parsed.intensity ||
+	parsed.descriptor ||
+	parsed.precipitation ||
+	parsed.obscuration ||
+	parsed.other ||
+	condition === ''
+
+const intensityLabels: Record<IntensityOrProximity, string> = {
+	[IntensityOrProximity.Light]: 'Light',
+	[IntensityOrProximity.Heavy]: 'Heavy',
+	[IntensityOrProximity.Nearby]: 'Nearby',
+	[IntensityOrProximity.Recent]: 'Recent',
+}
+
+const descriptorLabels: Record<Descriptor, string> = {
+	[Descriptor.Shallow]: 'Shallow',
+	[Descriptor.Partial]: 'Partial',
+	[Descriptor.Patches]: 'Patches',
+	[Descriptor.Blowing]: 'Blowing',
+	[Descriptor.LowDrifting]: 'Low drifting',
+	[Descriptor.Showers]: 'Showers',
+	[Descriptor.Thunderstorm]: 'Thunderstorm',
+	[Descriptor.Freezing]: 'Freezing',
+}
+
+const precipitationLabels: Record<PrecipitationType, string> = {
+	[PrecipitationType.Drizzle]: 'Drizzle',
+	[PrecipitationType.Rain]: 'Rain',
+	[PrecipitationType.Snow]: 'Snow',
+	[PrecipitationType.SnowGrains]: 'Snow grains',
+	[PrecipitationType.Hail]: 'Hail',
+	[PrecipitationType.SmallHail]: 'Small hail',
+	[PrecipitationType.IcePellets]: 'Ice pellets',
+	[PrecipitationType.IceCrystals]: 'Ice crystals',
+	[PrecipitationType.UnknownPrecipitation]: 'Unknown precipitation',
+}
+
+const obscurationLabels: Record<Obscuration, string> = {
+	[Obscuration.Mist]: 'Mist',
+	[Obscuration.Fog]: 'Fog',
+	[Obscuration.Smoke]: 'Smoke',
+	[Obscuration.VolcanicAsh]: 'Volcanic ash',
+	[Obscuration.Dust]: 'Dust',
+	[Obscuration.Sand]: 'Sand',
+	[Obscuration.Haze]: 'Haze',
+}
+
+const otherLabels: Record<Other, string> = {
+	[Other.DustWhirls]: 'Dust whirls',
+	[Other.Duststorm]: 'Duststorm',
+	[Other.Sandstorm]: 'Sandstorm',
+	[Other.Squalls]: 'Squalls',
+	[Other.SandOrDustWhirls]: 'Sand or dust whirls',
+	[Other.Tornado]: 'Tornado',
+	[Other.FunnelCloud]: 'Funnel cloud',
+	[Other.NoSignificantWeather]: 'No significant weather',
+}
+
+const labelForIntensity = (value?: IntensityOrProximity) => (value ? intensityLabels[value] : undefined)
+const labelForDescriptor = (value?: Descriptor) => (value ? descriptorLabels[value] : undefined)
+const labelForPrecipitation = (value?: PrecipitationType) => (value ? precipitationLabels[value] : undefined)
+const labelForObscuration = (value?: Obscuration) => (value ? obscurationLabels[value] : undefined)
+const labelForOther = (value?: Other) => (value ? otherLabels[value] : undefined)
+
+export const getWeatherIconForCondition = (condition: string): JSXElement | null => {
+	const parsed = parseCondition(condition)
+
+	if (parsed.precipitation === PrecipitationType.Drizzle) {
+		return <RiWeatherDrizzleLine />
+	}
+
+	if (parsed.descriptor === Descriptor.Showers || parsed.precipitation === PrecipitationType.Rain) {
+		return <RiWeatherShowersLine />
+	}
+
+	if (parsed.descriptor === Descriptor.Thunderstorm) {
+		return <RiWeatherThunderstormsLine />
+	}
+
+	if (parsed.precipitation === PrecipitationType.Snow || parsed.precipitation === PrecipitationType.SnowGrains) {
+		return <RiWeatherSnowyLine />
+	}
+
+	if (parsed.precipitation === PrecipitationType.Hail || parsed.precipitation === PrecipitationType.SmallHail) {
+		return <RiWeatherHailLine />
+	}
+
+	if (parsed.obscuration === Obscuration.Fog) {
+		return <RiWeatherFoggyLine />
+	}
+
+	if (parsed.obscuration === Obscuration.Mist) {
+		return <RiWeatherMistLine />
+	}
+
+	if (parsed.obscuration === Obscuration.Haze) {
+		return <RiWeatherHazeLine />
+	}
+
+	if (
+		parsed.other === Other.Duststorm ||
+		parsed.other === Other.Sandstorm ||
+		parsed.other === Other.Squalls ||
+		parsed.other === Other.SandOrDustWhirls ||
+		parsed.other === Other.DustWhirls
+	) {
+		return <RiWeatherWindyLine />
+	}
+
+	if (parsed.other === Other.Tornado || parsed.other === Other.FunnelCloud) {
+		return <RiWeatherTornadoLine />
+	}
+
+	return null
+}
+
+export const summarizeWeatherCondition = (condition: string): string => {
+	const parsed = parseCondition(condition)
+
+	if (parsed.other === Other.NoSignificantWeather) {
+		return otherLabels[Other.NoSignificantWeather]
+	}
+
+	const tokens: string[] = []
+	const intensity = labelForIntensity(parsed.intensity)
+	const descriptor = labelForDescriptor(parsed.descriptor)
+	const precipitation = labelForPrecipitation(parsed.precipitation)
+	const obscuration = labelForObscuration(parsed.obscuration)
+	const other = labelForOther(parsed.other)
+
+	if (intensity) {
+		tokens.push(intensity)
+	}
+
+	if (descriptor) {
+		tokens.push(descriptor)
+	}
+
+	if (precipitation) {
+		tokens.push(precipitation)
+	} else if (obscuration) {
+		tokens.push(obscuration)
+	}
+
+	if (other && parsed.other !== Other.NoSignificantWeather) {
+		tokens.push(other)
+	}
+
+	const summary = tokens.join(' ')
+	return summary || condition.trim() || '—'
+}
+
+const WEATHER_TOKEN_REGEX = /(?:\+|-)?(?:VC|RE)?(?:NSW|[A-Z]{2,})/g
+
+export const extractWeatherTokens = (weather: string): string[] => {
+	if (!weather) {
+		return []
+	}
+
+	const tokens = weather.match(WEATHER_TOKEN_REGEX)
+	if (tokens && tokens.length > 0) {
+		return tokens
+	}
+
+	return weather.trim() ? [weather.trim()] : []
+}
+
 const PrecipitationConditionElement: Component<{ condition: string }> = props => {
-	const intensityOrProximity = (): IntensityOrProximity | undefined =>
-		Object.values(IntensityOrProximity).find(key => props.condition.startsWith(key))
+	const parsed = createMemo(() => parseCondition(props.condition))
+	const icon = createMemo(() => getWeatherIconForCondition(props.condition))
+	const hasMapping = () => hasStructuredData(parsed(), props.condition)
 
-	const descriptor = (): Descriptor | undefined =>
-		Object.values(Descriptor).find(key => props.condition.includes(key))
-
-	const precipitationType = (): PrecipitationType | undefined =>
-		Object.values(PrecipitationType).find(key => props.condition.includes(key))
-
-	const obscuration = (): Obscuration | undefined =>
-		Object.values(Obscuration).find(key => props.condition.includes(key))
-
-	const other = (): Other | undefined => Object.values(Other).find(key => props.condition.includes(key))
-
-	const hasKnownMapping = () =>
-		intensityOrProximity() ||
-		descriptor() ||
-		precipitationType() ||
-		obscuration() ||
-		other() ||
-		props.condition === ''
+	const intensity = () => labelForIntensity(parsed().intensity)
+	const descriptor = () => labelForDescriptor(parsed().descriptor)
+	const precipitation = () => labelForPrecipitation(parsed().precipitation)
+	const obscuration = () => labelForObscuration(parsed().obscuration)
+	const other = () => labelForOther(parsed().other)
 
 	return (
 		<div class="flex flex-row justify-center gap-1 text-xl">
 			<Show
-				when={hasKnownMapping()}
+				when={hasMapping()}
 				fallback={
 					<span class="dark:text-white-dark text-base font-medium text-slate-600">{props.condition}</span>
 				}>
-				<div class="dark:text-white-dark my-auto text-gray-600">
-					<Switch>
-						<Match when={precipitationType() === PrecipitationType.Drizzle}>
-							<RiWeatherDrizzleLine />
-						</Match>
-						<Match
-							when={
-								descriptor() === Descriptor.Showers || precipitationType() === PrecipitationType.Rain
-							}>
-							<RiWeatherShowersLine />
-						</Match>
-						<Match when={descriptor() === Descriptor.Thunderstorm}>
-							<RiWeatherThunderstormsLine />
-						</Match>
-						<Match
-							when={
-								precipitationType() === PrecipitationType.Snow ||
-								precipitationType() === PrecipitationType.SnowGrains
-							}>
-							<RiWeatherSnowyLine />
-						</Match>
-						<Match
-							when={
-								precipitationType() === PrecipitationType.Hail ||
-								precipitationType() === PrecipitationType.SmallHail
-							}>
-							<RiWeatherHailLine />
-						</Match>
-						<Match when={obscuration() === Obscuration.Fog}>
-							<RiWeatherFoggyLine />
-						</Match>
-						<Match when={obscuration() === Obscuration.Mist}>
-							<RiWeatherMistLine />
-						</Match>
-						<Match when={obscuration() === Obscuration.Haze}>
-							<RiWeatherHazeLine />
-						</Match>
-						<Match
-							when={
-								other() === Other.Duststorm ||
-								other() === Other.Sandstorm ||
-								other() === Other.Squalls ||
-								other() === Other.SandOrDustWhirls ||
-								other() === Other.DustWhirls
-							}>
-							<RiWeatherWindyLine />
-						</Match>
-						<Match when={other() === Other.Tornado || other() === Other.FunnelCloud}>
-							<RiWeatherTornadoLine />
-						</Match>
-					</Switch>
-				</div>
-
-				{/* Intensity or Proximity */}
-				<Show when={intensityOrProximity()}>
-					<span>
-						<Switch fallback="">
-							<Match when={intensityOrProximity() === IntensityOrProximity.Light}>Light</Match>
-							<Match when={intensityOrProximity() === IntensityOrProximity.Heavy}>Heavy</Match>
-							<Match when={intensityOrProximity() === IntensityOrProximity.Nearby}>Nearby</Match>
-							<Match when={intensityOrProximity() === IntensityOrProximity.Recent}>Recent</Match>
-						</Switch>
-					</span>
+				<Show when={icon()}>
+					<div class="dark:text-white-dark my-auto text-gray-600">{icon()}</div>
 				</Show>
 
-				{/* Descriptor */}
+				<Show when={intensity()}>
+					<span>{intensity()}</span>
+				</Show>
+
 				<Show when={descriptor()}>
-					<span>
-						<Switch fallback="">
-							<Match when={descriptor() === Descriptor.Shallow}>Shallow</Match>
-							<Match when={descriptor() === Descriptor.Partial}>Partial</Match>
-							<Match when={descriptor() === Descriptor.Patches}>Patches</Match>
-							<Match when={descriptor() === Descriptor.Blowing}>Blowing</Match>
-							<Match when={descriptor() === Descriptor.LowDrifting}>Low drifting</Match>
-							<Match when={descriptor() === Descriptor.Showers}>Showers</Match>
-							<Match when={descriptor() === Descriptor.Thunderstorm}>Thunderstorm</Match>
-							<Match when={descriptor() === Descriptor.Freezing}>Freezing</Match>
-						</Switch>
-					</span>
+					<span>{descriptor()}</span>
 				</Show>
 
-				{/* Precipitation Type */}
-				<Show when={precipitationType()}>
-					<span>
-						<Switch fallback="">
-							<Match when={precipitationType() === PrecipitationType.Drizzle}>Drizzle</Match>
-							<Match when={precipitationType() === PrecipitationType.Rain}>Rain</Match>
-							<Match when={precipitationType() === PrecipitationType.Snow}>Snow</Match>
-							<Match when={precipitationType() === PrecipitationType.SnowGrains}>Snow grains</Match>
-							<Match when={precipitationType() === PrecipitationType.Hail}>Hail</Match>
-							<Match when={precipitationType() === PrecipitationType.SmallHail}>Small hail</Match>
-							<Match when={precipitationType() === PrecipitationType.IcePellets}>Ice pellets</Match>
-							<Match when={precipitationType() === PrecipitationType.IceCrystals}>Ice crystals</Match>
-							<Match when={precipitationType() === PrecipitationType.UnknownPrecipitation}>
-								Unknown Precipitation
-							</Match>
-						</Switch>
-					</span>
+				<Show when={precipitation()}>
+					<span>{precipitation()}</span>
 				</Show>
 
-				{/* Obscuration */}
-				<Show when={obscuration()}>
-					<span>
-						<Switch fallback="">
-							<Match when={obscuration() === Obscuration.Mist}>Mist</Match>
-							<Match when={obscuration() === Obscuration.Fog}>Fog</Match>
-							<Match when={obscuration() === Obscuration.Smoke}>Smoke</Match>
-							<Match when={obscuration() === Obscuration.VolcanicAsh}>Volcanic ash</Match>
-							<Match when={obscuration() === Obscuration.Dust}>Dust</Match>
-							<Match when={obscuration() === Obscuration.Sand}>Sand</Match>
-							<Match when={obscuration() === Obscuration.Haze}>Haze</Match>
-						</Switch>
-					</span>
+				<Show when={!precipitation() && obscuration()}>
+					<span>{obscuration()}</span>
 				</Show>
 
-				{/* Other */}
 				<Show when={other()}>
-					<span>
-						<Switch fallback="">
-							<Match when={other() === Other.DustWhirls}>Dust Whirls</Match>
-							<Match when={other() === Other.Duststorm}>Duststorm</Match>
-							<Match when={other() === Other.Sandstorm}>Sandstorm</Match>
-							<Match when={other() === Other.Squalls}>Squalls</Match>
-							<Match when={other() === Other.SandOrDustWhirls}>Sand or dust whirls</Match>
-							<Match when={other() === Other.Tornado}>Tornado</Match>
-							<Match when={other() === Other.FunnelCloud}>Funnel cloud</Match>
-							<Match when={other() === Other.NoSignificantWeather}>No significant weather</Match>
-						</Switch>
-					</span>
+					<span>{other()}</span>
 				</Show>
 			</Show>
 		</div>
@@ -236,20 +315,6 @@ interface PrecipitationElementProps {
 }
 
 const PrecipitationElement: Component<PrecipitationElementProps> = props => {
-	const conditions = (weather: string) => {
-		if (!weather) {
-			return []
-		}
-
-		const tokens = weather.match(/(?:\+|-)?(?:VC|RE)?(?:NSW|[A-Z]{2,})/g)
-
-		if (tokens && tokens.length > 0) {
-			return tokens
-		}
-
-		return [weather.trim()]
-	}
-
 	const updatePingType = () => {
 		if (props.previousWeather === '' && props.weather !== '') {
 			return UpdatePing.Worse
@@ -267,10 +332,12 @@ const PrecipitationElement: Component<PrecipitationElementProps> = props => {
 			name="Precipitation"
 			icon={<TbGrain />}
 			updatePing={updatePingType()}
-			updatePingOldValue={props.previousWeather ? conditions(props.previousWeather).join(', ') : undefined}
-			updatePingNewValue={conditions(props.weather).join(', ')}>
+			updatePingOldValue={
+				props.previousWeather ? extractWeatherTokens(props.previousWeather).join(', ') : undefined
+			}
+			updatePingNewValue={extractWeatherTokens(props.weather).join(', ')}>
 			<div class="dark:text-white-dark flex flex-col items-center gap-1 text-center">
-				<For each={conditions(props.weather)}>
+				<For each={extractWeatherTokens(props.weather)}>
 					{condition => <PrecipitationConditionElement condition={condition} />}
 				</For>
 			</div>

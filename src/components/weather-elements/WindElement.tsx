@@ -1,5 +1,5 @@
 import { BsArrowUp } from 'solid-icons/bs'
-import { TbWindsock } from 'solid-icons/tb'
+import { TbWind } from 'solid-icons/tb'
 import { Component, createEffect, createMemo, Show } from 'solid-js'
 import { Unit, useUnitStore } from '../../context/UnitStore'
 import WeatherElementLayout, { ParsedWeatherElementLayoutProps } from '../../layouts/WeatherElementLayout'
@@ -116,7 +116,7 @@ const WindElement: Component<WindElementProps> = props => {
 		<WeatherElementLayout
 			name="Wind"
 			class="md:flex-[1_1_520px] md:basis-[calc(100%-1.5rem)] lg:flex-[1_1_560px] lg:basis-[calc(66%-1.5rem)]"
-			icon={<TbWindsock />}
+			icon={<TbWind />}
 			unitType={unitConfigurations()}
 			updatePing={Math.sign((previousWindSpeed() ?? 0 + (previousWindGust() ?? 0)) - (windSpeed() + windGust()))}
 			updatePingOldValue={previousWindText()}

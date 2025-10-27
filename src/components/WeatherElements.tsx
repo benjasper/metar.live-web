@@ -155,6 +155,13 @@ const WeatherElements: Component<ParsedWeatherElementsProps> = props => {
 							previousVisibilityMoreThan={previousMetar()?.visibilityIsMoreThan}
 						/>
 
+						<Show when={latestMetar()!.presentWeather && (latestMetar()!.presentWeather ?? '').length > 0}>
+							<PrecipitationElement
+								weather={latestMetar()!.presentWeather ?? ''}
+								previousWeather={previousMetar()!.presentWeather ?? undefined}
+							/>
+						</Show>
+
 						<Show when={latestMetar()!.skyConditions!.length > 0}>
 							<SkyConditionsElement
 								skyConditions={latestMetar()!.skyConditions!}
@@ -184,13 +191,6 @@ const WeatherElements: Component<ParsedWeatherElementsProps> = props => {
 							<AltimeterElement
 								altimeter={latestMetar()!.altimeter!}
 								previousAltimeter={previousMetar()?.altimeter ?? undefined}
-							/>
-						</Show>
-
-						<Show when={latestMetar()!.presentWeather && (latestMetar()!.presentWeather ?? '').length > 0}>
-							<PrecipitationElement
-								weather={latestMetar()!.presentWeather ?? ''}
-								previousWeather={previousMetar()!.presentWeather ?? undefined}
 							/>
 						</Show>
 

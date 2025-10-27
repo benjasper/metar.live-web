@@ -5,7 +5,7 @@
 	"description": "",
 	"scripts": {
 		"dev": "vite",
-		"start": "vite",
+		"start": "vite --host",
 		"build": "vite build",
 		"serve": "vite preview",
 		"generate": "graphql-codegen --config codegen.ts",
