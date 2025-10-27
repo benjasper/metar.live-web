@@ -11,6 +11,7 @@ import { UnitStoreProvider } from './context/UnitStore'
 import ErrorPage from './layouts/ErrorPage'
 import About from './pages/About'
 import AirportSearchDetail from './pages/AirportSearchDetail'
+import Changelog from './pages/Changelog'
 import Home from './pages/Home'
 import Legal from './pages/Legal'
 import PrivacyPolicy from './pages/PrivacyPolicy'
@@ -28,6 +29,7 @@ const App: Component = () => {
 								<Router>
 									<Route path="/" component={Home} />
 									<Route path="/about" component={About} />
+									<Route path="/changelog" component={Changelog} />
 									<Route path="/legal" component={Legal} />
 									<Route path="/terms" component={TermsOfUse} />
 									<Route path="/privacy" component={PrivacyPolicy} />
