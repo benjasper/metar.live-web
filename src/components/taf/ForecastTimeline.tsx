@@ -42,15 +42,16 @@ interface SolarEvent {
 	type: 'sunrise' | 'sunset'
 }
 
+const TWO_HOURS_MS = 2 * 3_600_000
+
 const generateTicks = (from: Date, to: Date, timezone: string): TimelineTick[] => {
 	const total = Math.max(to.getTime() - from.getTime(), 1)
-	const totalHours = total / 3_600_000
-	const segments = Math.min(6, Math.max(3, Math.round(totalHours / 4)))
 	const ticks: TimelineTick[] = []
 	let previousDayKey: string | undefined
-	for (let i = 0; i <= segments; i++) {
-		const ratio = i / segments
-		const instant = new Date(from.getTime() + total * ratio)
+
+	const addTick = (instant: Date) => {
+		const ratio = (instant.getTime() - from.getTime()) / total
+		const position = Math.min(Math.max(ratio, 0), 1)
 		const label = instant.toLocaleTimeString([], {
 			hour: '2-digit',
 			minute: '2-digit',
@@ -70,8 +71,21 @@ const generateTicks = (from: Date, to: Date, timezone: string): TimelineTick[] =
 				})
 			: undefined
 		previousDayKey = dayKey
-		ticks.push({ position: ratio, label, secondary })
+		ticks.push({ position, label, secondary })
 	}
+
+	addTick(from)
+
+	let nextInstant = new Date(from.getTime() + TWO_HOURS_MS)
+	while (nextInstant.getTime() < to.getTime()) {
+		addTick(nextInstant)
+		nextInstant = new Date(nextInstant.getTime() + TWO_HOURS_MS)
+	}
+
+	if (to.getTime() !== from.getTime()) {
+		addTick(to)
+	}
+
 	return ticks
 }
 
