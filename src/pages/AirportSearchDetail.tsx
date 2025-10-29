@@ -22,6 +22,7 @@ import { LinkTag, Tag } from '../components/Tag'
 import WeatherElements from '../components/WeatherElements'
 import { useFavoriteAirportsStore } from '../context/FavoriteAirportsStore'
 import { useGraphQL } from '../context/GraphQLClient'
+import { useStatusStore } from '../context/StatusStore'
 import { useTimeStore } from '../context/TimeStore'
 import { useUnitStore } from '../context/UnitStore'
 import PageContent from '../layouts/PageContent'
@@ -48,6 +49,8 @@ const AirportSearchDetail: Component = () => {
 	const [airportStore, setAirportStore] = createStore<{ airport: AirportSearchFragment | undefined }>({
 		airport: undefined,
 	})
+
+	const [, setStatus] = useStatusStore()
 
 	const sunEvents = createMemo(() => {
 		if (!airportStore.airport || !airportStore.airport.latitude || !airportStore.airport.longitude) {
@@ -94,6 +97,11 @@ const AirportSearchDetail: Component = () => {
 		GetSingleAirportQueryVariables
 		// eslint-disable-next-line solid/reactivity
 	>(AIRPORT_SINGLE, () => airportIdentifier())
+
+	createEffect(() => {
+		const status = airportRequest()?.status
+		setStatus(status?.lastWeatherSync ?? null)
+	})
 
 	const throttledLoading = debounce((id: string) => setAirportIdentifier({ identifier: id }), 100)
 

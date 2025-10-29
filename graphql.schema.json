@@ -3147,6 +3147,22 @@
 						},
 						"isDeprecated": false,
 						"deprecationReason": null
+					},
+					{
+						"name": "status",
+						"description": "Get the status of the server.",
+						"args": [],
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "OBJECT",
+								"name": "Status",
+								"ofType": null
+							}
+						},
+						"isDeprecated": false,
+						"deprecationReason": null
 					}
 				],
 				"inputFields": null,
@@ -3895,6 +3911,34 @@
 							"ofType": {
 								"kind": "OBJECT",
 								"name": "WeatherStation",
+								"ofType": null
+							}
+						},
+						"isDeprecated": false,
+						"deprecationReason": null
+					}
+				],
+				"inputFields": null,
+				"interfaces": [],
+				"enumValues": null,
+				"possibleTypes": null
+			},
+			{
+				"kind": "OBJECT",
+				"name": "Status",
+				"description": null,
+				"isOneOf": null,
+				"fields": [
+					{
+						"name": "lastWeatherSync",
+						"description": "Last weather sync time.",
+						"args": [],
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "SCALAR",
+								"name": "Time",
 								"ofType": null
 							}
 						},

@@ -486,6 +486,8 @@ export type Query = {
 	getStation?: Maybe<WeatherStation>
 	/** Search for weather stations by it's identifier. */
 	getStations: WeatherStationConnection
+	/** Get the status of the server. */
+	status: Status
 }
 
 export type QueryGetAirportArgs = {
@@ -651,6 +653,12 @@ export type StationWithDistance = {
 	distance: Scalars['Float']['output']
 	/** The METAR for the station. */
 	station: WeatherStation
+}
+
+export type Status = {
+	__typename?: 'Status'
+	/** Last weather sync time. */
+	lastWeatherSync: Scalars['Time']['output']
 }
 
 export type Taf = {
@@ -1072,6 +1080,7 @@ export type AirportWeatherQueryVariables = Exact<{
 
 export type AirportWeatherQuery = {
 	__typename?: 'Query'
+	status: { __typename?: 'Status'; lastWeatherSync: any }
 	getAirport?: {
 		__typename?: 'Airport'
 		station?: {
@@ -1354,6 +1363,7 @@ export type GetSingleAirportQueryVariables = Exact<{
 
 export type GetSingleAirportQuery = {
 	__typename?: 'Query'
+	status: { __typename?: 'Status'; lastWeatherSync: any }
 	getAirport?: {
 		__typename?: 'Airport'
 		identifier: string
@@ -1555,6 +1565,7 @@ export type MultipleAirportsByIdsQueryVariables = Exact<{
 
 export type MultipleAirportsByIdsQuery = {
 	__typename?: 'Query'
+	status: { __typename?: 'Status'; lastWeatherSync: any }
 	getAirportsByIds: Array<{
 		__typename?: 'Airport'
 		identifier: string

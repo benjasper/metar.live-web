@@ -129,6 +129,9 @@ export const AIRPORT_WEATHER =
 	WEATHER_FRAGMENT +
 	gql`
 		query AirportWeather($icao: String!) {
+			status {
+				lastWeatherSync
+			}
 			getAirport(icao: $icao) {
 				...AirportWeather
 			}
@@ -203,6 +206,9 @@ export const AIRPORT_SINGLE =
 		}
 
 		query GetSingleAirport($identifier: String!) {
+			status {
+				lastWeatherSync
+			}
 			getAirport(identifier: $identifier) {
 				...AirportSearch
 			}
@@ -249,6 +255,9 @@ export const MULTIPLE_AIRPORTS_BY_IDS = gql`
 	}
 
 	query MultipleAirportsByIds($identifiers: [String!]!) {
+		status {
+			lastWeatherSync
+		}
 		getAirportsByIds(identifiers: $identifiers) {
 			...MultipleAirport
 		}

@@ -1,6 +1,7 @@
-import { Component, For, Show, createMemo, onCleanup } from 'solid-js'
+import { Component, For, Show, createEffect, createMemo, onCleanup } from 'solid-js'
 import { useFavoriteAirportsStore } from '../context/FavoriteAirportsStore'
 import { useGraphQL } from '../context/GraphQLClient'
+import { useStatusStore } from '../context/StatusStore'
 import { MULTIPLE_AIRPORTS_BY_IDS } from '../queries/AirportQueries'
 import { MultipleAirportsByIdsQuery, MultipleAirportsByIdsQueryVariables } from '../queries/generated/graphql'
 import Slider from './Slider'
@@ -33,6 +34,13 @@ const FavoriteAirports: Component = () => {
 		// eslint-disable-next-line solid/reactivity
 		favoriteAirportsVariables()
 	)
+
+	const [, setStatus] = useStatusStore()
+
+	createEffect(() => {
+		const status = airportRequest()?.status?.lastWeatherSync ?? null
+		setStatus(status)
+	})
 
 	const refetchInterval = setInterval(() => {
 		refetch()

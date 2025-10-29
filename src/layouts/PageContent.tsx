@@ -1,6 +1,7 @@
 import { Meta } from '@solidjs/meta'
 import { ParentComponent } from 'solid-js'
 import Footer from '../components/Footer'
+import StatusBanner from '../components/StatusBanner'
 import PageTitle from '../components/PageTitle'
 import metarGGLogo from '../images/metargg-logo.webp'
 
@@ -36,6 +37,7 @@ const PageContent: ParentComponent<PageContentProps> = props => {
 					<div
 						class="relative container flex flex-col transition-colors"
 						classList={{ 'min-h-screen': props.contentFullHeight ?? false }}>
+						<StatusBanner />
 						{props.children}
 					</div>
 					<Footer />

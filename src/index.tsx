@@ -6,6 +6,7 @@ import { render } from 'solid-js/web'
 import { GraphQLProvider } from './context/GraphQLClient'
 import { FavoriteAirportsStoreProvider } from './context/FavoriteAirportsStore'
 import { SettingsStoreProvider } from './context/SettingsStore'
+import { StatusStoreProvider } from './context/StatusStore'
 import { TimeStoreProvider } from './context/TimeStore'
 import { UnitStoreProvider } from './context/UnitStore'
 import ErrorPage from './layouts/ErrorPage'
@@ -26,21 +27,23 @@ const App: Component = () => {
 					<FavoriteAirportsStoreProvider>
 						<TimeStoreProvider>
 							<GraphQLProvider>
-								<Router>
-									<Route path="/" component={Home} />
-									<Route path="/about" component={About} />
-									<Route path="/changelog" component={Changelog} />
-									<Route path="/legal" component={Legal} />
-									<Route path="/terms" component={TermsOfUse} />
-									<Route path="/privacy" component={PrivacyPolicy} />
-									<Route path="/airport/:airportIdentifier" component={AirportSearchDetail} />
-									<Route
-										path="/:airportIdentifier"
-										component={() => (
-											<Navigate href={() => '/airport/' + useParams().airportIdentifier} />
-										)}
-									/>
-								</Router>
+								<StatusStoreProvider>
+									<Router>
+										<Route path="/" component={Home} />
+										<Route path="/about" component={About} />
+										<Route path="/changelog" component={Changelog} />
+										<Route path="/legal" component={Legal} />
+										<Route path="/terms" component={TermsOfUse} />
+										<Route path="/privacy" component={PrivacyPolicy} />
+										<Route path="/airport/:airportIdentifier" component={AirportSearchDetail} />
+										<Route
+											path="/:airportIdentifier"
+											component={() => (
+												<Navigate href={() => '/airport/' + useParams().airportIdentifier} />
+											)}
+										/>
+									</Router>
+								</StatusStoreProvider>
 							</GraphQLProvider>
 						</TimeStoreProvider>
 					</FavoriteAirportsStoreProvider>
