@@ -165,15 +165,7 @@ const ForecastTimeline: Component<ForecastTimelineProps> = props => {
 			width: width > 0 ? `${width}px` : undefined,
 		}
 	})
-	const timelineContainerStyle = createMemo<JSX.CSSProperties>(() => {
-		if (isCompact()) {
-			return {}
-		}
-		return {
-			width: '100%',
-			'max-width': '960px',
-		}
-	})
+	const timelineContainerStyle = createMemo<JSX.CSSProperties>(() => (isCompact() ? {} : { width: '100%' }))
 	const timelineFullBleedStyle = createMemo<JSX.CSSProperties>(() => {
 		if (!isCompact()) {
 			return {}
