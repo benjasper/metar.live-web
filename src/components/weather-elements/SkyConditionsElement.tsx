@@ -1,6 +1,7 @@
 import {
 	RiWeatherCloudyFill,
 	RiWeatherCloudyLine,
+	RiWeatherFoggyFill,
 	RiWeatherMoonClearFill,
 	RiWeatherMoonCloudyFill,
 	RiWeatherMoonCloudyLine,
@@ -14,7 +15,7 @@ import { Unit, useUnitStore } from '../../context/UnitStore'
 import WeatherElementLayout, { ParsedWeatherElementLayoutProps, UpdatePing } from '../../layouts/WeatherElementLayout'
 import { AirportSearchFragment, SkyConditionFragment, SkyConditionSkyCover } from '../../queries/generated/graphql'
 
-const SkyConditionIcon = (props: { skyCover: SkyConditionSkyCover; class: string; isDayTime: boolean }) => {
+export const SkyConditionIcon = (props: { skyCover: SkyConditionSkyCover; class: string; isDayTime: boolean }) => {
 	const classes = () => `h-auto ${props.class ?? ''}`
 
 	return (
@@ -35,6 +36,10 @@ const SkyConditionIcon = (props: { skyCover: SkyConditionSkyCover; class: string
 				</Match>
 				<Match when={props.skyCover === SkyConditionSkyCover.Ovc}>
 					<RiWeatherCloudyFill class={classes()} />
+				</Match>
+				<Match
+					when={props.skyCover === SkyConditionSkyCover.Ovx || props.skyCover === SkyConditionSkyCover.Ovcx}>
+					<RiWeatherFoggyFill class={classes()} />
 				</Match>
 				<Match when={props.skyCover === SkyConditionSkyCover.Clr}>
 					<Show when={props.isDayTime} fallback={<RiWeatherMoonClearFill class={classes()} />}>

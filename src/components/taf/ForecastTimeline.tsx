@@ -42,6 +42,32 @@ interface SolarEvent {
 	type: 'sunrise' | 'sunset'
 }
 
+const isInstantDaytime = (instant: Date, events: SolarEvent[]): boolean => {
+	if (events.length === 0) {
+		return true
+	}
+
+	let previous: SolarEvent | undefined
+	for (const event of events) {
+		if (event.time.getTime() <= instant.getTime()) {
+			previous = event
+		} else {
+			break
+		}
+	}
+
+	if (previous) {
+		return previous.type === 'sunrise'
+	}
+
+	const upcoming = events.find(event => event.time.getTime() >= instant.getTime())
+	if (upcoming) {
+		return upcoming.type === 'sunset'
+	}
+
+	return true
+}
+
 const TWO_HOURS_MS = 2 * 3_600_000
 
 const generateTicks = (from: Date, to: Date, timezone: string): TimelineTick[] => {
@@ -104,6 +130,9 @@ const ForecastTimeline: Component<ForecastTimelineProps> = props => {
 	const rows = createMemo<TimelineRowDefinition[]>(() => buildTimelineRows(sortedForecasts(), validFrom(), validTo()))
 	const ticks = createMemo(() => generateTicks(validFrom(), validTo(), props.timezone))
 	const duration = () => Math.max(validTo().getTime() - validFrom().getTime(), 1)
+	const sortedSolarEvents = createMemo(() =>
+		[...props.solarEvents].sort((a, b) => a.time.getTime() - b.time.getTime())
+	)
 	const [isUserInteracting, setIsUserInteracting] = createSignal(false)
 	const [pointerTime, setPointerTime] = createSignal<Date>(
 		untrack(() => clampDate(props.now(), validFrom(), validTo()))
@@ -155,6 +184,7 @@ const ForecastTimeline: Component<ForecastTimelineProps> = props => {
 
 	const focusTime = createMemo(() => pointerTime())
 	const isPinned = false
+	const focusIsDaytime = createMemo(() => isInstantDaytime(focusTime(), sortedSolarEvents()))
 
 	const focusRatio = createMemo(() => {
 		const ratio = (focusTime().getTime() - validFrom().getTime()) / duration()
@@ -424,6 +454,7 @@ const ForecastTimeline: Component<ForecastTimelineProps> = props => {
 				timezoneLabel={props.timezoneLabel}
 				effective={effectiveConditions()}
 				isPinned={isPinned}
+				isDaytime={focusIsDaytime()}
 				canFollowLive={!shouldFollowLive() || isPinned}
 				onFollowLive={handleFollowLive}
 			/>

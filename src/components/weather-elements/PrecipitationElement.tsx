@@ -6,11 +6,13 @@ import {
 	RiWeatherMistLine,
 	RiWeatherShowersLine,
 	RiWeatherSnowyLine,
+	RiWeatherSunFill,
 	RiWeatherThunderstormsLine,
 	RiWeatherTornadoLine,
 	RiWeatherWindyLine,
 } from 'solid-icons/ri'
-import { TbGrain } from 'solid-icons/tb'
+import { WiDust, WiSandstorm, WiSleet, WiSmoke, WiSnowflakeCold, WiVolcano } from 'solid-icons/wi'
+import { TbCloudQuestion, TbGrain } from 'solid-icons/tb'
 import { Component, For, JSXElement, Show, createMemo } from 'solid-js'
 import WeatherElementLayout, { UpdatePing } from '../../layouts/WeatherElementLayout'
 
@@ -179,6 +181,14 @@ export const getWeatherIconForCondition = (condition: string): JSXElement | null
 		return <RiWeatherSnowyLine />
 	}
 
+	if (parsed.precipitation === PrecipitationType.IcePellets) {
+		return <WiSleet />
+	}
+
+	if (parsed.precipitation === PrecipitationType.IceCrystals) {
+		return <WiSnowflakeCold />
+	}
+
 	if (parsed.precipitation === PrecipitationType.Hail || parsed.precipitation === PrecipitationType.SmallHail) {
 		return <RiWeatherHailLine />
 	}
@@ -189,6 +199,22 @@ export const getWeatherIconForCondition = (condition: string): JSXElement | null
 
 	if (parsed.obscuration === Obscuration.Mist) {
 		return <RiWeatherMistLine />
+	}
+
+	if (parsed.obscuration === Obscuration.Smoke) {
+		return <WiSmoke />
+	}
+
+	if (parsed.obscuration === Obscuration.VolcanicAsh) {
+		return <WiVolcano />
+	}
+
+	if (parsed.obscuration === Obscuration.Dust) {
+		return <WiDust />
+	}
+
+	if (parsed.obscuration === Obscuration.Sand) {
+		return <WiSandstorm />
 	}
 
 	if (parsed.obscuration === Obscuration.Haze) {
@@ -209,7 +235,11 @@ export const getWeatherIconForCondition = (condition: string): JSXElement | null
 		return <RiWeatherTornadoLine />
 	}
 
-	return null
+	if (parsed.other === Other.NoSignificantWeather) {
+		return <RiWeatherSunFill />
+	}
+
+	return <TbCloudQuestion />
 }
 
 export const summarizeWeatherCondition = (condition: string): string => {
