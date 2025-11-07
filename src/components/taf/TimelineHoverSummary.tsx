@@ -1,7 +1,7 @@
 import { Component, For, Match, Show, Switch, createMemo } from 'solid-js'
 import type { JSX } from 'solid-js'
 import { useUnitStore } from '../../context/UnitStore'
-import { ForecastChangeIndicator, SkyConditionSkyCover } from '../../queries/generated/graphql'
+import { SkyConditionSkyCover } from '../../queries/generated/graphql'
 import { indicatorClassesForForecast } from './indicatorPalette'
 import { EffectiveConditions, ForecastSnapshot, SnapshotFieldKey, describeIndicator } from './timelineUtils'
 import {
@@ -91,27 +91,6 @@ const TimelineHoverSummary: Component<TimelineHoverSummaryProps> = props => {
 			timeZone: props.timezone,
 		})
 	)
-
-	const activeGroups = createMemo(() => {
-		if (!props.effective) {
-			return []
-		}
-		const seen = new Set<string>()
-		return props.effective.contributors
-			.map(contributor => {
-				if (!contributor.changeIndicator || contributor.changeIndicator === ForecastChangeIndicator.Fm) {
-					return contributor.changeIndicator === ForecastChangeIndicator.Fm ? 'FM' : 'BASE'
-				}
-				return describeIndicator(contributor)
-			})
-			.filter(label => {
-				if (seen.has(label)) {
-					return false
-				}
-				seen.add(label)
-				return true
-			})
-	})
 
 	const snapshot = () => props.effective?.snapshot
 
@@ -300,29 +279,20 @@ const TimelineHoverSummary: Component<TimelineHoverSummaryProps> = props => {
 		<div class="flex flex-col gap-4 text-sm">
 			<div class="flex flex-wrap items-baseline justify-between gap-3">
 				<p class="text-xl font-semibold text-slate-900 dark:text-white">{timeLabel()}</p>
-				<Show when={activeGroups().length > 0 || props.isPinned || props.canFollowLive}>
+				<Show when={props.isPinned || props.canFollowLive}>
 					<div class="flex flex-wrap items-center gap-2">
-						<For each={activeGroups()}>
-							{label => (
-								<span class="rounded-full border border-slate-200/70 bg-white/70 px-2 py-0.5 text-xs font-semibold text-slate-600 shadow-sm dark:border-slate-700/70 dark:bg-slate-900/50 dark:text-slate-200">
-									{label}
-								</span>
-							)}
-						</For>
-						<Show when={props.isPinned || props.canFollowLive}>
-							<button
-								type="button"
-								onClick={() => props.onFollowLive()}
-								class="cursor-pointer rounded-full border border-transparent bg-slate-900 px-2 py-0.5 text-xs font-semibold text-white shadow-sm transition hover:bg-slate-700 dark:bg-white dark:text-slate-900">
-								Follow live
-							</button>
-						</Show>
+						<button
+							type="button"
+							onClick={() => props.onFollowLive()}
+							class="cursor-pointer rounded-full border border-transparent bg-slate-900 px-2 py-0.5 text-xs font-semibold text-white shadow-sm transition hover:bg-slate-700 dark:bg-white dark:text-slate-900">
+							Follow live
+						</button>
 					</div>
 				</Show>
 			</div>
 			<Switch>
 				<Match when={!showEmptyState()}>
-					<div class="grid gap-2 sm:grid-cols-2">
+					<div class="grid gap-2 sm:grid-cols-2 xl:auto-cols-fr xl:grid-cols-none xl:grid-flow-col">
 						<For each={metrics()}>
 							{metric => (
 								<div class="flex items-start gap-3 rounded-xl border border-slate-200/70 bg-white/70 px-3 py-2 dark:border-slate-700/60 dark:bg-slate-900/50">
