@@ -214,7 +214,7 @@ const seedSourcesFromForecast = (forecast: ForecastFragment, sources: SnapshotFi
 		forecast.windDirection !== null ||
 		forecast.windSpeed !== null ||
 		forecast.windGust !== null ||
-		forecast.windDirectionVariable !== undefined
+		forecast.windDirectionVariable === true
 	if (hasWind) {
 		sources.wind = forecast
 	}
@@ -292,8 +292,9 @@ const mergeSnapshot = (target: ForecastSnapshot, source: ForecastFragment, sourc
 		}
 	})
 
-	if (source.windDirectionVariable !== undefined) {
-		target.windDirectionVariable = source.windDirectionVariable
+	const indicatesVariableWind = source.windDirectionVariable === true
+	target.windDirectionVariable = source.windDirectionVariable
+	if (indicatesVariableWind) {
 		sources.wind = source
 	}
 
