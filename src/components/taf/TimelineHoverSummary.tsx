@@ -2,6 +2,7 @@ import { Component, For, Match, Show, Switch, createMemo } from 'solid-js'
 import type { JSX } from 'solid-js'
 import { useUnitStore } from '../../context/UnitStore'
 import { ForecastChangeIndicator, SkyConditionSkyCover } from '../../queries/generated/graphql'
+import { indicatorClassesForForecast } from './indicatorPalette'
 import { EffectiveConditions, ForecastSnapshot, SnapshotFieldKey, describeIndicator } from './timelineUtils'
 import {
 	extractWeatherTokens,
@@ -22,10 +23,15 @@ interface TimelineHoverSummaryProps {
 	onFollowLive: () => void
 }
 
+interface MetricSourceBadge {
+	label: string
+	className: string
+}
+
 interface SummaryMetric {
 	key: string
 	label: string
-	badge?: string
+	badge?: MetricSourceBadge
 	icon: JSX.Element
 	content: JSX.Element
 }
@@ -58,12 +64,16 @@ const formatSkyLayer = (
 const TimelineHoverSummary: Component<TimelineHoverSummaryProps> = props => {
 	const [unitStore] = useUnitStore()
 
-	const sourceBadge = (key: SnapshotFieldKey) => {
+	const sourceBadge = (key: SnapshotFieldKey): MetricSourceBadge | undefined => {
 		const source = props.effective?.sources[key]
 		if (!source) {
 			return undefined
 		}
-		return describeIndicator(source)
+		const palette = indicatorClassesForForecast(source)
+		return {
+			label: describeIndicator(source),
+			className: `${palette.background} ${palette.text} ${palette.border}`,
+		}
 	}
 
 	const speedUnit = () => unitStore.speed.units[unitStore.speed.selected]
@@ -324,10 +334,13 @@ const TimelineHoverSummary: Component<TimelineHoverSummaryProps> = props => {
 											<span class="text-xs font-semibold tracking-[0.2em] text-slate-500 uppercase dark:text-slate-400">
 												{metric.label}
 											</span>
-											<Show when={metric.badge}>
-												<span class="rounded-full bg-slate-900/5 px-2 py-0.5 text-[0.5rem] font-semibold tracking-wider text-slate-700 uppercase dark:bg-white/10 dark:text-white">
-													{metric.badge}
-												</span>
+											<Show when={metric.badge} keyed>
+												{badge => (
+													<span
+														class={`rounded-full border px-2 py-0.5 text-[0.5rem] font-semibold tracking-wider uppercase shadow-sm ${badge.className}`}>
+														{badge.label}
+													</span>
+												)}
 											</Show>
 										</div>
 										{metric.content}
