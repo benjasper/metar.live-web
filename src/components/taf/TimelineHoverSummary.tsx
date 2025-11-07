@@ -274,21 +274,33 @@ const TimelineHoverSummary: Component<TimelineHoverSummaryProps> = props => {
 	})
 
 	const showEmptyState = () => !props.effective || metrics().length === 0
+	const canShowFollowLive = () => props.isPinned || props.canFollowLive
+
+	const handleFollowLiveClick = () => {
+		if (!canShowFollowLive()) {
+			return
+		}
+		props.onFollowLive()
+	}
 
 	return (
 		<div class="flex flex-col gap-4 text-sm">
 			<div class="flex flex-wrap items-baseline justify-between gap-3">
 				<p class="text-xl font-semibold text-slate-900 dark:text-white">{timeLabel()}</p>
-				<Show when={props.isPinned || props.canFollowLive}>
-					<div class="flex flex-wrap items-center gap-2">
-						<button
-							type="button"
-							onClick={() => props.onFollowLive()}
-							class="cursor-pointer rounded-full border border-transparent bg-slate-900 px-2 py-0.5 text-xs font-semibold text-white shadow-sm transition hover:bg-slate-700 dark:bg-white dark:text-slate-900">
-							Follow live
-						</button>
-					</div>
-				</Show>
+				<div class="flex flex-wrap items-center gap-2">
+					<button
+						type="button"
+						tabIndex={canShowFollowLive() ? 0 : -1}
+						aria-hidden={!canShowFollowLive() ? 'true' : undefined}
+						disabled={!canShowFollowLive()}
+						onClick={handleFollowLiveClick}
+						class="cursor-pointer rounded-full border border-transparent bg-slate-900 px-2 py-0.5 text-xs font-semibold text-white shadow-sm transition hover:bg-slate-700 dark:bg-white dark:text-slate-900"
+						classList={{
+							'pointer-events-none opacity-0': !canShowFollowLive(),
+						}}>
+						Follow live
+					</button>
+				</div>
 			</div>
 			<Switch>
 				<Match when={!showEmptyState()}>
