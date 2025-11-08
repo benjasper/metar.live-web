@@ -215,7 +215,7 @@ const TimelineHoverSummary: Component<TimelineHoverSummaryProps> = props => {
 				badge: sourceBadge('clouds'),
 				icon: <TbCloud class="text-base" />,
 				content: (
-					<div class="flex flex-wrap gap-x-3 gap-y-1 text-sm font-semibold text-slate-900 dark:text-white">
+					<div class="flex gap-x-3 gap-y-1 text-sm font-semibold text-slate-900 dark:text-white">
 						<For each={clouds}>
 							{detail => (
 								<span class="flex items-center gap-1">
@@ -304,7 +304,7 @@ const TimelineHoverSummary: Component<TimelineHoverSummaryProps> = props => {
 			</div>
 			<Switch>
 				<Match when={!showEmptyState()}>
-					<div class="grid gap-2 sm:grid-cols-2 xl:auto-cols-fr xl:grid-flow-col xl:grid-cols-none">
+					<div class="grid gap-2 sm:grid-cols-2 2xl:auto-cols-fr 2xl:grid-flow-col 2xl:grid-cols-none">
 						<For each={metrics()}>
 							{metric => (
 								<div class="flex items-start gap-3 rounded-xl border border-slate-200/70 bg-white/70 px-3 py-2 dark:border-slate-700/60 dark:bg-slate-900/50">
