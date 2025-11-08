@@ -215,7 +215,7 @@ const TimelineHoverSummary: Component<TimelineHoverSummaryProps> = props => {
 				badge: sourceBadge('clouds'),
 				icon: <TbCloud class="text-base" />,
 				content: (
-					<div class="flex gap-x-3 gap-y-1 text-sm font-semibold text-slate-900 dark:text-white">
+					<div class="flex flex-wrap gap-x-3 gap-y-1 text-sm font-semibold text-slate-900 dark:text-white">
 						<For each={clouds}>
 							{detail => (
 								<span class="flex items-center gap-1">
