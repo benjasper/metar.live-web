@@ -14,6 +14,7 @@ import { createStore, reconcile } from 'solid-js/store'
 import * as SunCalc from 'suncalc'
 import AirportClassification from '../components/AirportClassification'
 import AirportsInVicinity from '../components/AirportsInVicinity'
+import Button from '../components/Button'
 import DarkModeToggle from '../components/DarkModeToggle'
 import ForecastElements from '../components/ForecastElements'
 import Logo from '../components/Logo'
@@ -98,18 +99,30 @@ const AirportSearchDetail: Component = () => {
 		// eslint-disable-next-line solid/reactivity
 	>(AIRPORT_SINGLE, () => airportIdentifier())
 
+	const airportRequestData = createMemo(() => {
+		if (airportRequest.state !== 'ready') {
+			return undefined
+		}
+
+		return airportRequest()
+	})
+
 	createEffect(() => {
-		const status = airportRequest()?.status
+		const status = airportRequestData()?.status
 		setStatus(status?.lastWeatherSync ?? null)
 	})
 
 	const throttledLoading = debounce((id: string) => setAirportIdentifier({ identifier: id }), 100)
 
 	createEffect(() => {
-		if (airportRequest() && airportRequest()!.getAirport) {
-			setAirportStore(reconcile({ airport: airportRequest()!.getAirport! }))
+		const airportResponse = airportRequestData()?.getAirport
+		if (airportResponse) {
+			setAirportStore(reconcile({ airport: airportResponse }))
 		}
 	})
+
+	const hasNetworkError = () => Boolean(airportRequest.error)
+	const shouldShowFullError = () => airportStore.airport === undefined && hasNetworkError()
 
 	const title = createMemo(() => {
 		if (airportStore.airport === undefined) {
@@ -263,7 +276,7 @@ const AirportSearchDetail: Component = () => {
 	})
 
 	onCleanup(() => {
-		clearTimeout(refetchInterval)
+		clearInterval(refetchInterval)
 
 		scriptLdElement?.remove()
 	})
@@ -287,10 +300,30 @@ const AirportSearchDetail: Component = () => {
 						<ImSpinner5 class="m-auto w-16 animate-spin" size={36} />
 					</div>
 				</Match>
-				<Match when={airportRequest.error}>
-					<span class="dark:text-white-dark m-auto text-gray-700">Failed to load weather data.</span>
+				<Match when={shouldShowFullError()}>
+					<div class="dark:text-white-dark mx-auto flex flex-col items-center gap-4 py-16 text-center text-gray-700">
+						<p class="text-lg font-medium">We couldn't load the latest weather data.</p>
+						<p class="max-w-xl text-sm text-gray-500 dark:text-gray-300">
+							Please check your connection and try again. If the issue persists, refresh the page to
+							recover.
+						</p>
+						<Button onClick={refreshAirport}>Retry fetch</Button>
+					</div>
 				</Match>
 				<Match when={airportStore.airport !== undefined}>
+					<Show when={hasNetworkError()}>
+						<div
+							role="alert"
+							class="mx-auto mb-6 flex max-w-4xl flex-col gap-2 rounded-2xl border border-rose-200/80 bg-rose-50/70 px-5 py-4 text-sm text-rose-900 shadow-sm dark:border-rose-400/30 dark:bg-rose-500/10 dark:text-rose-100">
+							<p class="font-semibold tracking-wide uppercase">Connection issue</p>
+							<p>Unable to refresh the live report right now. Showing the last loaded data.</p>
+							<div>
+								<Button class="mt-2" onClick={refreshAirport}>
+									Retry now
+								</Button>
+							</div>
+						</div>
+					</Show>
 					<Link href={`https://metar.live/airport/${airportStore.airport?.identifier}`} rel="canonical" />
 					<div class="dark:text-white-dark mx-auto flex flex-col py-16 text-center">
 						<h1 class="font-semibold text-slate-900 dark:text-white">

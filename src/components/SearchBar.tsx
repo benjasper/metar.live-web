@@ -19,6 +19,7 @@ import { useGraphQL } from '../context/GraphQLClient'
 import { AIRPORT_SEARCH } from '../queries/AirportQueries'
 import { AirportSearchQuery, AirportSearchQueryVariables } from '../queries/generated/graphql'
 import { A } from '@solidjs/router'
+import Button from './Button'
 
 interface SearchBarProps {
 	class?: string
@@ -50,7 +51,22 @@ const SearchBar: Component<SearchBarProps> = (properties: SearchBarProps) => {
 		queryVars
 	)
 
-	const airportResults = createMemo(() => airportRequest()?.getAirports.edges ?? [])
+	const airportData = createMemo(() => (airportRequest.state === 'ready' ? airportRequest() : undefined))
+	const airportResults = createMemo(() => airportData()?.getAirports?.edges ?? [])
+	const resultCount = createMemo(() => airportData()?.getAirports?.totalCount ?? 0)
+	const shouldShowDropdown = createMemo(
+		() =>
+			isFocused() &&
+			currentInput() !== '' &&
+			(airportRequest.loading || Boolean(airportRequest.error) || resultCount() > 0)
+	)
+	const isEmptyState = createMemo(() => !airportRequest.loading && !airportRequest.error && resultCount() === 0)
+
+	const retrySearch = () => {
+		if (refetch.refetch) {
+			refetch.refetch()
+		}
+	}
 
 	const throttledSearch = debounce((queryVars: AirportSearchQueryVariables | false) => setQueryVars(queryVars), 200)
 
@@ -121,10 +137,10 @@ const SearchBar: Component<SearchBarProps> = (properties: SearchBarProps) => {
 		if (keys().includes('ENTER')) {
 			if (
 				id === undefined ||
-				airportResults() === undefined ||
 				airportRequest.loading ||
+				airportRequest.state !== 'ready' ||
 				!airportResults()[id] ||
-				airportRequest()?.getAirports.totalCount === 0
+				resultCount() === 0
 			) {
 				return
 			}
@@ -159,11 +175,7 @@ const SearchBar: Component<SearchBarProps> = (properties: SearchBarProps) => {
 						spellcheck={false}
 						tabIndex={-1}
 						role="combobox"
-						aria-expanded={
-							isFocused() &&
-							airportRequest.latest !== undefined &&
-							(airportRequest()?.getAirports.totalCount ?? 0) > 0
-						}
+						aria-expanded={isFocused() && resultCount() > 0}
 						aria-owns="search-bar"
 						aria-haspopup="listbox"
 						autocomplete="off"
@@ -210,7 +222,7 @@ const SearchBar: Component<SearchBarProps> = (properties: SearchBarProps) => {
 				</div>
 				<Transition
 					class="my-auto flex flex-col gap-32"
-					show={isFocused() && currentInput() !== '' && airportRequest.latest !== undefined}
+					show={shouldShowDropdown()}
 					enter="transform transition duration-200"
 					enterFrom="opacity-0"
 					enterTo="opacity-100"
@@ -225,7 +237,7 @@ const SearchBar: Component<SearchBarProps> = (properties: SearchBarProps) => {
 						aria-orientation="vertical"
 						aria-activedescendant={`search-bar-item-${selectedAirportId()}`}
 						tabIndex={-1}>
-						<Show when={airportRequest.latest && (airportRequest()?.getAirports.totalCount ?? 0) > 0}>
+						<Show when={resultCount() > 0}>
 							<For each={airportResults()}>
 								{(airportNode, i) => {
 									const airportIdentifier = () => airportNode.node.identifier
@@ -284,11 +296,21 @@ const SearchBar: Component<SearchBarProps> = (properties: SearchBarProps) => {
 								}}
 							</For>
 						</Show>
-						<Show when={airportRequest() && airportRequest()?.getAirports.totalCount === 0}>
+						<Show when={isEmptyState()}>
 							<li
 								class="dark:text-white-dark pointer-events-none block w-full rounded-xl px-5 py-3 text-sm font-medium text-slate-500"
 								role="option">
 								Nothing found.
+							</li>
+						</Show>
+						<Show when={airportRequest.error}>
+							<li
+								role="alert"
+								class="flex flex-col gap-3 rounded-xl border border-rose-200/60 bg-rose-50/80 px-5 py-4 text-sm font-medium text-rose-900 shadow-sm dark:border-rose-400/40 dark:bg-rose-500/10 dark:text-rose-100">
+								<span>Unable to reach metar.live right now.</span>
+								<Button class="w-fit" onClick={retrySearch}>
+									Retry search
+								</Button>
 							</li>
 						</Show>
 					</ul>

@@ -304,7 +304,7 @@ const TimelineHoverSummary: Component<TimelineHoverSummaryProps> = props => {
 			</div>
 			<Switch>
 				<Match when={!showEmptyState()}>
-					<div class="grid gap-2 sm:grid-cols-2 xl:auto-cols-fr xl:grid-cols-none xl:grid-flow-col">
+					<div class="grid gap-2 sm:grid-cols-2 xl:auto-cols-fr xl:grid-flow-col xl:grid-cols-none">
 						<For each={metrics()}>
 							{metric => (
 								<div class="flex items-start gap-3 rounded-xl border border-slate-200/70 bg-white/70 px-3 py-2 dark:border-slate-700/60 dark:bg-slate-900/50">

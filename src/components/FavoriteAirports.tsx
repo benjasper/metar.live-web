@@ -35,10 +35,18 @@ const FavoriteAirports: Component = () => {
 		favoriteAirportsVariables()
 	)
 
+	const airportData = createMemo(() => {
+		if (airportRequest.state === 'ready') {
+			return airportRequest()
+		}
+
+		return airportRequest.latest
+	})
+
 	const [, setStatus] = useStatusStore()
 
 	createEffect(() => {
-		const status = airportRequest()?.status?.lastWeatherSync ?? null
+		const status = airportData()?.status?.lastWeatherSync ?? null
 		setStatus(status)
 	})
 
@@ -50,14 +58,18 @@ const FavoriteAirports: Component = () => {
 		clearInterval(refetchInterval)
 	})
 
-	const airportsById = () =>
-		airportRequest()?.getAirportsByIds.reduce(
+	const airportsById = createMemo(() => {
+		const airports = airportData()?.getAirportsByIds ?? []
+		return airports.reduce(
 			(acc, airport) => {
 				acc[airport.identifier] = airport
 				return acc
 			},
 			{} as Record<string, MultipleAirportsByIdsQuery['getAirportsByIds'][number]>
 		)
+	})
+
+	const hasLoadedAirports = createMemo(() => (airportData()?.getAirportsByIds?.length ?? 0) > 0)
 
 	return (
 		<Show when={hasFavorites()}>
@@ -74,7 +86,7 @@ const FavoriteAirports: Component = () => {
 				</div>
 				<div class="flex flex-row gap-8">
 					<Show
-						when={!airportRequest.loading || (airportRequest()?.getAirportsByIds.length ?? 0) > 0}
+						when={!airportRequest.loading || hasLoadedAirports()}
 						fallback={
 							<Slider items={Array(3).fill(0)} mobileCentered={true}>
 								<For each={Array(3).fill(0)}>{_ => <FavoriteAirportTileSkeleton />}</For>
@@ -85,12 +97,25 @@ const FavoriteAirports: Component = () => {
 								{favorite => (
 									<FavoriteAirportTile
 										identifier={favorite.identifier}
-										airport={airportsById()![favorite.identifier] ?? undefined}
+										airport={airportsById()[favorite.identifier] ?? undefined}
 										onRemove={() => favoriteActions.removeFavorite(favorite.identifier)}
 									/>
 								)}
 							</For>
 						</Slider>
+					</Show>
+					<Show when={airportRequest.error}>
+						<div
+							role="alert"
+							class="mt-4 rounded-2xl border border-rose-200/70 bg-rose-50/80 px-5 py-4 text-sm text-rose-900 shadow-sm dark:border-rose-400/40 dark:bg-rose-500/10 dark:text-rose-100">
+							<p class="font-semibold">Can't refresh favorite airports right now.</p>
+							<p class="mt-1 text-rose-900/80 dark:text-rose-100/80">
+								We'll keep showing the last loaded data until the connection recovers.
+							</p>
+							<Button class="mt-3" onClick={() => refetch()}>
+								Retry
+							</Button>
+						</div>
 					</Show>
 				</div>
 			</section>
