@@ -21,6 +21,8 @@ import { AirportSearchQuery, AirportSearchQueryVariables } from '../queries/gene
 import { A } from '@solidjs/router'
 import Button from './Button'
 
+type AirportEdge = NonNullable<AirportSearchQuery['getAirports']>['edges'][number]
+
 interface SearchBarProps {
 	class?: string
 	onSearch: (airportIdentifier: string) => void
@@ -51,16 +53,45 @@ const SearchBar: Component<SearchBarProps> = (properties: SearchBarProps) => {
 		queryVars
 	)
 
-	const airportData = createMemo(() => (airportRequest.state === 'ready' ? airportRequest() : undefined))
-	const airportResults = createMemo(() => airportData()?.getAirports?.edges ?? [])
-	const resultCount = createMemo(() => airportData()?.getAirports?.totalCount ?? 0)
+	const [airportResults, setAirportResults] = createSignal<AirportEdge[]>([])
+	const [lastCompletedTerm, setLastCompletedTerm] = createSignal('')
+	const trimmedInput = createMemo(() => currentInput().trim())
+	createEffect(() => {
+		if (airportRequest.state !== 'ready') {
+			return
+		}
+
+		const airports = airportRequest()?.getAirports
+		const sanitizedEdges =
+			airports?.edges
+				?.filter((edge): edge is AirportEdge => Boolean(edge))
+				.map(edge => ({
+					...edge,
+					node: {
+						...edge.node,
+						station: edge.node.station ? { ...edge.node.station } : null,
+					},
+				})) ?? []
+
+		setAirportResults(sanitizedEdges)
+		setLastCompletedTerm(trimmedInput())
+	})
+	const hasResults = createMemo(() => airportResults().length > 0)
+	const hasSearchTerm = createMemo(() => trimmedInput().length > 0)
+	const isEmptyState = createMemo(
+		() =>
+			hasSearchTerm() &&
+			lastCompletedTerm() === trimmedInput() &&
+			!airportRequest.loading &&
+			!airportRequest.error &&
+			!hasResults()
+	)
 	const shouldShowDropdown = createMemo(
 		() =>
 			isFocused() &&
-			currentInput() !== '' &&
-			(airportRequest.loading || Boolean(airportRequest.error) || resultCount() > 0)
+			hasSearchTerm() &&
+			(Boolean(airportRequest.error) || hasResults() || isEmptyState())
 	)
-	const isEmptyState = createMemo(() => !airportRequest.loading && !airportRequest.error && resultCount() === 0)
 
 	const retrySearch = () => {
 		if (refetch.refetch) {
@@ -89,6 +120,7 @@ const SearchBar: Component<SearchBarProps> = (properties: SearchBarProps) => {
 		props.onSearch(airportIdentifier.toUpperCase())
 		input.blur()
 		setIsFocused(false)
+		setCurrentInput('')
 		input.value = ''
 	}
 
@@ -135,13 +167,7 @@ const SearchBar: Component<SearchBarProps> = (properties: SearchBarProps) => {
 		}
 
 		if (keys().includes('ENTER')) {
-			if (
-				id === undefined ||
-				airportRequest.loading ||
-				airportRequest.state !== 'ready' ||
-				!airportResults()[id] ||
-				resultCount() === 0
-			) {
+			if (id === undefined || !airportResults()[id]) {
 				return
 			}
 
@@ -175,7 +201,7 @@ const SearchBar: Component<SearchBarProps> = (properties: SearchBarProps) => {
 						spellcheck={false}
 						tabIndex={-1}
 						role="combobox"
-						aria-expanded={isFocused() && resultCount() > 0}
+						aria-expanded={shouldShowDropdown()}
 						aria-owns="search-bar"
 						aria-haspopup="listbox"
 						autocomplete="off"
@@ -237,7 +263,7 @@ const SearchBar: Component<SearchBarProps> = (properties: SearchBarProps) => {
 						aria-orientation="vertical"
 						aria-activedescendant={`search-bar-item-${selectedAirportId()}`}
 						tabIndex={-1}>
-						<Show when={resultCount() > 0}>
+						<Show when={hasResults()}>
 							<For each={airportResults()}>
 								{(airportNode, i) => {
 									const airportIdentifier = () => airportNode.node.identifier
