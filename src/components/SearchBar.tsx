@@ -87,10 +87,7 @@ const SearchBar: Component<SearchBarProps> = (properties: SearchBarProps) => {
 			!hasResults()
 	)
 	const shouldShowDropdown = createMemo(
-		() =>
-			isFocused() &&
-			hasSearchTerm() &&
-			(Boolean(airportRequest.error) || hasResults() || isEmptyState())
+		() => isFocused() && hasSearchTerm() && (Boolean(airportRequest.error) || hasResults() || isEmptyState())
 	)
 
 	const retrySearch = () => {
