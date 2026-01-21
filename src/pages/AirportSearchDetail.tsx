@@ -553,7 +553,7 @@ const AirportSearchDetail: Component = () => {
 								shouldOverlayWeather()
 									? `This field has no reporting station. Showing weather from ${nearestStationLabel()}, about ${Math.round(
 											selectedLengthUnit().conversionFunction(overlayDistance() ?? 0)
-									  )} ${selectedLengthUnit().symbol}${overlayDirection() ? ` ${overlayDirection()}` : ''} of this field.`
+										)} ${selectedLengthUnit().symbol}${overlayDirection() ? ` ${overlayDirection()}` : ''} of this field.`
 									: undefined
 							}
 						/>

@@ -9,12 +9,29 @@ const Changelog = () => {
 			<div class="dark:text-white-dark container text-black">
 				<Header />
 				<h1 class="pt-16 text-4xl font-bold">Changelog</h1>
-				<p class="mt-4 text-lg">
-					Here&apos;s what shipped recently to keep your preflight weather checks quick, clear, and maybe even
-					a little fun.
-				</p>
+				<p class="mt-4 text-lg">Here&apos;s what shipped recently.</p>
 
 				<section class="pt-12">
+					<div class="flex flex-col gap-2">
+						<span class="inline-flex w-fit items-center rounded-full bg-slate-900/5 px-3 py-1 text-xs font-semibold tracking-[0.2em] text-slate-500 uppercase dark:bg-white/10 dark:text-slate-300">
+							Jan 21, 2026
+						</span>
+						<h2 class="text-xl font-semibold">Weather visibility upgrades</h2>
+					</div>
+					<ul class="mt-3 flex list-disc flex-col gap-2 pl-5 text-base">
+						<li>
+							Airport detail pages now include a dedicated weather overlay; when a field lacks its own
+							station, the nearest reporting station is shown, chosen by distance.
+						</li>
+						<li>
+							The search bar is refactored for sturdier input handling and smoother behavior on small
+							screens.
+						</li>
+						<li>Data tiles now surface zero values correctly, preventing quiet gaps in the readouts.</li>
+					</ul>
+				</section>
+
+				<section class="pt-10">
 					<div class="flex flex-col gap-2">
 						<span class="inline-flex w-fit items-center rounded-full bg-slate-900/5 px-3 py-1 text-xs font-semibold tracking-[0.2em] text-slate-500 uppercase dark:bg-white/10 dark:text-slate-300">
 							Oct 27, 2025

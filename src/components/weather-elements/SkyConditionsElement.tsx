@@ -117,8 +117,7 @@ const SkyConditionsElement: Component<SkyConditionsElementProps> = props => {
 	const selected = createMemo(() => unitStore.height.units[unitStore.height.selected])
 	const convert = (value: number) => selected().conversionFunction(value)
 
-	const hasCloudBase = () =>
-		props.skyConditions.some(x => x.cloudBase !== null && x.cloudBase !== undefined)
+	const hasCloudBase = () => props.skyConditions.some(x => x.cloudBase !== null && x.cloudBase !== undefined)
 
 	const sortedSkyConditions = createMemo(() =>
 		props.skyConditions.map(x => x).sort((a, b) => (b.cloudBase ?? 0) - (a.cloudBase ?? 0))
