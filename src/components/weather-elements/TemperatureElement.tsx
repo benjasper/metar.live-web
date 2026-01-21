@@ -1,4 +1,4 @@
-import { TbTemperature } from 'solid-icons/tb'
+import { TbOutlineTemperature } from 'solid-icons/tb'
 import { Component } from 'solid-js'
 import { useUnitStore } from '../../context/UnitStore'
 import WeatherElementLayout, { UpdatePing } from '../../layouts/WeatherElementLayout'
@@ -21,7 +21,7 @@ const TemperatureElement: Component<TemperatureElementProps> = props => {
 	return (
 		<WeatherElementLayout
 			name={props.name}
-			icon={<TbTemperature />}
+			icon={<TbOutlineTemperature />}
 			unitType={[{ unitType: 'temperature' }]}
 			updatePing={UpdatePing.Neutral}
 			updatePingOldValue={props.previousTemperature ? value(props.previousTemperature) : undefined}

@@ -12,7 +12,7 @@ import {
 	RiWeatherWindyLine,
 } from 'solid-icons/ri'
 import { WiDust, WiSandstorm, WiSleet, WiSmoke, WiSnowflakeCold, WiVolcano } from 'solid-icons/wi'
-import { TbCloudQuestion, TbGrain } from 'solid-icons/tb'
+import { TbOutlineCloudQuestion, TbOutlineGrain } from 'solid-icons/tb'
 import { Component, For, JSXElement, Show, createMemo } from 'solid-js'
 import WeatherElementLayout, { UpdatePing } from '../../layouts/WeatherElementLayout'
 
@@ -239,7 +239,7 @@ export const getWeatherIconForCondition = (condition: string): JSXElement | null
 		return <RiWeatherSunFill />
 	}
 
-	return <TbCloudQuestion />
+	return <TbOutlineCloudQuestion />
 }
 
 export const summarizeWeatherCondition = (condition: string): string => {
@@ -360,7 +360,7 @@ const PrecipitationElement: Component<PrecipitationElementProps> = props => {
 	return (
 		<WeatherElementLayout
 			name="Precipitation"
-			icon={<TbGrain />}
+			icon={<TbOutlineGrain />}
 			updatePing={updatePingType()}
 			updatePingOldValue={
 				props.previousWeather ? extractWeatherTokens(props.previousWeather).join(', ') : undefined

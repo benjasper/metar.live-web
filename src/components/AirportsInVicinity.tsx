@@ -1,5 +1,5 @@
 import { A } from '@solidjs/router'
-import { TbArrowUpCircle } from 'solid-icons/tb'
+import { TbOutlineArrowUpCircle } from 'solid-icons/tb'
 import { Component, For, Match, Show, Switch } from 'solid-js'
 import { useUnitStore } from '../context/UnitStore'
 import { StationsVicinityFragment } from '../queries/generated/graphql'
@@ -136,7 +136,7 @@ const AirportsInVicinity: Component<AirportsInVicinityProps> = props => {
 										</Show>
 									</div>
 								</div>
-								<TbArrowUpCircle
+								<TbOutlineArrowUpCircle
 									class="dark:text-white-dark mx-auto my-2 origin-center transform text-slate-400 transition-colors duration-300"
 									size={40}
 									style={{

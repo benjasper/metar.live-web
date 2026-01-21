@@ -1,4 +1,4 @@
-import { TbChevronLeft } from 'solid-icons/tb'
+import { TbOutlineChevronLeft } from 'solid-icons/tb'
 import { Component, createEffect, createSignal, For, onMount, ParentComponent, Show, useContext } from 'solid-js'
 import { Slider as SolidSlider, SliderContext, SliderProvider } from 'solid-slider'
 
@@ -31,7 +31,7 @@ const SliderNavigation: Component<DotsProps> = props => {
 					}}
 					role="button"
 					class="hidden h-9 w-9 cursor-pointer items-center justify-center rounded-full border border-slate-300 bg-white text-slate-800 transition-all focus-visible:ring-2 focus-visible:ring-sky-300 focus-visible:ring-offset-2 focus-visible:ring-offset-white focus-visible:outline-hidden md:flex dark:border-white/25 dark:bg-slate-800 dark:text-white/80">
-					<TbChevronLeft class="m-auto" size={20} />
+					<TbOutlineChevronLeft class="m-auto" size={20} />
 				</button>
 
 				<div class="flex items-center gap-2.5">
@@ -65,7 +65,7 @@ const SliderNavigation: Component<DotsProps> = props => {
 						'opacity-0 pointer-events-none': helpers().current() >= maxItems(),
 					}}
 					class="hidden h-9 w-9 cursor-pointer items-center justify-center rounded-full border border-slate-300 bg-white text-slate-800 transition-all focus-visible:ring-2 focus-visible:ring-sky-300 focus-visible:ring-offset-2 focus-visible:ring-offset-white focus-visible:outline-hidden md:flex dark:border-white/25 dark:bg-slate-800 dark:text-white/80">
-					<TbChevronLeft class="m-auto rotate-180" size={20} />
+					<TbOutlineChevronLeft class="m-auto rotate-180" size={20} />
 				</button>
 			</div>
 		</Show>

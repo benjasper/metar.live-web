@@ -1,6 +1,6 @@
 import { BiSolidPlaneTakeOff } from 'solid-icons/bi'
 import { IoWaterOutline } from 'solid-icons/io'
-import { TbHelicopterLanding } from 'solid-icons/tb'
+import { TbOutlineHelicopterLanding } from 'solid-icons/tb'
 import { Component, Match, Switch } from 'solid-js'
 import { AirportType } from '../queries/generated/graphql'
 
@@ -24,7 +24,7 @@ const AirportClassification: Component<{ type: AirportType }> = props => {
 				Seaplane base
 			</Match>
 			<Match when={props.type === AirportType.Heliport}>
-				<TbHelicopterLanding class="my-auto" />
+				<TbOutlineHelicopterLanding class="my-auto" />
 				Heliport
 			</Match>
 			<Match when={props.type === AirportType.ClosedAirport}>Closed</Match>

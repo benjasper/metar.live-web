@@ -1,4 +1,4 @@
-import { TbEye } from 'solid-icons/tb'
+import { TbOutlineEye } from 'solid-icons/tb'
 import { Component } from 'solid-js'
 import { useUnitStore } from '../../context/UnitStore'
 import WeatherElementLayout from '../../layouts/WeatherElementLayout'
@@ -32,7 +32,7 @@ const VisibilityElement: Component<VisibilityElementProps> = props => {
 	return (
 		<WeatherElementLayout
 			name="Visibility"
-			icon={<TbEye />}
+			icon={<TbOutlineEye />}
 			unitType={[{ unitType: 'length' }]}
 			updatePing={Math.sign((props.visibility ?? 0) - (props.previousVisibility ?? 0))}
 			updatePingOldValue={value(props.previousVisibility, props.previousVisibilityMoreThan ?? false)?.toString()}

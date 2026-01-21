@@ -9,7 +9,7 @@ import {
 	RiWeatherSunCloudyLine,
 	RiWeatherSunFill,
 } from 'solid-icons/ri'
-import { TbCloud } from 'solid-icons/tb'
+import { TbOutlineCloud } from 'solid-icons/tb'
 import { Accessor, Component, For, Match, Show, Switch, createMemo } from 'solid-js'
 import { Unit, useUnitStore } from '../../context/UnitStore'
 import WeatherElementLayout, { ParsedWeatherElementLayoutProps, UpdatePing } from '../../layouts/WeatherElementLayout'
@@ -143,7 +143,7 @@ const SkyConditionsElement: Component<SkyConditionsElementProps> = props => {
 	return (
 		<WeatherElementLayout
 			name="Sky conditions"
-			icon={<TbCloud />}
+			icon={<TbOutlineCloud />}
 			unitType={unitConfiguration()}
 			updatePing={UpdatePing.Neutral}
 			updatePingOldValue={skyConditionsToText(selected, convert, previousSortedSkyConditions())}

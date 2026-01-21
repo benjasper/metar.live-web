@@ -1,5 +1,5 @@
 import { BsArrowUp } from 'solid-icons/bs'
-import { TbWindmill } from 'solid-icons/tb'
+import { TbOutlineWindmill } from 'solid-icons/tb'
 import { Component } from 'solid-js'
 import WeatherElementLayout from '../../layouts/WeatherElementLayout'
 
@@ -11,7 +11,7 @@ interface WindShearElementProps {
 
 const WindShearElement: Component<WindShearElementProps> = props => {
 	return (
-		<WeatherElementLayout name="Wind shear" icon={<TbWindmill />}>
+		<WeatherElementLayout name="Wind shear" icon={<TbOutlineWindmill />}>
 			<BsArrowUp
 				class="mx-auto origin-center transform"
 				size={24}

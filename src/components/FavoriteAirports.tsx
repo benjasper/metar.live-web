@@ -6,7 +6,7 @@ import { MULTIPLE_AIRPORTS_BY_IDS } from '../queries/AirportQueries'
 import { MultipleAirportsByIdsQuery, MultipleAirportsByIdsQueryVariables } from '../queries/generated/graphql'
 import Slider from './Slider'
 import Button from './Button'
-import { TbTrashXFilled } from 'solid-icons/tb'
+import { TbFillTrashX } from 'solid-icons/tb'
 import { FavoriteAirportTile, FavoriteAirportTileSkeleton } from './FavoriteAirportTile'
 
 const FavoriteAirports: Component = () => {
@@ -80,7 +80,7 @@ const FavoriteAirports: Component = () => {
 						onClick={() => favoriteActions.clear()}
 						aria-label="Clear favorites"
 						class="flex items-center gap-1">
-						<TbTrashXFilled size={18} />
+						<TbFillTrashX size={18} />
 						Clear
 					</Button>
 				</div>

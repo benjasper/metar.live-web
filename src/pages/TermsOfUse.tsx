@@ -13,15 +13,15 @@ const TermsOfUse = () => {
 				<h2 class="pt-16 text-3xl">Usage Disclaimer</h2>
 				<p class="mt-4">
 					All information provided by this website is for aviation situational awareness and supplemental
-					planning only. The information is provided by <a href="https://www.ourairports.com/">OurAirports</a>{' '}
-					and <a href="https://www.noaa.gov/">NOAA</a>. While I endeavor to keep the information up to date and
+					planning only. The data is provided by <a href="https://www.ourairports.com/">OurAirports</a> and{' '}
+					<a href="https://www.noaa.gov/">NOAA</a>. While I endeavor to keep the information up to date and
 					correct, I make no representations or warranties of any kind, express or implied, about the
 					completeness, accuracy, reliability, suitability, or availability concerning the website or the
 					information, products, services, or related graphics contained on the website for any purpose. It is
 					not an approved or certified source of aeronautical weather information and must not be the sole
 					basis for flight planning, dispatch, navigation, or safety-critical decisions. Always verify with
-					official sources and current local conditions. Any reliance you place on such information is strictly
-					at your own risk.
+					official sources and current local conditions. Any reliance you place on such information is
+					strictly at your own risk.
 				</p>
 				<p class="mt-4">
 					To the fullest extent permitted by law, I disclaim liability for any loss or damage including

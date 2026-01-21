@@ -8,7 +8,7 @@ import AirportClassification from './AirportClassification'
 import FlightCategorySymbol from './FlightCategorySymbol'
 import RunwayAndWindRenderer from './special/RunwayAndWindRenderer'
 import { Tag } from './Tag'
-import { TbWindsock } from 'solid-icons/tb'
+import { TbOutlineWindsock } from 'solid-icons/tb'
 
 interface FavoriteAirportTileProps {
 	identifier: string
@@ -111,7 +111,7 @@ export const FavoriteAirportTile: Component<FavoriteAirportTileProps> = props =>
 							</Tag>
 						</Show>
 						<Tag intent="neutral">
-							<TbWindsock />
+							<TbOutlineWindsock />
 							{windSummary()}
 						</Tag>
 					</div>

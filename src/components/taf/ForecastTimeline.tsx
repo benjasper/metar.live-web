@@ -10,7 +10,7 @@ import {
 	untrack,
 	type JSX,
 } from 'solid-js'
-import { TbSunrise, TbSunset } from 'solid-icons/tb'
+import { TbOutlineSunrise, TbOutlineSunset } from 'solid-icons/tb'
 import { TafFragment } from '../../queries/generated/graphql'
 import TimelineHoverSummary from './TimelineHoverSummary'
 import TimelineRow, { TIMELINE_COLUMN_GAP, TIMELINE_LABEL_WIDTH } from './TimelineRow'
@@ -434,7 +434,7 @@ const ForecastTimeline: Component<ForecastTimelineProps> = props => {
 		}
 	})
 
-	const solarIcon = (type: SolarEvent['type']) => (type === 'sunrise' ? <TbSunrise /> : <TbSunset />)
+	const solarIcon = (type: SolarEvent['type']) => (type === 'sunrise' ? <TbOutlineSunrise /> : <TbOutlineSunset />)
 
 	const formatSolarTime = (time: Date) =>
 		time.toLocaleTimeString([], {

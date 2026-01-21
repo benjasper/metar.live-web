@@ -8,7 +8,7 @@ import { FiExternalLink } from 'solid-icons/fi'
 import { HiSolidClock } from 'solid-icons/hi'
 import { ImSpinner5 } from 'solid-icons/im'
 import { IoLocationSharp } from 'solid-icons/io'
-import { TbMountain, TbSunrise, TbSunset } from 'solid-icons/tb'
+import { TbOutlineMountain, TbOutlineSunrise, TbOutlineSunset } from 'solid-icons/tb'
 import { Component, Match, Show, Switch, createEffect, createMemo, createSignal, onCleanup } from 'solid-js'
 import { createStore, reconcile } from 'solid-js/store'
 import * as SunCalc from 'suncalc'
@@ -386,7 +386,7 @@ const AirportSearchDetail: Component = () => {
 							</Tag>
 							<Show when={airportStore.airport!.elevation}>
 								<Tag>
-									<TbMountain class="my-auto" />
+									<TbOutlineMountain class="my-auto" />
 									Elevation{' '}
 									{Math.round(
 										selectedHeightUnit().conversionFunction(airportStore.airport!.elevation!)
@@ -399,7 +399,7 @@ const AirportSearchDetail: Component = () => {
 								<Switch>
 									<Match when={isNight()}>
 										<Tag>
-											<TbSunrise class="my-auto" />
+											<TbOutlineSunrise class="my-auto" />
 											Sunrise{' '}
 											{sunEvents()!.nextSunrise.toLocaleTimeString([], {
 												hour: 'numeric',
@@ -411,7 +411,7 @@ const AirportSearchDetail: Component = () => {
 									</Match>
 									<Match when={true}>
 										<Tag>
-											<TbSunset class="my-auto" />
+											<TbOutlineSunset class="my-auto" />
 											Sunset{' '}
 											{sunEvents()!.nextSunset.toLocaleTimeString([], {
 												hour: 'numeric',

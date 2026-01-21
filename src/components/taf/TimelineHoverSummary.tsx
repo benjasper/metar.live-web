@@ -10,7 +10,7 @@ import {
 	summarizeWeatherCondition,
 } from '../weather-elements/PrecipitationElement'
 import { SkyConditionIcon } from '../weather-elements/SkyConditionsElement'
-import { TbCloud, TbCloudRain, TbEye, TbGauge, TbWind } from 'solid-icons/tb'
+import { TbOutlineCloud, TbOutlineCloudRain, TbOutlineEye, TbOutlineGauge, TbOutlineWind } from 'solid-icons/tb'
 
 interface TimelineHoverSummaryProps {
 	focusTime: Date
@@ -193,7 +193,7 @@ const TimelineHoverSummary: Component<TimelineHoverSummaryProps> = props => {
 				key: 'wind',
 				label: 'Wind',
 				badge: sourceBadge('wind'),
-				icon: <TbWind class="text-base" />,
+				icon: <TbOutlineWind class="text-base" />,
 				content: renderMetricText(windValue),
 			})
 		}
@@ -203,7 +203,7 @@ const TimelineHoverSummary: Component<TimelineHoverSummaryProps> = props => {
 				key: 'visibility',
 				label: 'Visibility',
 				badge: sourceBadge('visibility'),
-				icon: <TbEye class="text-base" />,
+				icon: <TbOutlineEye class="text-base" />,
 				content: renderMetricText(visibilityValue),
 			})
 		}
@@ -213,7 +213,7 @@ const TimelineHoverSummary: Component<TimelineHoverSummaryProps> = props => {
 				key: 'clouds',
 				label: 'Clouds',
 				badge: sourceBadge('clouds'),
-				icon: <TbCloud class="text-base" />,
+				icon: <TbOutlineCloud class="text-base" />,
 				content: (
 					<div class="flex flex-wrap gap-x-3 gap-y-1 text-sm font-semibold text-slate-900 dark:text-white">
 						<For each={clouds}>
@@ -238,7 +238,7 @@ const TimelineHoverSummary: Component<TimelineHoverSummaryProps> = props => {
 				key: 'altimeter',
 				label: 'Altimeter',
 				badge: sourceBadge('altimeter'),
-				icon: <TbGauge class="text-base" />,
+				icon: <TbOutlineGauge class="text-base" />,
 				content: renderMetricText(altimeterValue),
 			})
 		}
@@ -248,7 +248,7 @@ const TimelineHoverSummary: Component<TimelineHoverSummaryProps> = props => {
 				key: 'precipitation',
 				label: 'Precipitation',
 				badge: sourceBadge('weather'),
-				icon: <TbCloudRain class="text-base" />,
+				icon: <TbOutlineCloudRain class="text-base" />,
 				content: (
 					<div class="flex flex-wrap gap-x-3 gap-y-1 text-sm font-semibold text-slate-900 dark:text-white">
 						<For each={precipitation}>
