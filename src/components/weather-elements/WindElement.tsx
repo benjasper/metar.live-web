@@ -41,11 +41,14 @@ function getWindText(
 ): string | undefined {
 	let windText = ''
 
-	if (!windDirection && !windSpeed) {
+	const hasDirection = windDirection !== null && windDirection !== undefined
+	const hasSpeed = windSpeed !== null && windSpeed !== undefined
+
+	if (!hasDirection && !hasSpeed) {
 		return undefined
 	}
 
-	if (!windSpeed || (windSpeed && windSpeed === 0)) {
+	if (!hasSpeed || windSpeed === 0) {
 		windText += 'Wind calm'
 		return windText
 	}
@@ -65,7 +68,7 @@ function getWindText(
 		windText += ` and variable from ${from}° to ${to}°`
 	}
 
-	if (windGust) {
+	if (windGust !== null && windGust !== undefined) {
 		windText += ` and gusting @ ${windGust} ${selected().symbol}`
 	}
 
@@ -88,13 +91,13 @@ const WindElement: Component<WindElementProps> = props => {
 		getWindText(selected, props.windData.windDirection ?? undefined, windSpeed(), windGust(), variableWind())
 
 	const previousWindSpeed = () =>
-		props.previousWindDate?.windSpeed
-			? Math.round(selected().conversionFunction(props.previousWindDate.windSpeed))
-			: undefined
+		props.previousWindDate?.windSpeed === null || props.previousWindDate?.windSpeed === undefined
+			? undefined
+			: Math.round(selected().conversionFunction(props.previousWindDate.windSpeed))
 	const previousWindGust = () =>
-		props.previousWindDate?.windGust
-			? Math.round(selected().conversionFunction(props.previousWindDate.windGust))
-			: undefined
+		props.previousWindDate?.windGust === null || props.previousWindDate?.windGust === undefined
+			? undefined
+			: Math.round(selected().conversionFunction(props.previousWindDate.windGust))
 
 	const previousWindText = () =>
 		getWindText(
@@ -108,7 +111,10 @@ const WindElement: Component<WindElementProps> = props => {
 	const unitConfigurations = () => {
 		const configurations: ParsedWeatherElementLayoutProps['unitType'] = []
 
-		if (props.windData.windSpeed || props.windData.windGust) {
+		const hasWindSpeed = props.windData.windSpeed !== null && props.windData.windSpeed !== undefined
+		const hasWindGust = props.windData.windGust !== null && props.windData.windGust !== undefined
+
+		if (hasWindSpeed || hasWindGust) {
 			configurations.push({
 				name: 'Wind speed',
 				unitType: 'speed',

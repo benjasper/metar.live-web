@@ -24,7 +24,11 @@ const TemperatureElement: Component<TemperatureElementProps> = props => {
 			icon={<TbOutlineTemperature />}
 			unitType={[{ unitType: 'temperature' }]}
 			updatePing={UpdatePing.Neutral}
-			updatePingOldValue={props.previousTemperature ? value(props.previousTemperature) : undefined}
+			updatePingOldValue={
+				props.previousTemperature === null || props.previousTemperature === undefined
+					? undefined
+					: value(props.previousTemperature)
+			}
 			updatePingNewValue={value(props.temperature)}>
 			<p class="dark:text-white-dark text-center text-xl">{value(props.temperature)}</p>
 		</WeatherElementLayout>

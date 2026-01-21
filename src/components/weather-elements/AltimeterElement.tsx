@@ -29,7 +29,11 @@ const AltimeterElement: Component<AltimeterElementProps> = props => {
 			icon={<TbOutlineGauge />}
 			unitType={[{ unitType: 'pressure' }]}
 			updatePing={UpdatePing.Neutral}
-			updatePingOldValue={props.previousAltimeter ? value(props.previousAltimeter) : undefined}
+			updatePingOldValue={
+				props.previousAltimeter === null || props.previousAltimeter === undefined
+					? undefined
+					: value(props.previousAltimeter)
+			}
 			updatePingNewValue={value(props.altimeter)}>
 			<p class="dark:text-white-dark text-center text-xl">{value(props.altimeter)}</p>
 		</WeatherElementLayout>

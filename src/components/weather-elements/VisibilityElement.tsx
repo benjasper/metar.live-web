@@ -17,8 +17,11 @@ const VisibilityElement: Component<VisibilityElementProps> = props => {
 	const selected = () => unitStore.length.units[unitStore.length.selected]
 
 	const value = (visibility: MetarFragment['visibility'], visibilityMoreThan: boolean) => {
+		if (visibility === null || visibility === undefined) {
+			return undefined
+		}
 		const realVisibility = selected().conversionFunction(visibility!)
-		if (!realVisibility) {
+		if (realVisibility === null || realVisibility === undefined || Number.isNaN(realVisibility)) {
 			return undefined
 		}
 

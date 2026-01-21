@@ -97,7 +97,9 @@ function skyConditionsToText(
 		?.map(
 			condition =>
 				`${condition.skyCover} ` +
-				(condition.cloudBase ? Math.round(convert(condition.cloudBase)) + `${selected().symbol}` : '')
+				(condition.cloudBase === null || condition.cloudBase === undefined
+					? ''
+					: Math.round(convert(condition.cloudBase)) + `${selected().symbol}`)
 		)
 		.join(', ')
 }
@@ -115,7 +117,8 @@ const SkyConditionsElement: Component<SkyConditionsElementProps> = props => {
 	const selected = createMemo(() => unitStore.height.units[unitStore.height.selected])
 	const convert = (value: number) => selected().conversionFunction(value)
 
-	const hasCloudBase = () => props.skyConditions.some(x => x.cloudBase !== null)
+	const hasCloudBase = () =>
+		props.skyConditions.some(x => x.cloudBase !== null && x.cloudBase !== undefined)
 
 	const sortedSkyConditions = createMemo(() =>
 		props.skyConditions.map(x => x).sort((a, b) => (b.cloudBase ?? 0) - (a.cloudBase ?? 0))
@@ -161,7 +164,7 @@ const SkyConditionsElement: Component<SkyConditionsElementProps> = props => {
 								<span class="my-auto text-base">
 									<SkyConditionText skyCover={condition.skyCover} />
 								</span>
-								<Show when={condition.cloudBase}>
+								<Show when={condition.cloudBase !== null && condition.cloudBase !== undefined}>
 									<span class="my-auto text-base">
 										at{' '}
 										{Math.round(convert(condition.cloudBase!)) > 1
@@ -184,7 +187,11 @@ const SkyConditionsElement: Component<SkyConditionsElementProps> = props => {
 					</div>
 					<span class="text-base">
 						<SkyConditionText skyCover={props.skyConditions[0].skyCover} />
-						<Show when={props.skyConditions[0].cloudBase}>
+						<Show
+							when={
+								props.skyConditions[0].cloudBase !== null &&
+								props.skyConditions[0].cloudBase !== undefined
+							}>
 							&nbsp;at{' '}
 							{Math.round(convert(props.skyConditions[0].cloudBase!)) > 1
 								? Math.round(convert(props.skyConditions[0].cloudBase!))
