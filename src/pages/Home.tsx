@@ -9,13 +9,19 @@ import PageContent from '../layouts/PageContent'
 const Home: Component = () => {
 	const navigate = useNavigate()
 
-	const doSearch = (airportIdentifier: string) => {
+	const doSearch = (airportIdentifier: string, options?: { newTab?: boolean }) => {
 		if (airportIdentifier.length === 0) {
 			// TODO return to search page
 			return
 		}
 
-		navigate(`/airport/${airportIdentifier}`)
+		const targetPath = `/airport/${airportIdentifier}`
+		if (options?.newTab) {
+			window.open(targetPath, '_blank', 'noopener')
+			return
+		}
+
+		navigate(targetPath)
 	}
 
 	return (

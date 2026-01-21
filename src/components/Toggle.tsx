@@ -15,7 +15,7 @@ const Toggle: Component<ToggleProps> = props => {
 			<label class="my-auto font-normal normal-case">{props.offLabel}</label>
 			<HeadlessToggle
 				pressed={props.checked}
-				onChange={checked => props.onChange(checked)}
+				onChange={(checked: boolean) => props.onChange(checked)}
 				class="relative inline-flex h-6 w-12 shrink-0 cursor-pointer rounded-full border transition-all duration-200 ease-out"
 				classList={{
 					'border-indigo-300 bg-indigo-500 shadow-sm dark:border-indigo-400/40 dark:bg-indigo-500/60':

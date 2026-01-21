@@ -61,7 +61,6 @@ enum Other {
 	Duststorm = 'DS',
 	Sandstorm = 'SS',
 	Squalls = 'SQ',
-	SandOrDustWhirls = 'FC',
 	Tornado = '+FC',
 	FunnelCloud = 'FC',
 	NoSignificantWeather = 'NSW',
@@ -146,11 +145,10 @@ const obscurationLabels: Record<Obscuration, string> = {
 }
 
 const otherLabels: Record<Other, string> = {
-	[Other.DustWhirls]: 'Dust whirls',
+	[Other.DustWhirls]: 'Dust/sand whirls',
 	[Other.Duststorm]: 'Duststorm',
 	[Other.Sandstorm]: 'Sandstorm',
 	[Other.Squalls]: 'Squalls',
-	[Other.SandOrDustWhirls]: 'Sand or dust whirls',
 	[Other.Tornado]: 'Tornado',
 	[Other.FunnelCloud]: 'Funnel cloud',
 	[Other.NoSignificantWeather]: 'No significant weather',
@@ -225,7 +223,6 @@ export const getWeatherIconForCondition = (condition: string): JSXElement | null
 		parsed.other === Other.Duststorm ||
 		parsed.other === Other.Sandstorm ||
 		parsed.other === Other.Squalls ||
-		parsed.other === Other.SandOrDustWhirls ||
 		parsed.other === Other.DustWhirls
 	) {
 		return <RiWeatherWindyLine />
@@ -270,7 +267,7 @@ export const summarizeWeatherCondition = (condition: string): string => {
 		tokens.push(obscuration)
 	}
 
-	if (other && parsed.other !== Other.NoSignificantWeather) {
+	if (other) {
 		tokens.push(other)
 	}
 

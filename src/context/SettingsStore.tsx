@@ -24,7 +24,7 @@ const createSettingsStore = (): SettingsStore => {
 	}
 }
 
-const SettingsStoreContext = createContext<SettingsStoreContextInterface>(undefined as any)
+const SettingsStoreContext = createContext<SettingsStoreContextInterface | undefined>(undefined)
 
 const SettingsStoreProvider: ParentComponent = props => {
 	const [store, setStore] = createStore<SettingsStore>(createSettingsStore())
@@ -42,19 +42,15 @@ const SettingsStoreProvider: ParentComponent = props => {
 		},
 	}
 
+	const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
+
 	const evaluateColorScheme = () => {
 		// If the toggle has selected a specific mode, use that, otherwise (if system is selected) use the system preference
-		if (
-			store.theme === ThemeMode.Dark ||
-			(window.matchMedia('(prefers-color-scheme: dark)').matches && store.theme === ThemeMode.System)
-		) {
+		if (store.theme === ThemeMode.Dark || (mediaQuery.matches && store.theme === ThemeMode.System)) {
 			document.documentElement.classList.add('dark')
 			// Set Meta Tag Theme Color
 			document.querySelector('meta[name="theme-color"]')?.setAttribute('content', '#000212')
-		} else if (
-			store.theme === ThemeMode.Light ||
-			(!window.matchMedia('(prefers-color-scheme: dark)').matches && store.theme === ThemeMode.System)
-		) {
+		} else if (store.theme === ThemeMode.Light || (!mediaQuery.matches && store.theme === ThemeMode.System)) {
 			document.documentElement.classList.remove('dark')
 			document.querySelector('meta[name="theme-color"]')?.setAttribute('content', '#f9f8f9')
 		}
@@ -63,22 +59,26 @@ const SettingsStoreProvider: ParentComponent = props => {
 	createEffect(evaluateColorScheme)
 
 	// If the system preference changes, re-evaluate the color scheme
-	const onSystemChange = (e: MediaQueryListEvent) => {
+	const onSystemChange = (_event: MediaQueryListEvent) => {
 		evaluateColorScheme()
 	}
 
 	// Listen for system changes
-	window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', onSystemChange)
+	mediaQuery.addEventListener('change', onSystemChange)
 
 	onCleanup(() => {
-		window.removeEventListener('change', onSystemChange as any)
+		mediaQuery.removeEventListener('change', onSystemChange)
 	})
 
 	return <SettingsStoreContext.Provider value={[store, actions]}>{props.children}</SettingsStoreContext.Provider>
 }
 
 function useSettingsStore() {
-	return useContext<SettingsStoreContextInterface>(SettingsStoreContext)
+	const context = useContext(SettingsStoreContext)
+	if (!context) {
+		throw new Error('useSettingsStore must be used within SettingsStoreProvider')
+	}
+	return context
 }
 
 export { ThemeMode, useSettingsStore, SettingsStoreProvider }

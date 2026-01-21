@@ -20,8 +20,9 @@ const DarkModeToggle: Component<TabGroupProps> = props => {
 		if (toggleRef?.matches(':focus-within')) return
 		setExpanded(false)
 	}
-	const handleFocusOut = (event: FocusEvent & { currentTarget: HTMLDivElement; relatedTarget: Node | null }) => {
-		if (!event.currentTarget.contains(event.relatedTarget as Node | null)) {
+	const handleFocusOut = (event: FocusEvent & { currentTarget: HTMLDivElement }) => {
+		const relatedTarget = event.relatedTarget
+		if (!relatedTarget || !(relatedTarget instanceof Node) || !event.currentTarget.contains(relatedTarget)) {
 			collapse()
 		}
 	}

@@ -13,4 +13,20 @@ function useGraphQL() {
 	return useContext<GraphQLClientQuery>(GraphQLContext)
 }
 
-export { GraphQLProvider, useGraphQL }
+function createAbortableGraphQLClient(url: string) {
+	let abortController: AbortController | null = null
+	const client = createGraphQLClient(url, {
+		fetcher: (input, init) => {
+			abortController?.abort()
+			abortController = new AbortController()
+			return fetch(input, { ...init, signal: abortController.signal })
+		},
+	})
+
+	return {
+		client,
+		abort: () => abortController?.abort(),
+	}
+}
+
+export { GraphQLProvider, useGraphQL, createAbortableGraphQLClient }

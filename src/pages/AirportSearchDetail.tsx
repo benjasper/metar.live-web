@@ -190,8 +190,14 @@ const AirportSearchDetail: Component = () => {
 		setLastRefreshed(new Date())
 	}
 
-	const navigateTo = (airportIdentifier: string) => {
-		navigate(`/airport/${airportIdentifier}`)
+	const navigateTo = (airportIdentifier: string, options?: { newTab?: boolean }) => {
+		const targetPath = `/airport/${airportIdentifier}`
+		if (options?.newTab) {
+			window.open(targetPath, '_blank', 'noopener')
+			return
+		}
+
+		navigate(targetPath)
 	}
 
 	// Make a search base on the route parameter
