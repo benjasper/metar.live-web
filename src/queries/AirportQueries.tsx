@@ -153,10 +153,17 @@ const AIRPORTS_IN_VICINITY_FRAGMENT = gql`
 					latitude
 					longitude
 				}
-				metars(first: 1) {
+				metars(first: 2) {
 					edges {
 						node {
-							flightCategory
+							...Metar
+						}
+					}
+				}
+				tafs(first: 1) {
+					edges {
+						node {
+							...Taf
 						}
 					}
 				}

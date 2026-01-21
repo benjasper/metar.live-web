@@ -1200,7 +1200,89 @@ export type StationsVicinityFragment = {
 				__typename?: 'MetarConnection'
 				edges: Array<{
 					__typename?: 'MetarEdge'
-					node: { __typename?: 'Metar'; flightCategory?: MetarFlightCategory | null }
+					node: {
+						__typename?: 'Metar'
+						observationTime: any
+						importTime: any
+						nextImportTimePrediction?: any | null
+						rawText: string
+						temperature?: number | null
+						dewpoint?: number | null
+						altimeter?: number | null
+						visibility?: number | null
+						visibilityIsMoreThan: boolean
+						windDirection?: number | null
+						windDirectionVariable: boolean
+						windSpeed?: number | null
+						windGust?: number | null
+						flightCategory?: MetarFlightCategory | null
+						presentWeather?: string | null
+						skyConditions?: Array<{
+							__typename?: 'SkyCondition'
+							skyCover: SkyConditionSkyCover
+							cloudType?: SkyConditionCloudType | null
+							cloudBase?: number | null
+						}> | null
+					}
+				}>
+			}
+			tafs: {
+				__typename?: 'TafConnection'
+				edges: Array<{
+					__typename?: 'TafEdge'
+					node: {
+						__typename?: 'Taf'
+						issueTime: any
+						rawText: string
+						remarks: string
+						validFromTime: any
+						validToTime: any
+						forecast?: Array<{
+							__typename?: 'Forecast'
+							fromTime: any
+							toTime: any
+							changeIndicator?: ForecastChangeIndicator | null
+							changeTime?: any | null
+							changeProbability?: number | null
+							windDirection?: number | null
+							windShearDirection?: number | null
+							weather?: string | null
+							altimeter?: number | null
+							windSpeed?: number | null
+							windGust?: number | null
+							visibilityHorizontal?: number | null
+							visibilityHorizontalIsMoreThan: boolean
+							visibilityVertical?: number | null
+							windShearHeight?: number | null
+							windShearSpeed?: number | null
+							windDirectionVariable: boolean
+							skyConditions?: Array<{
+								__typename?: 'SkyCondition'
+								skyCover: SkyConditionSkyCover
+								cloudType?: SkyConditionCloudType | null
+								cloudBase?: number | null
+							}> | null
+							turbulenceConditions?: Array<{
+								__typename?: 'TurbulenceCondition'
+								intensity: string
+								minAltitude?: number | null
+								maxAltitude?: number | null
+							}> | null
+							icingConditions?: Array<{
+								__typename?: 'IcingCondition'
+								intensity: string
+								minAltitude?: number | null
+								maxAltitude?: number | null
+							}> | null
+							temperatureData?: Array<{
+								__typename?: 'TemperatureData'
+								validTime: any
+								temperature: number
+								minTemperature?: number | null
+								maxTemperature?: number | null
+							}> | null
+						}> | null
+					}
 				}>
 			}
 		}
@@ -1350,7 +1432,89 @@ export type AirportSearchFragment = {
 				__typename?: 'MetarConnection'
 				edges: Array<{
 					__typename?: 'MetarEdge'
-					node: { __typename?: 'Metar'; flightCategory?: MetarFlightCategory | null }
+					node: {
+						__typename?: 'Metar'
+						observationTime: any
+						importTime: any
+						nextImportTimePrediction?: any | null
+						rawText: string
+						temperature?: number | null
+						dewpoint?: number | null
+						altimeter?: number | null
+						visibility?: number | null
+						visibilityIsMoreThan: boolean
+						windDirection?: number | null
+						windDirectionVariable: boolean
+						windSpeed?: number | null
+						windGust?: number | null
+						flightCategory?: MetarFlightCategory | null
+						presentWeather?: string | null
+						skyConditions?: Array<{
+							__typename?: 'SkyCondition'
+							skyCover: SkyConditionSkyCover
+							cloudType?: SkyConditionCloudType | null
+							cloudBase?: number | null
+						}> | null
+					}
+				}>
+			}
+			tafs: {
+				__typename?: 'TafConnection'
+				edges: Array<{
+					__typename?: 'TafEdge'
+					node: {
+						__typename?: 'Taf'
+						issueTime: any
+						rawText: string
+						remarks: string
+						validFromTime: any
+						validToTime: any
+						forecast?: Array<{
+							__typename?: 'Forecast'
+							fromTime: any
+							toTime: any
+							changeIndicator?: ForecastChangeIndicator | null
+							changeTime?: any | null
+							changeProbability?: number | null
+							windDirection?: number | null
+							windShearDirection?: number | null
+							weather?: string | null
+							altimeter?: number | null
+							windSpeed?: number | null
+							windGust?: number | null
+							visibilityHorizontal?: number | null
+							visibilityHorizontalIsMoreThan: boolean
+							visibilityVertical?: number | null
+							windShearHeight?: number | null
+							windShearSpeed?: number | null
+							windDirectionVariable: boolean
+							skyConditions?: Array<{
+								__typename?: 'SkyCondition'
+								skyCover: SkyConditionSkyCover
+								cloudType?: SkyConditionCloudType | null
+								cloudBase?: number | null
+							}> | null
+							turbulenceConditions?: Array<{
+								__typename?: 'TurbulenceCondition'
+								intensity: string
+								minAltitude?: number | null
+								maxAltitude?: number | null
+							}> | null
+							icingConditions?: Array<{
+								__typename?: 'IcingCondition'
+								intensity: string
+								minAltitude?: number | null
+								maxAltitude?: number | null
+							}> | null
+							temperatureData?: Array<{
+								__typename?: 'TemperatureData'
+								validTime: any
+								temperature: number
+								minTemperature?: number | null
+								maxTemperature?: number | null
+							}> | null
+						}> | null
+					}
 				}>
 			}
 		}
@@ -1507,7 +1671,89 @@ export type GetSingleAirportQuery = {
 					__typename?: 'MetarConnection'
 					edges: Array<{
 						__typename?: 'MetarEdge'
-						node: { __typename?: 'Metar'; flightCategory?: MetarFlightCategory | null }
+						node: {
+							__typename?: 'Metar'
+							observationTime: any
+							importTime: any
+							nextImportTimePrediction?: any | null
+							rawText: string
+							temperature?: number | null
+							dewpoint?: number | null
+							altimeter?: number | null
+							visibility?: number | null
+							visibilityIsMoreThan: boolean
+							windDirection?: number | null
+							windDirectionVariable: boolean
+							windSpeed?: number | null
+							windGust?: number | null
+							flightCategory?: MetarFlightCategory | null
+							presentWeather?: string | null
+							skyConditions?: Array<{
+								__typename?: 'SkyCondition'
+								skyCover: SkyConditionSkyCover
+								cloudType?: SkyConditionCloudType | null
+								cloudBase?: number | null
+							}> | null
+						}
+					}>
+				}
+				tafs: {
+					__typename?: 'TafConnection'
+					edges: Array<{
+						__typename?: 'TafEdge'
+						node: {
+							__typename?: 'Taf'
+							issueTime: any
+							rawText: string
+							remarks: string
+							validFromTime: any
+							validToTime: any
+							forecast?: Array<{
+								__typename?: 'Forecast'
+								fromTime: any
+								toTime: any
+								changeIndicator?: ForecastChangeIndicator | null
+								changeTime?: any | null
+								changeProbability?: number | null
+								windDirection?: number | null
+								windShearDirection?: number | null
+								weather?: string | null
+								altimeter?: number | null
+								windSpeed?: number | null
+								windGust?: number | null
+								visibilityHorizontal?: number | null
+								visibilityHorizontalIsMoreThan: boolean
+								visibilityVertical?: number | null
+								windShearHeight?: number | null
+								windShearSpeed?: number | null
+								windDirectionVariable: boolean
+								skyConditions?: Array<{
+									__typename?: 'SkyCondition'
+									skyCover: SkyConditionSkyCover
+									cloudType?: SkyConditionCloudType | null
+									cloudBase?: number | null
+								}> | null
+								turbulenceConditions?: Array<{
+									__typename?: 'TurbulenceCondition'
+									intensity: string
+									minAltitude?: number | null
+									maxAltitude?: number | null
+								}> | null
+								icingConditions?: Array<{
+									__typename?: 'IcingCondition'
+									intensity: string
+									minAltitude?: number | null
+									maxAltitude?: number | null
+								}> | null
+								temperatureData?: Array<{
+									__typename?: 'TemperatureData'
+									validTime: any
+									temperature: number
+									minTemperature?: number | null
+									maxTemperature?: number | null
+								}> | null
+							}> | null
+						}
 					}>
 				}
 			}

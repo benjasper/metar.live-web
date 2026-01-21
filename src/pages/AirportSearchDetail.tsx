@@ -36,6 +36,36 @@ import {
 } from '../queries/generated/graphql'
 import Tooltip from '../components/Tooltip'
 
+interface Coordinates {
+	latitude: number
+	longitude: number
+}
+
+const degreeToAbbrev = (degree: number): string => {
+	const directions = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW', 'N']
+	if (degree < 0) {
+		degree = 360 - Math.abs(degree)
+	}
+	const index = Math.round((degree % 360) / 45)
+	return directions[index]
+}
+
+const getInitialBearing = (point1: Coordinates, point2: Coordinates): number => {
+	const lat1 = (point1.latitude * Math.PI) / 180
+	const lon1 = (point1.longitude * Math.PI) / 180
+	const lat2 = (point2.latitude * Math.PI) / 180
+	const lon2 = (point2.longitude * Math.PI) / 180
+
+	const deltaLon = lon2 - lon1
+
+	const theta = Math.atan2(
+		Math.sin(deltaLon) * Math.cos(lat2),
+		Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(deltaLon)
+	)
+
+	return (theta * 180) / Math.PI
+}
+
 const AirportSearchDetail: Component = () => {
 	const params = useParams()
 	const navigate = useNavigate()
@@ -44,6 +74,7 @@ const AirportSearchDetail: Component = () => {
 
 	const [unitStore, { selectUnit }] = useUnitStore()
 	const selectedHeightUnit = () => unitStore.height.units[unitStore.height.selected]
+	const selectedLengthUnit = () => unitStore.length.units[unitStore.length.selected]
 
 	const now = useTimeStore()
 
@@ -90,6 +121,73 @@ const AirportSearchDetail: Component = () => {
 
 	const isNight = () =>
 		sunEvents()!.nextSunrise.getTime() - now().getTime() < sunEvents()!.nextSunset.getTime() - now().getTime()
+
+	const nearestWeatherStation = createMemo(() => {
+		const stations = airportStore.airport?.stationsVicinity ?? []
+		if (stations.length === 0) {
+			return undefined
+		}
+
+		const withMetar = stations.find(station => (station.station?.metars.edges.length ?? 0) > 0)
+		return withMetar ?? stations[0]
+	})
+
+	const shouldOverlayWeather = createMemo(() =>
+		Boolean(airportStore.airport && !airportStore.airport.station && nearestWeatherStation()?.station)
+	)
+
+	const nearestStationLabel = createMemo(() => {
+		const stationAirport = nearestWeatherStation()?.station.airport
+		if (!stationAirport) {
+			return 'nearby station'
+		}
+
+		const code = stationAirport.icaoCode ?? stationAirport.gpsCode ?? stationAirport.identifier
+		return stationAirport.name ? `${code} (${stationAirport.name})` : code
+	})
+
+	const overlayDistance = createMemo(() => nearestWeatherStation()?.distance)
+	const overlayStationCode = createMemo(() => {
+		const stationAirport = nearestWeatherStation()?.station.airport
+		return stationAirport?.icaoCode ?? stationAirport?.gpsCode ?? stationAirport?.identifier ?? 'Station'
+	})
+	const overlayDirection = createMemo(() => {
+		const stationAirport = nearestWeatherStation()?.station.airport
+		if (!airportStore.airport || !stationAirport?.latitude || !stationAirport.longitude) {
+			return undefined
+		}
+
+		const from: Coordinates = {
+			latitude: airportStore.airport.latitude,
+			longitude: airportStore.airport.longitude,
+		}
+		const to: Coordinates = {
+			latitude: stationAirport.latitude,
+			longitude: stationAirport.longitude,
+		}
+
+		return degreeToAbbrev(getInitialBearing(from, to))
+	})
+
+	const weatherAirport = createMemo(() => {
+		if (!airportStore.airport) {
+			return undefined
+		}
+
+		if (!shouldOverlayWeather()) {
+			return airportStore.airport
+		}
+
+		const station = nearestWeatherStation()?.station
+		if (!station) {
+			return airportStore.airport
+		}
+
+		return {
+			...airportStore.airport,
+			station,
+		}
+	})
 
 	const [lastRefreshed, setLastRefreshed] = createSignal<Date>(new Date())
 	const [airportIdentifier, setAirportIdentifier] = createSignal<GetSingleAirportQueryVariables | false>(false)
@@ -439,15 +537,29 @@ const AirportSearchDetail: Component = () => {
 							</Show>
 						</div>
 					</div>
-					<Show when={airportStore.airport!.station !== null}>
+					<Show when={Boolean(weatherAirport()?.station)}>
 						<WeatherElements
-							airport={airportStore.airport!}
+							airport={weatherAirport()!}
 							lastRefreshed={lastRefreshed()}
 							isNight={isNight()}
+							overlayLabel={
+								shouldOverlayWeather()
+									? `${overlayStationCode()} · ${Math.round(
+											selectedLengthUnit().conversionFunction(overlayDistance() ?? 0)
+										)} ${selectedLengthUnit().symbol}${overlayDirection() ? ` ${overlayDirection()}` : ''}`
+									: undefined
+							}
+							overlayTooltip={
+								shouldOverlayWeather()
+									? `This field has no reporting station. Showing weather from ${nearestStationLabel()}, about ${Math.round(
+											selectedLengthUnit().conversionFunction(overlayDistance() ?? 0)
+									  )} ${selectedLengthUnit().symbol}${overlayDirection() ? ` ${overlayDirection()}` : ''} of this field.`
+									: undefined
+							}
 						/>
 						<ForecastElements
-							airport={airportStore.airport!}
-							taf={airportStore.airport!.station?.tafs.edges[0]?.node}
+							airport={weatherAirport()!}
+							taf={weatherAirport()?.station?.tafs.edges[0]?.node}
 							isNight={isNight()}
 						/>
 					</Show>

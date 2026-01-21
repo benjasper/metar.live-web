@@ -17,6 +17,8 @@ interface ParsedWeatherElementsProps {
 	airport: AirportSearchFragment
 	lastRefreshed: Date
 	isNight: boolean
+	overlayLabel?: string
+	overlayTooltip?: string
 }
 
 const WeatherElements: Component<ParsedWeatherElementsProps> = props => {
@@ -63,6 +65,11 @@ const WeatherElements: Component<ParsedWeatherElementsProps> = props => {
 					<h3 class="font-semibold text-slate-900 dark:text-white">Current weather</h3>
 					<Show when={(props.airport?.station?.metars.edges.length ?? 0) > 0}>
 						<div class="flex flex-row flex-wrap justify-start gap-2 pt-2">
+							<Show when={props.overlayLabel}>
+								<Tag intent="info" tooltip={props.overlayTooltip ?? props.overlayLabel}>
+									{props.overlayLabel}
+								</Tag>
+							</Show>
 							<Tag
 								intent={observationStatus()}
 								tooltip={metarObservationTime().toLocaleTimeString([], {
