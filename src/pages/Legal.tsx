@@ -17,6 +17,8 @@ const Legal = () => {
 					Bernhard-Göring-Str. 69
 					<br />
 					04107 Leipzig
+					<br />
+					Germany
 				</p>
 				<h2 class="pt-8 text-3xl">Contact</h2>
 				<p>
