@@ -224,10 +224,10 @@ const SearchBar: Component<SearchBarProps> = (properties: SearchBarProps) => {
 
 								setOpenInNewTabIntent(event.metaKey || event.ctrlKey)
 							}}
-							class="dark:text-white-dark dark:placeholder:text-white-darker w-full rounded-3xl border-none bg-transparent py-2.5 pr-11 pl-11 text-left text-lg font-medium text-slate-900 outline-hidden transition-colors duration-200 placeholder:text-slate-400 focus:outline-hidden"
+							class="dark:text-white-dark dark:placeholder:text-white-darker w-full rounded-3xl border-none bg-transparent py-2.5 pr-11 pl-11 text-left text-lg font-medium text-slate-900 outline-hidden transition-colors duration-200 placeholder:text-slate-500 focus:outline-hidden"
 						/>
 						<AiOutlineSearch
-							class="dark:text-white-darker pointer-events-none absolute top-1/2 left-5 -translate-y-1/2 transform text-slate-400 transition-colors duration-300 group-hover:text-slate-500"
+							class="dark:text-white-darker pointer-events-none absolute top-1/2 left-5 -translate-y-1/2 transform text-slate-500 transition-colors duration-300 group-hover:text-slate-600"
 							size={18}
 						/>
 						<Transition
@@ -240,7 +240,7 @@ const SearchBar: Component<SearchBarProps> = (properties: SearchBarProps) => {
 							leaveTo="opacity-0">
 							<div class="absolute top-1/2 right-5 -translate-y-1/2 transform">
 								<svg
-									class="dark:text-white-darker h-5 w-5 animate-spin text-slate-400"
+									class="dark:text-white-darker h-5 w-5 animate-spin text-slate-500"
 									xmlns="http://www.w3.org/2000/svg"
 									fill="none"
 									viewBox="0 0 24 24">
@@ -277,7 +277,7 @@ const SearchBar: Component<SearchBarProps> = (properties: SearchBarProps) => {
 										<ul
 											{...props({
 												'aria-label': 'Airport selection search bar',
-												class: 'ring-opacity-5 absolute left-0 z-40 mt-3 w-full origin-top-right overflow-y-auto rounded-2xl border border-slate-200/80 bg-white/85 p-2 shadow-lg ring-1 ring-black/5 backdrop-blur-md focus:outline-hidden dark:border-white/10 dark:bg-slate-900/75 dark:ring-white/10 dark:backdrop-blur-md',
+												class: 'ring-opacity-5 absolute left-0 z-50 mt-3 w-full origin-top-right overflow-y-auto rounded-2xl border border-slate-200/80 bg-white/95 p-2 shadow-lg ring-1 ring-black/5 backdrop-blur-md focus:outline-hidden dark:border-white/10 dark:bg-slate-900/90 dark:ring-white/10 dark:backdrop-blur-xl',
 											})}>
 											<Show when={hasResults()}>
 												<For each={airportResults()}>
@@ -294,9 +294,9 @@ const SearchBar: Component<SearchBarProps> = (properties: SearchBarProps) => {
 																		{...itemProps({
 																			class: 'relative block w-full cursor-pointer rounded-xl px-5 py-3 pr-14 text-sm font-medium transition-all duration-200 data-[highlighted]:bg-white data-[highlighted]:text-slate-900 data-[highlighted]:ring-1 data-[highlighted]:ring-slate-200 data-[highlighted]:shadow-sm dark:data-[highlighted]:bg-white/10 dark:data-[highlighted]:text-white-dark dark:data-[highlighted]:ring-0 dark:data-[highlighted]:shadow-none',
 																			classList: {
-																				'text-slate-600 hover:bg-slate-100/70 dark:text-slate-300 dark:hover:bg-white/10':
+																				'text-slate-700 hover:bg-slate-100/70 dark:text-slate-300 dark:hover:bg-white/10':
 																					airportNode.node.station !== null,
-																				'text-slate-400 dark:text-slate-500':
+																				'text-slate-500 dark:text-slate-500':
 																					airportNode.node.station === null,
 																			},
 																			onPointerDown: event => {
@@ -337,7 +337,7 @@ const SearchBar: Component<SearchBarProps> = (properties: SearchBarProps) => {
 																					? 'Saved to favorites'
 																					: 'Not favorited'
 																			}
-																			class="absolute top-1/2 right-4 -translate-y-1/2 transform text-slate-300 dark:text-slate-500"
+																			class="absolute top-1/2 right-4 -translate-y-1/2 transform text-slate-400 dark:text-slate-500"
 																			classList={{
 																				'text-amber-400 drop-shadow-sm':
 																					isFavorite(),
@@ -355,7 +355,7 @@ const SearchBar: Component<SearchBarProps> = (properties: SearchBarProps) => {
 											</Show>
 											<Show when={isEmptyState()}>
 												<li
-													class="dark:text-white-dark pointer-events-none block w-full rounded-xl px-5 py-3 text-sm font-medium text-slate-500"
+													class="dark:text-white-dark pointer-events-none block w-full rounded-xl px-5 py-3 text-sm font-medium text-slate-600"
 													role="option">
 													Nothing found.
 												</li>
