@@ -9,9 +9,15 @@ interface PageContentProps {
 	title: string
 	description: string
 	contentFullHeight?: boolean
+	containerOnMobile?: boolean
 }
 
 const PageContent: ParentComponent<PageContentProps> = props => {
+	const containerClasses =
+		props.containerOnMobile === false
+			? 'relative flex w-full flex-col px-4 transition-colors sm:container sm:px-8'
+			: 'relative container flex flex-col transition-colors'
+
 	return (
 		<>
 			<PageTitle content={props.title} />
@@ -34,9 +40,7 @@ const PageContent: ParentComponent<PageContentProps> = props => {
 					<div class="absolute inset-0 bg-[linear-gradient(135deg,_rgba(255,255,255,0.2)_0%,_rgba(255,255,255,0)_35%,_rgba(15,23,42,0.25)_100%)] opacity-70 transition-opacity dark:opacity-40" />
 				</div>
 				<div class="grid-rows-layout relative grid min-h-screen pt-6 transition-colors">
-					<div
-						class="relative container flex flex-col transition-colors"
-						classList={{ 'min-h-screen': props.contentFullHeight ?? false }}>
+					<div class={containerClasses} classList={{ 'min-h-screen': props.contentFullHeight ?? false }}>
 						<StatusBanner />
 						{props.children}
 					</div>

@@ -36,12 +36,13 @@ const Home: Component = () => {
 			<PageContent
 				title="Live METAR & TAF Aviation Weather Reports"
 				description="Search 5,000+ airports for real-time METARs, TAF forecasts, runway winds, and automated aviation weather updates with metar.live."
-				contentFullHeight={false}>
+				contentFullHeight={false}
+				containerOnMobile={false}>
 				<Header />
 				<div class="mt-16 flex flex-col gap-8 transition-all md:mt-[20vh]">
 					<div class="relative mx-auto w-full max-w-3xl">
 						<div class="pointer-events-none absolute -inset-8 rounded-[40px] bg-linear-to-b from-slate-200/70 via-slate-100/20 to-transparent blur-3xl dark:from-white/10 dark:via-white/5" />
-						<div class="relative z-10 flex flex-col gap-10 rounded-3xl border border-slate-200/70 bg-white/90 px-8 py-10 shadow-sm backdrop-blur md:px-12 md:py-12 dark:border-white/10 dark:bg-slate-900/70">
+						<div class="relative z-10 flex flex-col gap-10 px-5 py-10 sm:px-8 md:rounded-3xl md:border md:border-slate-200/70 md:bg-white/90 md:px-12 md:py-12 md:shadow-sm md:backdrop-blur dark:md:border-white/10 dark:md:bg-slate-900/70">
 							<Logo showText={false} class="mx-auto hidden md:flex" />
 							<div class="flex flex-col items-center gap-2">
 								<h2 class="text-center text-2xl text-slate-900 dark:text-white">

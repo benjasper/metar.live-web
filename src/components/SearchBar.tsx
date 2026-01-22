@@ -201,7 +201,7 @@ const SearchBar: Component<SearchBarProps> = (properties: SearchBarProps) => {
 				onSubmit(selected.node.identifier, { newTab: shouldOpenInNewTab })
 			}}>
 			<div class={`flex flex-col ${props.class}`}>
-				<div class="relative mx-auto w-full max-w-xl">
+				<div class="relative mx-auto w-full max-w-none sm:max-w-xl">
 					<Combobox.Control
 						class="group relative overflow-hidden rounded-[1.65rem] border border-slate-200/80 bg-white px-3 py-0.5 transition-colors duration-200 ease-out dark:border-white/10 dark:bg-white/10"
 						classList={{
