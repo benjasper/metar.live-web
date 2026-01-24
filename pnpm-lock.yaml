@@ -17,6 +17,9 @@ importers:
       '@floating-ui/dom':
         specifier: ^1.7.4
         version: 1.7.4
+      '@plausible-analytics/tracker':
+        specifier: ^0.4.4
+        version: 0.4.4
       '@solid-primitives/graphql':
         specifier: ^2.2.3
         version: 2.2.3(@graphql-typed-document-node/core@3.2.0(graphql@16.12.0))(graphql@16.12.0)(solid-js@1.9.10)
@@ -1030,6 +1033,9 @@ packages:
   '@pkgr/core@0.2.9':
     resolution: {integrity: sha512-QNqXyfVS2wm9hweSYD2O7F0G06uurj9kZ96TRQE5Y9hU7+tgdZwIkbAKc5Ocy1HxEY2kuDQa6cQ1WRs/O5LFKA==}
     engines: {node: ^12.20.0 || ^14.18.0 || >=16.0.0}
+
+  '@plausible-analytics/tracker@0.4.4':
+    resolution: {integrity: sha512-fz0NOYUEYXtg1TBaPEEvtcBq3FfmLFuTe1VZw4M8sTWX129br5dguu3M15+plOQnc181ShYe67RfwhKgK89VnA==}
 
   '@repeaterjs/repeater@3.0.6':
     resolution: {integrity: sha512-Javneu5lsuhwNCryN+pXH93VPQ8g0dBX7wItHFgYiwQmzE1sVdg5tWHiOgHywzL2W21XQopa7IwIEnNbmeUJYA==}
@@ -4438,6 +4444,8 @@ snapshots:
       fastq: 1.17.1
 
   '@pkgr/core@0.2.9': {}
+
+  '@plausible-analytics/tracker@0.4.4': {}
 
   '@repeaterjs/repeater@3.0.6': {}
 

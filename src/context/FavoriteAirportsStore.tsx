@@ -1,3 +1,4 @@
+import { track } from '@plausible-analytics/tracker'
 import { createContext, createEffect, ParentComponent, useContext } from 'solid-js'
 import { createStore } from 'solid-js/store'
 
@@ -73,9 +74,11 @@ const FavoriteAirportsStoreProvider: ParentComponent = props => {
 
 	const toggleFavorite = (favorite: Omit<FavoriteAirport, 'addedAt'>) => {
 		if (isFavorite(favorite.identifier)) {
+			track('removedFavorite', {})
 			removeFavorite(favorite.identifier)
 		} else {
 			addFavorite(favorite)
+			track('addedFavorite', {})
 		}
 	}
 
