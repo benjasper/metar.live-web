@@ -3,6 +3,7 @@ import { createStore } from 'solid-js/store'
 
 interface SettingsStore {
 	theme: ThemeMode
+	actualTheme: Omit<ThemeMode, 'system'>
 }
 
 enum ThemeMode {
@@ -21,6 +22,7 @@ type SettingsStoreContextInterface = [
 const createSettingsStore = (): SettingsStore => {
 	return {
 		theme: ThemeMode.System,
+		actualTheme: ThemeMode.Light,
 	}
 }
 
@@ -43,6 +45,13 @@ const SettingsStoreProvider: ParentComponent = props => {
 	}
 
 	const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
+	// eslint-disable-next-line solid/reactivity
+	if (store.theme === ThemeMode.System) {
+		setStore('actualTheme', mediaQuery.matches ? ThemeMode.Dark : ThemeMode.Light)
+	} else {
+		// eslint-disable-next-line solid/reactivity
+		setStore('actualTheme', store.theme)
+	}
 
 	const evaluateColorScheme = () => {
 		// If the toggle has selected a specific mode, use that, otherwise (if system is selected) use the system preference
@@ -50,9 +59,11 @@ const SettingsStoreProvider: ParentComponent = props => {
 			document.documentElement.classList.add('dark')
 			// Set Meta Tag Theme Color
 			document.querySelector('meta[name="theme-color"]')?.setAttribute('content', '#000212')
+			setStore('actualTheme', ThemeMode.Dark)
 		} else if (store.theme === ThemeMode.Light || (!mediaQuery.matches && store.theme === ThemeMode.System)) {
 			document.documentElement.classList.remove('dark')
 			document.querySelector('meta[name="theme-color"]')?.setAttribute('content', '#f9f8f9')
+			setStore('actualTheme', ThemeMode.Light)
 		}
 	}
 

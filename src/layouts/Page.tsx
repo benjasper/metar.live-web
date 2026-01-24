@@ -11,7 +11,7 @@ const Page: ParentComponent = props => {
 		endpoint: 'https://plausible.benjaminjasper.com/api/event',
 		customProperties: () => {
 			return {
-				theme: settingsStore.theme,
+				theme: settingsStore.actualTheme.toString(),
 			}
 		},
 	})
