@@ -52,7 +52,7 @@ const Footer: Component = () => {
 					<DarkModeToggle />
 				</div>
 			</div>
-			<div class="dark:text-white-light container flex justify-center pt-4 text-gray-700 md:pt-0">
+			<div class="dark:text-white-light container flex justify-center pt-4 text-slate-800 md:pt-0">
 				<A
 					class="flex items-center gap-2 text-sm hover:underline"
 					href="https://github.com/benjasper/metar.live-web/issues/new"

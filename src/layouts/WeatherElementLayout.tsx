@@ -107,10 +107,10 @@ const WeatherElementLayout: ParentComponent<ParsedWeatherElementLayoutProps> = p
 
 	return (
 		<div
-			class={`group dark:text-white-light relative flex h-auto min-h-[10.5rem] w-full flex-1 basis-full flex-col justify-center gap-3 rounded-3xl border border-slate-200/70 bg-white px-6 py-5 text-slate-900 transition-colors duration-200 md:mx-0 md:min-w-[220px] md:flex-[1_1_220px] md:basis-[calc(50%-1.5rem)] lg:basis-[calc(33%-1.5rem)] dark:border-white/10 dark:bg-slate-900/70 ${
+			class={`group dark:text-white-light relative flex h-auto min-h-[10.5rem] w-full flex-1 basis-full flex-col justify-center gap-3 rounded-3xl border border-slate-300/60 bg-slate-50/85 px-6 py-5 text-slate-900 transition-colors duration-200 md:mx-0 md:min-w-[220px] md:flex-[1_1_220px] md:basis-[calc(50%-1.5rem)] lg:basis-[calc(33%-1.5rem)] dark:border-white/10 dark:bg-slate-900/70 ${
 				props.class ?? ''
 			}`}>
-			<label class="relative z-10 mx-auto flex items-center gap-2 px-4 text-center text-[0.66rem] font-semibold tracking-[0.3em] text-slate-500 uppercase transition-colors dark:text-white/70">
+			<label class="relative z-10 mx-auto flex items-center gap-2 px-4 text-center text-[0.66rem] font-semibold tracking-[0.3em] text-slate-700 uppercase transition-colors dark:text-white/70">
 				<Show when={props.icon}>
 					<div class="my-auto">{props.icon}</div>
 				</Show>
@@ -164,9 +164,9 @@ const WeatherElementLayout: ParentComponent<ParsedWeatherElementLayoutProps> = p
 							aria-label={`Context menu for ${props.name}. Includes unit conversions.`}
 							onClick={() => setIsOpen(!isOpen())}
 							ref={setReference}
-							class="group my-auto inline-flex cursor-pointer items-center justify-center rounded-full border border-gray-200 bg-white/85 p-2 text-base font-medium text-slate-500 shadow-sm transition-colors duration-200 hover:border-gray-300 hover:text-slate-800 focus-visible:ring-2 focus-visible:ring-sky-300 focus-visible:ring-offset-2 focus-visible:ring-offset-white focus-visible:outline-hidden dark:border-white/15 dark:bg-slate-800 dark:text-white/70 dark:hover:border-white/25 dark:hover:text-white"
+							class="group my-auto inline-flex cursor-pointer items-center justify-center rounded-full border border-slate-200/70 bg-slate-50/80 p-2 text-base font-medium text-slate-700 transition-colors duration-200 hover:border-slate-300/60 hover:text-slate-900 focus-visible:ring-2 focus-visible:ring-sky-300 focus-visible:ring-offset-2 focus-visible:ring-offset-white focus-visible:outline-hidden dark:border-white/15 dark:bg-slate-800 dark:text-white/70 dark:hover:border-white/25 dark:hover:text-white"
 							classList={{
-								'border-gray-300 bg-white text-slate-800 shadow-md dark:border-white/25 dark:bg-slate-800/90 dark:text-white':
+								'border-slate-300/60 bg-slate-50/95 text-slate-800 dark:border-white/25 dark:bg-slate-800/90 dark:text-white':
 									isOpen(),
 							}}>
 							<BsThreeDotsVertical />
@@ -184,11 +184,11 @@ const WeatherElementLayout: ParentComponent<ParsedWeatherElementLayoutProps> = p
 									<Menu
 										aria-label={`Context menu for ${props.name}. Includes unit conversion.`}
 										id={`context-menu-${id()}`}
-										class="flex shrink-0 flex-col gap-1 overflow-hidden rounded-2xl border border-gray-200/80 bg-white/95 p-2 shadow-xl backdrop-blur-sm dark:border-white/10 dark:bg-slate-900/85 dark:shadow-lg">
+										class="flex shrink-0 flex-col gap-1 overflow-hidden rounded-2xl border border-slate-300/60 bg-slate-50/95 p-2 shadow-none backdrop-blur-sm dark:border-white/10 dark:bg-slate-900/85 dark:shadow-lg">
 										<For each={unitConfigurations()}>
 											{(unitConfiguration, index) => (
 												<>
-													<span class="px-4 pt-2 text-[0.68rem] font-semibold tracking-[0.2em] text-slate-500 uppercase dark:text-white/60">
+													<span class="px-4 pt-2 text-[0.68rem] font-semibold tracking-[0.2em] text-slate-700 uppercase dark:text-white/60">
 														{unitConfiguration.name ?? props.name} unit conversion
 													</span>
 													<For each={unitConfiguration.configuration!.units}>
@@ -201,13 +201,13 @@ const WeatherElementLayout: ParentComponent<ParsedWeatherElementLayoutProps> = p
 																onClick={() =>
 																	selectUnit(unitConfiguration.type!, unit.symbol)
 																}
-																class="flex gap-2 rounded-xl px-4 py-2 text-left text-sm font-medium whitespace-nowrap text-slate-600 transition-colors duration-200 hover:text-slate-900 focus-visible:outline-hidden disabled:cursor-not-allowed disabled:opacity-60 dark:text-white/85 dark:hover:bg-white/10 dark:hover:text-white"
+																class="flex gap-2 rounded-xl px-4 py-2 text-left text-sm font-medium whitespace-nowrap text-slate-800 transition-colors duration-200 hover:text-slate-900 focus-visible:outline-hidden disabled:cursor-not-allowed disabled:opacity-60 dark:text-white/85 dark:hover:bg-white/10 dark:hover:text-white"
 																classList={{
 																	'cursor-default':
 																		unitStore[unitConfiguration.type!].units[
 																			unitStore[unitConfiguration.type!].selected
 																		].symbol === unit.symbol,
-																	'bg-white':
+																	'bg-slate-50/90':
 																		unitStore[unitConfiguration.type!].units[
 																			unitStore[unitConfiguration.type!].selected
 																		].symbol === unit.symbol,
@@ -215,7 +215,7 @@ const WeatherElementLayout: ParentComponent<ParsedWeatherElementLayoutProps> = p
 																		unitStore[unitConfiguration.type!].units[
 																			unitStore[unitConfiguration.type!].selected
 																		].symbol === unit.symbol,
-																	'shadow-sm':
+																	'dark:shadow-sm':
 																		unitStore[unitConfiguration.type!].units[
 																			unitStore[unitConfiguration.type!].selected
 																		].symbol === unit.symbol,
@@ -235,7 +235,7 @@ const WeatherElementLayout: ParentComponent<ParsedWeatherElementLayoutProps> = p
 																		unitStore[unitConfiguration.type!].units[
 																			unitStore[unitConfiguration.type!].selected
 																		].symbol === unit.symbol,
-																	'enabled:hover:bg-gray-100':
+																	'enabled:hover:bg-slate-100/70':
 																		unitStore[unitConfiguration.type!].units[
 																			unitStore[unitConfiguration.type!].selected
 																		].symbol !== unit.symbol,
@@ -246,7 +246,7 @@ const WeatherElementLayout: ParentComponent<ParsedWeatherElementLayoutProps> = p
 																}}>
 																<div class="flex items-center gap-2">
 																	<div
-																		class="h-2.5 w-2.5 rounded-full border border-gray-300 bg-white transition-all duration-300 dark:border-white/40 dark:bg-transparent"
+																		class="h-2.5 w-2.5 rounded-full border border-slate-300 bg-slate-50 transition-all duration-300 dark:border-white/40 dark:bg-transparent"
 																		classList={{
 																			'border-indigo-500/80 bg-indigo-500/90 dark:border-indigo-400 dark:bg-indigo-400':
 																				unitStore[unitConfiguration.type!]
@@ -268,7 +268,7 @@ const WeatherElementLayout: ParentComponent<ParsedWeatherElementLayoutProps> = p
 																			}}
 																		/>
 																	</div>
-																	<span class="text-sm font-medium text-slate-700 dark:text-white/85">
+																	<span class="text-sm font-medium text-slate-900 dark:text-white/85">
 																		Display in {unit.name} ({unit.symbol})
 																	</span>
 																</div>
@@ -287,9 +287,9 @@ const WeatherElementLayout: ParentComponent<ParsedWeatherElementLayoutProps> = p
 																	)
 																: unlockUnit(unitConfiguration.type!)
 														}
-														class="flex gap-2 rounded-xl px-4 py-2 text-left text-sm font-medium text-slate-600 transition-colors duration-200 hover:bg-slate-100/70 hover:text-slate-900 focus-visible:outline-hidden dark:text-white/85 dark:hover:bg-white/10 dark:hover:text-white">
+														class="flex gap-2 rounded-xl px-4 py-2 text-left text-sm font-medium text-slate-800 transition-colors duration-200 hover:bg-slate-100/70 hover:text-slate-900 focus-visible:outline-hidden dark:text-white/85 dark:hover:bg-white/10 dark:hover:text-white">
 														<div
-															class="my-auto flex flex-col items-center text-slate-400 transition-colors duration-200 dark:text-white/70"
+															class="my-auto flex flex-col items-center text-slate-700 transition-colors duration-200 dark:text-white/70"
 															classList={{
 																'text-slate-900 dark:text-primary-light!':
 																	unitStore[unitConfiguration.type!].locked !== '',
@@ -327,7 +327,7 @@ const WeatherElementLayout: ParentComponent<ParsedWeatherElementLayoutProps> = p
 															index() !== (unitConfigurations().length ?? 0) - 1 &&
 															(unitConfigurations().length ?? 0) > 0
 														}>
-														<hr class="border-gray-200/80 dark:border-white/15" />
+														<hr class="border-slate-300/60 dark:border-white/15" />
 													</Show>
 												</>
 											)}

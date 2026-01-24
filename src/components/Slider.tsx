@@ -30,7 +30,7 @@ const SliderNavigation: Component<DotsProps> = props => {
 						'opacity-0 pointer-events-none': helpers().current() <= 0,
 					}}
 					role="button"
-					class="hidden h-9 w-9 cursor-pointer items-center justify-center rounded-full border border-slate-300 bg-white text-slate-800 transition-all focus-visible:ring-2 focus-visible:ring-sky-300 focus-visible:ring-offset-2 focus-visible:ring-offset-white focus-visible:outline-hidden md:flex dark:border-white/25 dark:bg-slate-800 dark:text-white/80">
+					class="hidden h-9 w-9 cursor-pointer items-center justify-center rounded-full border border-slate-200/70 bg-slate-50/85 text-slate-800 transition-all focus-visible:ring-2 focus-visible:ring-sky-300 focus-visible:ring-offset-2 focus-visible:ring-offset-white focus-visible:outline-hidden md:flex dark:border-white/25 dark:bg-slate-800 dark:text-white/80">
 					<TbOutlineChevronLeft class="m-auto" size={20} />
 				</button>
 
@@ -64,7 +64,7 @@ const SliderNavigation: Component<DotsProps> = props => {
 					classList={{
 						'opacity-0 pointer-events-none': helpers().current() >= maxItems(),
 					}}
-					class="hidden h-9 w-9 cursor-pointer items-center justify-center rounded-full border border-slate-300 bg-white text-slate-800 transition-all focus-visible:ring-2 focus-visible:ring-sky-300 focus-visible:ring-offset-2 focus-visible:ring-offset-white focus-visible:outline-hidden md:flex dark:border-white/25 dark:bg-slate-800 dark:text-white/80">
+					class="hidden h-9 w-9 cursor-pointer items-center justify-center rounded-full border border-slate-200/70 bg-slate-50/85 text-slate-800 transition-all focus-visible:ring-2 focus-visible:ring-sky-300 focus-visible:ring-offset-2 focus-visible:ring-offset-white focus-visible:outline-hidden md:flex dark:border-white/25 dark:bg-slate-800 dark:text-white/80">
 					<TbOutlineChevronLeft class="m-auto rotate-180" size={20} />
 				</button>
 			</div>

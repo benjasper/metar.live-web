@@ -302,14 +302,14 @@ const PrecipitationConditionElement: Component<{ condition: string }> = props =>
 	const other = () => labelForOther(parsed().other)
 
 	return (
-		<div class="flex flex-row justify-center gap-1 text-xl">
+		<div class="flex flex-row justify-center gap-1 text-lg">
 			<Show
 				when={hasMapping()}
 				fallback={
-					<span class="dark:text-white-dark text-base font-medium text-slate-600">{props.condition}</span>
+					<span class="dark:text-white-dark text-base font-medium text-slate-800">{props.condition}</span>
 				}>
 				<Show when={icon()}>
-					<div class="dark:text-white-dark my-auto text-gray-600">{icon()}</div>
+					<div class="dark:text-white-dark my-auto text-slate-800">{icon()}</div>
 				</Show>
 
 				<Show when={intensity()}>

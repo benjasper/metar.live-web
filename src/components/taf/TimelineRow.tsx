@@ -133,13 +133,13 @@ const TimelineRow: Component<TimelineRowProps> = props => {
 			}>
 			<Show when={!props.compact}>
 				<div
-					class="flex items-center justify-end pr-2 text-right text-[0.62rem] font-semibold tracking-[0.25em] text-slate-500 uppercase dark:text-slate-400"
+					class="flex items-center justify-end pr-2 text-right text-[0.62rem] font-semibold tracking-[0.25em] text-slate-700 uppercase dark:text-slate-400"
 					style={{ height: `${containerHeight()}px` }}>
 					{props.row.title}
 				</div>
 			</Show>
 			<div
-				class="relative rounded-xl border border-dashed border-slate-200/80 bg-white/40 shadow-inner dark:border-slate-700/70 dark:bg-slate-950/40"
+				class="relative rounded-xl border border-dashed border-slate-300/70 bg-transparent shadow-none dark:border-slate-700/70 dark:bg-slate-950/40 dark:shadow-inner"
 				style={{ height: `${containerHeight()}px` }}>
 				<For each={layout().entries}>
 					{entry => {
@@ -154,7 +154,7 @@ const TimelineRow: Component<TimelineRowProps> = props => {
 										styles().background
 									} ${styles().border} ${styles().text}`}
 									classList={{
-										'ring-2 ring-offset-2 ring-slate-900/20 ring-offset-slate-50 dark:ring-white/40 dark:ring-offset-slate-900':
+										'ring-2 ring-offset-2 ring-slate-900/35 ring-offset-slate-100 dark:ring-white/40 dark:ring-offset-slate-900':
 											isActive(),
 									}}
 									style={{

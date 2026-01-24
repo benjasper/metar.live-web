@@ -107,7 +107,7 @@ const FavoriteAirports: Component = () => {
 					<Show when={airportRequest.error}>
 						<div
 							role="alert"
-							class="mt-4 rounded-2xl border border-rose-200/70 bg-rose-50/80 px-5 py-4 text-sm text-rose-900 shadow-sm dark:border-rose-400/40 dark:bg-rose-500/10 dark:text-rose-100">
+							class="mt-4 rounded-2xl border border-rose-200/70 bg-rose-50/80 px-5 py-4 text-sm text-rose-900 shadow-none dark:border-rose-400/40 dark:bg-rose-500/10 dark:text-rose-100 dark:shadow-sm">
 							<p class="font-semibold">Can't refresh favorite airports right now.</p>
 							<p class="mt-1 text-rose-900/80 dark:text-rose-100/80">
 								We'll keep showing the last loaded data until the connection recovers.

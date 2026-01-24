@@ -179,7 +179,7 @@ const TimelineHoverSummary: Component<TimelineHoverSummaryProps> = props => {
 	})
 
 	const renderMetricText = (value: string) => (
-		<span class="text-sm font-semibold text-slate-900 dark:text-white">{value}</span>
+		<span class="text-base font-medium text-slate-900 dark:text-white">{value}</span>
 	)
 
 	const metrics = createMemo<SummaryMetric[]>(() => {
@@ -215,7 +215,7 @@ const TimelineHoverSummary: Component<TimelineHoverSummaryProps> = props => {
 				badge: sourceBadge('clouds'),
 				icon: <TbOutlineCloud class="text-base" />,
 				content: (
-					<div class="flex flex-wrap gap-x-3 gap-y-1 text-sm font-semibold text-slate-900 dark:text-white">
+					<div class="flex flex-wrap gap-x-3 gap-y-1 text-base font-medium text-slate-900 dark:text-white">
 						<For each={clouds}>
 							{detail => (
 								<span class="flex items-center gap-1">
@@ -250,14 +250,14 @@ const TimelineHoverSummary: Component<TimelineHoverSummaryProps> = props => {
 				badge: sourceBadge('weather'),
 				icon: <TbOutlineCloudRain class="text-base" />,
 				content: (
-					<div class="flex flex-wrap gap-x-3 gap-y-1 text-sm font-semibold text-slate-900 dark:text-white">
+					<div class="flex flex-wrap gap-x-3 gap-y-1 text-base font-medium text-slate-900 dark:text-white">
 						<For each={precipitation}>
 							{detail => {
 								const icon = getWeatherIconForCondition(detail.token)
 								return (
 									<span class="flex items-center gap-1">
 										<Show when={icon}>
-											<span class="text-base leading-none text-slate-600 dark:text-slate-200">
+											<span class="text-base leading-none text-slate-800 dark:text-slate-200">
 												{icon}
 											</span>
 										</Show>
@@ -294,7 +294,7 @@ const TimelineHoverSummary: Component<TimelineHoverSummaryProps> = props => {
 						aria-hidden={!canShowFollowLive() ? 'true' : undefined}
 						disabled={!canShowFollowLive()}
 						onClick={handleFollowLiveClick}
-						class="cursor-pointer rounded-full border border-transparent bg-slate-900 px-2 py-0.5 text-xs font-semibold text-white shadow-sm transition hover:bg-slate-700 dark:bg-white dark:text-slate-900"
+						class="cursor-pointer rounded-full border border-transparent bg-slate-900 px-2 py-0.5 text-xs font-semibold text-white transition hover:bg-slate-700 dark:bg-white dark:text-slate-900"
 						classList={{
 							'pointer-events-none opacity-0': !canShowFollowLive(),
 						}}>
@@ -307,19 +307,19 @@ const TimelineHoverSummary: Component<TimelineHoverSummaryProps> = props => {
 					<div class="grid gap-2 sm:grid-cols-2 2xl:auto-cols-fr 2xl:grid-flow-col 2xl:grid-cols-none">
 						<For each={metrics()}>
 							{metric => (
-								<div class="flex items-start gap-3 rounded-xl border border-slate-200/70 bg-white/70 px-3 py-2 dark:border-slate-700/60 dark:bg-slate-900/50">
-									<div class="my-auto rounded-md bg-slate-900/5 p-1.5 text-slate-600 dark:bg-white/10 dark:text-slate-200">
+								<div class="flex items-start gap-3 rounded-xl border border-slate-300/60 bg-slate-50/80 px-3 py-2 dark:border-slate-700/60 dark:bg-slate-900/50">
+									<div class="my-auto rounded-md bg-slate-900/5 p-1.5 text-slate-800 dark:bg-white/10 dark:text-slate-200">
 										{metric.icon}
 									</div>
 									<div class="min-w-0 flex-1 space-y-1">
 										<div class="flex items-center justify-between gap-2">
-											<span class="text-xs font-semibold tracking-[0.2em] text-slate-500 uppercase dark:text-slate-400">
+											<span class="text-xs font-semibold tracking-[0.2em] text-slate-700 uppercase dark:text-slate-400">
 												{metric.label}
 											</span>
 											<Show when={metric.badge} keyed>
 												{badge => (
 													<span
-														class={`rounded-full border px-2 py-0.5 text-[0.5rem] font-semibold tracking-wider uppercase shadow-sm ${badge.className}`}>
+														class={`rounded-full border px-2 py-0.5 text-[0.5rem] font-semibold tracking-wider uppercase ${badge.className}`}>
 														{badge.label}
 													</span>
 												)}
@@ -333,7 +333,7 @@ const TimelineHoverSummary: Component<TimelineHoverSummaryProps> = props => {
 					</div>
 				</Match>
 				<Match when={showEmptyState()}>
-					<div class="rounded-xl border border-dashed border-slate-300/80 bg-white/70 px-4 py-6 text-center text-sm text-slate-500 dark:border-slate-700/70 dark:bg-slate-900/40 dark:text-slate-400">
+					<div class="rounded-xl border border-dashed border-slate-300/70 bg-slate-50/85 px-4 py-6 text-center text-sm text-slate-700 dark:border-slate-700/70 dark:bg-slate-900/40 dark:text-slate-400">
 						No forecast data is published for this instant. Hover or drag across the timeline to inspect
 						another time.
 					</div>

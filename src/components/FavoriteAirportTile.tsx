@@ -17,7 +17,7 @@ interface FavoriteAirportTileProps {
 }
 
 export const FavoriteAirportTileSkeleton: Component = () => (
-	<div class="flex h-full w-72 shrink-0 animate-pulse flex-col gap-3 rounded-3xl border border-slate-200/70 bg-white px-5 py-5 text-left transition-colors duration-200 dark:border-white/10 dark:bg-slate-900/70">
+	<div class="flex h-full w-72 shrink-0 animate-pulse flex-col gap-3 rounded-3xl border border-slate-300/60 bg-slate-50/85 px-5 py-5 text-left transition-colors duration-200 dark:border-white/10 dark:bg-slate-900/70">
 		<div class="flex flex-col gap-2 pr-6">
 			<div class="h-5 w-32 rounded-full bg-slate-200/80 dark:bg-slate-700/70" />
 			<div class="h-4 w-48 rounded-full bg-slate-100/80 dark:bg-slate-800/80" />
@@ -26,7 +26,7 @@ export const FavoriteAirportTileSkeleton: Component = () => (
 			<div class="h-8 w-24 rounded-full bg-slate-100/80 dark:bg-slate-800/80" />
 			<div class="h-8 w-28 rounded-full bg-slate-100/80 dark:bg-slate-800/80" />
 		</div>
-		<div class="mt-2 h-64 w-full rounded-3xl bg-slate-50 dark:bg-slate-800/40" />
+		<div class="mt-2 h-64 w-full rounded-3xl bg-slate-100/70 dark:bg-slate-800/40" />
 	</div>
 )
 
@@ -85,10 +85,10 @@ export const FavoriteAirportTile: Component<FavoriteAirportTileProps> = props =>
 			<A
 				href={`/airport/${airport()?.identifier ?? props.identifier}`}
 				aria-label={ariaLabel()}
-				class="group relative flex h-full w-72 shrink-0 flex-col gap-3 rounded-3xl border border-slate-200/70 bg-white px-5 py-5 text-left text-slate-900 transition-colors duration-200 hover:border-slate-300 hover:bg-white/90 md:mx-0 dark:border-white/10 dark:bg-slate-900/70 dark:text-white dark:hover:border-white/20 dark:hover:bg-slate-900/80">
+				class="group relative flex h-full w-72 shrink-0 flex-col gap-3 rounded-3xl border border-slate-300/60 bg-slate-50/85 px-5 py-5 text-left text-slate-900 transition-colors duration-200 hover:border-slate-300/60 hover:bg-slate-50/95 md:mx-0 dark:border-white/10 dark:bg-slate-900/70 dark:text-white dark:hover:border-white/20 dark:hover:bg-slate-900/80">
 				<div class="flex flex-col gap-1 pr-6">
 					<h3 class="text-lg font-semibold">{airportCodes()}</h3>
-					<span class="text-sm text-slate-600 dark:text-slate-300">{airportName()}</span>
+					<span class="text-sm text-slate-800 dark:text-slate-300">{airportName()}</span>
 				</div>
 				<Show when={latestMetar()}>
 					<div class="flex flex-wrap gap-2">
@@ -135,7 +135,7 @@ export const FavoriteAirportTile: Component<FavoriteAirportTileProps> = props =>
 						props.onRemove()
 					}}
 					aria-label={`Remove ${airportCodes()} from favorites`}
-					class="absolute top-3 right-3 cursor-pointer rounded-full border-slate-200/70 bg-white/80 p-1 text-amber-300 shadow-sm transition hover:bg-white hover:text-slate-500 focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white focus-visible:outline-hidden dark:bg-slate-800/80 dark:text-amber-300 dark:hover:text-slate-400 dark:focus-visible:ring-offset-slate-900">
+					class="absolute top-3 right-3 cursor-pointer rounded-full border-slate-200/70 bg-slate-50/80 p-1 text-amber-300 transition hover:bg-slate-50 hover:text-slate-700 focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white focus-visible:outline-hidden dark:bg-slate-800/80 dark:text-amber-300 dark:hover:text-slate-400 dark:focus-visible:ring-offset-slate-900">
 					<AiFillStar size={18} />
 				</button>
 			</A>

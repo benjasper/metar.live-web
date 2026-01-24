@@ -19,7 +19,7 @@ export const SkyConditionIcon = (props: { skyCover: SkyConditionSkyCover; class:
 	const classes = () => `h-auto ${props.class ?? ''}`
 
 	return (
-		<div class="dark:text-white-light text-gray-600">
+		<div class="dark:text-white-light text-slate-800">
 			<Switch>
 				<Match when={props.skyCover === SkyConditionSkyCover.Few}>
 					<Show when={props.isDayTime} fallback={<RiWeatherMoonCloudyLine class={classes()} />}>

@@ -41,14 +41,15 @@ const Home: Component = () => {
 				<Header />
 				<div class="mt-16 flex flex-col gap-8 transition-all md:mt-[20vh]">
 					<div class="relative mx-auto w-full max-w-3xl">
-						<div class="pointer-events-none absolute -inset-8 rounded-[40px] bg-linear-to-b from-slate-200/70 via-slate-100/20 to-transparent blur-3xl dark:from-white/10 dark:via-white/5" />
-						<div class="relative z-10 flex flex-col gap-10 px-5 py-10 sm:px-8 md:rounded-3xl md:border md:border-slate-200/70 md:bg-white/90 md:px-12 md:py-12 md:shadow-sm md:backdrop-blur dark:md:border-white/10 dark:md:bg-slate-900/70">
+						<div class="pointer-events-none absolute -inset-8 rounded-[40px] bg-[radial-gradient(circle_at_top,rgba(59,130,246,0.18),transparent_68%),radial-gradient(circle_at_bottom,rgba(99,102,241,0.12),transparent_72%)] blur-3xl dark:hidden" />
+						<div class="pointer-events-none absolute -inset-8 hidden rounded-[40px] bg-linear-to-b from-white/10 via-white/5 to-transparent blur-3xl dark:block" />
+						<div class="relative z-10 flex flex-col gap-10 px-5 py-10 sm:px-8 md:rounded-3xl md:border md:border-slate-300/60 md:bg-slate-50/90 md:px-12 md:py-12 md:backdrop-blur dark:md:border-white/10 dark:md:bg-slate-900/70">
 							<Logo showText={false} class="mx-auto hidden md:flex" />
 							<div class="flex flex-col items-center gap-2">
 								<h2 class="text-center text-2xl text-slate-900 dark:text-white">
 									Live METARs and TAFs for any airport
 								</h2>
-								<p class="dark:text-white-darker text-center text-xs text-slate-700">
+								<p class="dark:text-white-darker text-center text-xs text-slate-800">
 									Aviation weather and forecast trends in real-time
 								</p>
 							</div>
@@ -56,7 +57,7 @@ const Home: Component = () => {
 								<SearchBar onSearch={doSearch} autofocus={true} />
 							</div>
 							<div class="mx-auto flex w-full max-w-3xl flex-col gap-3">
-								<span class="text-center text-xs tracking-wide text-slate-600 uppercase dark:text-white/60">
+								<span class="text-center text-xs tracking-wide text-slate-800 uppercase dark:text-white/60">
 									Popular
 								</span>
 								<div class="flex flex-wrap justify-center gap-2">
@@ -65,11 +66,11 @@ const Home: Component = () => {
 											<A
 												href={`/airport/${airport.code}`}
 												aria-label={`Open weather for ${airport.code} (${airport.label})`}
-												class="dark:text-white-dark inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white/80 px-3 py-1.5 text-xs font-medium text-slate-700 transition hover:border-slate-300 hover:text-slate-900 focus-visible:ring-2 focus-visible:ring-sky-300 focus-visible:ring-offset-2 focus-visible:ring-offset-white focus-visible:outline-hidden dark:border-white/10 dark:bg-white/5 dark:hover:border-white/20 dark:hover:text-white dark:focus-visible:ring-sky-500/60 dark:focus-visible:ring-offset-transparent">
-												<span class="font-semibold tracking-wide text-slate-700 dark:text-white">
+												class="dark:text-white-dark inline-flex items-center gap-2 rounded-full border border-slate-300/60 bg-slate-50/80 px-3 py-1.5 text-xs font-medium text-slate-800 transition hover:border-slate-300/60 hover:text-slate-900 focus-visible:ring-2 focus-visible:ring-sky-300 focus-visible:ring-offset-2 focus-visible:ring-offset-white focus-visible:outline-hidden dark:border-white/10 dark:bg-white/5 dark:hover:border-white/20 dark:hover:text-white dark:focus-visible:ring-sky-500/60 dark:focus-visible:ring-offset-transparent">
+												<span class="font-semibold tracking-wide text-slate-800 dark:text-white">
 													{airport.code}
 												</span>
-												<span class="text-slate-600 dark:text-white/70">{airport.label}</span>
+												<span class="text-slate-800 dark:text-white/70">{airport.label}</span>
 											</A>
 										)}
 									</For>

@@ -31,7 +31,7 @@ const DarkModeToggle: Component<TabGroupProps> = props => {
 		<div class="flex">
 			<div
 				aria-label="Theme mode toggle"
-				class={`group dark:text-white-light flex items-center gap-1 rounded-2xl border border-slate-200/80 bg-white/85 p-1.5 shadow-sm backdrop-blur-md transition-all duration-300 dark:border-white/10 dark:bg-slate-900/70 dark:shadow-lg dark:backdrop-blur-md ${
+				class={`group dark:text-white-light flex items-center gap-1 rounded-2xl border border-slate-300/60 bg-slate-50/85 p-1.5 backdrop-blur-md transition-all duration-300 dark:border-white/10 dark:bg-slate-900/70 dark:shadow-lg dark:backdrop-blur-md ${
 					props.class ?? ''
 				}`}
 				ref={el => (toggleRef = el)}
@@ -45,13 +45,13 @@ const DarkModeToggle: Component<TabGroupProps> = props => {
 					aria-checked={settingsStore.theme === ThemeMode.Dark}
 					aria-label="Dark mode"
 					onClick={() => setTheme(ThemeMode.Dark)}
-					class="flex cursor-pointer items-center gap-0 rounded-xl px-2.5 py-2 text-[0.65rem] font-semibold text-slate-500 transition-all duration-200 focus-visible:ring-2 focus-visible:ring-indigo-300/60 focus-visible:ring-offset-[1.5px] focus-visible:ring-offset-white focus-visible:outline-hidden md:px-3 dark:text-slate-300 dark:focus-visible:ring-indigo-400/50 dark:focus-visible:ring-offset-transparent"
+					class="flex cursor-pointer items-center gap-0 rounded-xl px-2.5 py-2 text-[0.65rem] font-semibold text-slate-700 transition-all duration-200 focus-visible:ring-2 focus-visible:ring-indigo-300/60 focus-visible:ring-offset-[1.5px] focus-visible:ring-offset-white focus-visible:outline-hidden md:px-3 dark:text-slate-300 dark:focus-visible:ring-indigo-400/50 dark:focus-visible:ring-offset-transparent"
 					classList={{
-						'bg-white text-slate-900 shadow-sm ring-1 ring-slate-200 cursor-default dark:bg-white/15 dark:text-white dark:ring-white/20 dark:shadow-none':
+						'bg-slate-50 text-slate-900 ring-1 ring-slate-300/60 cursor-default dark:bg-white/15 dark:text-white dark:ring-white/20 dark:shadow-none':
 							isDark(),
 						'gap-1.5': expanded(),
-						'hover:bg-white/60': !isDark(),
-						'hover:text-slate-700': !isDark(),
+						'hover:bg-slate-50/80': !isDark(),
+						'hover:text-slate-800': !isDark(),
 						'dark:hover:bg-white/10': !isDark(),
 						'dark:hover:text-white/90': !isDark(),
 					}}>
@@ -60,7 +60,7 @@ const DarkModeToggle: Component<TabGroupProps> = props => {
 						class="transition-colors duration-200"
 						classList={{
 							'text-slate-900 dark:text-white': isDark(),
-							'text-slate-400 dark:text-slate-500': !isDark(),
+							'text-slate-700 dark:text-slate-500': !isDark(),
 						}}
 					/>
 					<span
@@ -78,13 +78,13 @@ const DarkModeToggle: Component<TabGroupProps> = props => {
 					aria-checked={settingsStore.theme === ThemeMode.Light}
 					aria-label="Light mode"
 					onClick={() => setTheme(ThemeMode.Light)}
-					class="flex cursor-pointer items-center gap-0 rounded-xl px-2.5 py-2 text-[0.65rem] font-semibold text-slate-500 transition-all duration-200 focus-visible:ring-2 focus-visible:ring-indigo-300/60 focus-visible:ring-offset-[1.5px] focus-visible:ring-offset-white focus-visible:outline-hidden md:px-3 dark:text-slate-300 dark:focus-visible:ring-indigo-400/50 dark:focus-visible:ring-offset-transparent"
+					class="flex cursor-pointer items-center gap-0 rounded-xl px-2.5 py-2 text-[0.65rem] font-semibold text-slate-700 transition-all duration-200 focus-visible:ring-2 focus-visible:ring-indigo-300/60 focus-visible:ring-offset-[1.5px] focus-visible:ring-offset-white focus-visible:outline-hidden md:px-3 dark:text-slate-300 dark:focus-visible:ring-indigo-400/50 dark:focus-visible:ring-offset-transparent"
 					classList={{
-						'bg-white text-slate-900 shadow-sm ring-1 ring-slate-200 cursor-default dark:bg-white/15 dark:text-white dark:ring-white/20 dark:shadow-none':
+						'bg-slate-50 text-slate-900 ring-1 ring-slate-300/60 cursor-default dark:bg-white/15 dark:text-white dark:ring-white/20 dark:shadow-none':
 							isLight(),
 						'gap-1.5': expanded(),
-						'hover:bg-white/60': !isLight(),
-						'hover:text-slate-700': !isLight(),
+						'hover:bg-slate-50/80': !isLight(),
+						'hover:text-slate-800': !isLight(),
 						'dark:hover:bg-white/10': !isLight(),
 						'dark:hover:text-white/90': !isLight(),
 					}}>
@@ -92,7 +92,7 @@ const DarkModeToggle: Component<TabGroupProps> = props => {
 						class="transition-colors duration-200"
 						classList={{
 							'text-slate-900 dark:text-white': isLight(),
-							'text-slate-400 dark:text-slate-500': !isLight(),
+							'text-slate-700 dark:text-slate-500': !isLight(),
 						}}
 						size={22}
 					/>
@@ -111,18 +111,18 @@ const DarkModeToggle: Component<TabGroupProps> = props => {
 					aria-checked={settingsStore.theme === ThemeMode.System}
 					aria-label="System theme"
 					onClick={() => setTheme(ThemeMode.System)}
-					class="flex cursor-pointer items-center gap-0 rounded-xl px-2.5 py-2 text-[0.65rem] font-semibold text-slate-500 transition-all duration-200 focus-visible:ring-2 focus-visible:ring-indigo-300/60 focus-visible:ring-offset-[1.5px] focus-visible:ring-offset-white focus-visible:outline-hidden md:px-3 dark:text-slate-300 dark:focus-visible:ring-indigo-400/50 dark:focus-visible:ring-offset-transparent"
+					class="flex cursor-pointer items-center gap-0 rounded-xl px-2.5 py-2 text-[0.65rem] font-semibold text-slate-700 transition-all duration-200 focus-visible:ring-2 focus-visible:ring-indigo-300/60 focus-visible:ring-offset-[1.5px] focus-visible:ring-offset-white focus-visible:outline-hidden md:px-3 dark:text-slate-300 dark:focus-visible:ring-indigo-400/50 dark:focus-visible:ring-offset-transparent"
 					classList={{
-						'bg-white text-slate-900 shadow-sm ring-1 ring-slate-200 cursor-default dark:bg-white/15 dark:text-white dark:ring-white/20 dark:shadow-none':
+						'bg-slate-50 text-slate-900 ring-1 ring-slate-300/60 cursor-default dark:bg-white/15 dark:text-white dark:ring-white/20 dark:shadow-none':
 							isSystem(),
 						'gap-1.5': expanded(),
-						'hover:bg-white/60': !isSystem(),
-						'hover:text-slate-700': !isSystem(),
+						'hover:bg-slate-50/80': !isSystem(),
+						'hover:text-slate-800': !isSystem(),
 						'dark:hover:bg-white/10': !isSystem(),
 						'dark:hover:text-white/90': !isSystem(),
 					}}>
 					<span
-						class="flex h-5 w-5 items-center justify-center rounded-full border border-slate-300 text-[0.6rem] leading-none font-semibold text-slate-500 transition-colors duration-200 dark:border-white/30 dark:text-slate-400"
+						class="flex h-5 w-5 items-center justify-center rounded-full border border-slate-300 text-[0.6rem] leading-none font-semibold text-slate-700 transition-colors duration-200 dark:border-white/30 dark:text-slate-400"
 						classList={{
 							'border-slate-400 text-slate-800 dark:border-white/60 dark:text-white': isSystem(),
 						}}>

@@ -13,7 +13,7 @@ const Changelog = () => {
 
 				<section class="pt-12">
 					<div class="flex flex-col gap-2">
-						<span class="inline-flex w-fit items-center rounded-full bg-slate-900/5 px-3 py-1 text-xs font-semibold tracking-[0.2em] text-slate-500 uppercase dark:bg-white/10 dark:text-slate-300">
+						<span class="inline-flex w-fit items-center rounded-full bg-slate-900/5 px-3 py-1 text-xs font-semibold tracking-[0.2em] text-slate-700 uppercase dark:bg-white/10 dark:text-slate-300">
 							Jan 21, 2026
 						</span>
 						<h2 class="text-xl font-semibold">Weather visibility upgrades</h2>
@@ -33,7 +33,7 @@ const Changelog = () => {
 
 				<section class="pt-10">
 					<div class="flex flex-col gap-2">
-						<span class="inline-flex w-fit items-center rounded-full bg-slate-900/5 px-3 py-1 text-xs font-semibold tracking-[0.2em] text-slate-500 uppercase dark:bg-white/10 dark:text-slate-300">
+						<span class="inline-flex w-fit items-center rounded-full bg-slate-900/5 px-3 py-1 text-xs font-semibold tracking-[0.2em] text-slate-700 uppercase dark:bg-white/10 dark:text-slate-300">
 							Oct 27, 2025
 						</span>
 						<h2 class="text-xl font-semibold">Forecast timeline refit</h2>
@@ -48,7 +48,7 @@ const Changelog = () => {
 
 				<section class="pt-10">
 					<div class="flex flex-col gap-2">
-						<span class="inline-flex w-fit items-center rounded-full bg-slate-900/5 px-3 py-1 text-xs font-semibold tracking-[0.2em] text-slate-500 uppercase dark:bg-white/10 dark:text-slate-300">
+						<span class="inline-flex w-fit items-center rounded-full bg-slate-900/5 px-3 py-1 text-xs font-semibold tracking-[0.2em] text-slate-700 uppercase dark:bg-white/10 dark:text-slate-300">
 							Oct 25, 2025
 						</span>
 						<h2 class="text-xl font-semibold">Favorites ready for duty</h2>
@@ -62,7 +62,7 @@ const Changelog = () => {
 
 				<section class="pt-10">
 					<div class="flex flex-col gap-2">
-						<span class="inline-flex w-fit items-center rounded-full bg-slate-900/5 px-3 py-1 text-xs font-semibold tracking-[0.2em] text-slate-500 uppercase dark:bg-white/10 dark:text-slate-300">
+						<span class="inline-flex w-fit items-center rounded-full bg-slate-900/5 px-3 py-1 text-xs font-semibold tracking-[0.2em] text-slate-700 uppercase dark:bg-white/10 dark:text-slate-300">
 							Oct 24, 2025
 						</span>
 						<h2 class="text-xl font-semibold">Operational touch-ups</h2>
@@ -76,7 +76,7 @@ const Changelog = () => {
 
 				<section class="pt-10">
 					<div class="flex flex-col gap-2">
-						<span class="inline-flex w-fit items-center rounded-full bg-slate-900/5 px-3 py-1 text-xs font-semibold tracking-[0.2em] text-slate-500 uppercase dark:bg-white/10 dark:text-slate-300">
+						<span class="inline-flex w-fit items-center rounded-full bg-slate-900/5 px-3 py-1 text-xs font-semibold tracking-[0.2em] text-slate-700 uppercase dark:bg-white/10 dark:text-slate-300">
 							Oct 20, 2025
 						</span>
 						<h2 class="text-xl font-semibold">Runway view clarity</h2>
@@ -90,7 +90,7 @@ const Changelog = () => {
 
 				<section class="pt-10">
 					<div class="flex flex-col gap-2">
-						<span class="inline-flex w-fit items-center rounded-full bg-slate-900/5 px-3 py-1 text-xs font-semibold tracking-[0.2em] text-slate-500 uppercase dark:bg-white/10 dark:text-slate-300">
+						<span class="inline-flex w-fit items-center rounded-full bg-slate-900/5 px-3 py-1 text-xs font-semibold tracking-[0.2em] text-slate-700 uppercase dark:bg-white/10 dark:text-slate-300">
 							Oct 19, 2025
 						</span>
 						<h2 class="text-xl font-semibold">Interface redesign lands</h2>
@@ -104,7 +104,7 @@ const Changelog = () => {
 
 				<section class="pt-10 pb-16">
 					<div class="flex flex-col gap-2">
-						<span class="inline-flex w-fit items-center rounded-full bg-slate-900/5 px-3 py-1 text-xs font-semibold tracking-[0.2em] text-slate-500 uppercase dark:bg-white/10 dark:text-slate-300">
+						<span class="inline-flex w-fit items-center rounded-full bg-slate-900/5 px-3 py-1 text-xs font-semibold tracking-[0.2em] text-slate-700 uppercase dark:bg-white/10 dark:text-slate-300">
 							Oct 12, 2025
 						</span>
 						<h2 class="text-xl font-semibold">Rebrand and tooling updates</h2>

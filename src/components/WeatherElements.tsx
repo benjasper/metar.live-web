@@ -120,7 +120,7 @@ const WeatherElements: Component<ParsedWeatherElementsProps> = props => {
 				<Tooltip
 					text={`Refreshed ${Duration.fromDates(props.lastRefreshed, now()).humanPrecise(false)}`}
 					delay={1000}>
-					<span class="dark:text-white-dark mt-4 flex text-gray-700 md:mt-auto">
+					<span class="dark:text-white-dark mt-4 flex text-slate-800 md:mt-auto">
 						<HiOutlineArrowPath class="my-auto mr-2" />
 						Constantly checking for updates
 					</span>
@@ -130,7 +130,7 @@ const WeatherElements: Component<ParsedWeatherElementsProps> = props => {
 				<Show
 					when={latestMetar()}
 					fallback={
-						<span class="dark:text-white-dark mx-auto py-16 text-xl text-gray-700">
+						<span class="dark:text-white-dark mx-auto py-16 text-xl text-slate-800">
 							No recent weather available.
 						</span>
 					}>
@@ -207,7 +207,7 @@ const WeatherElements: Component<ParsedWeatherElementsProps> = props => {
 					</div>
 				</Show>
 			</div>
-			<div class="mt-6 flex flex-wrap items-center justify-center gap-4 text-xs font-medium text-slate-500 dark:text-slate-400">
+			<div class="mt-6 flex flex-wrap items-center justify-center gap-4 text-xs font-medium text-slate-700 dark:text-slate-400">
 				<span class="flex items-center gap-1">
 					<span aria-hidden="true" class="h-2 w-2 rounded-full bg-emerald-400" />
 					<span>Conditions improved</span>

@@ -5,10 +5,10 @@ import { useNavigate, useParams } from '@solidjs/router'
 import { AiFillStar, AiOutlineStar } from 'solid-icons/ai'
 import { CgWebsite } from 'solid-icons/cg'
 import { FiExternalLink } from 'solid-icons/fi'
-import { HiSolidClock } from 'solid-icons/hi'
+import { HiOutlineClock, HiSolidClock } from 'solid-icons/hi'
 import { ImSpinner5 } from 'solid-icons/im'
 import { IoLocationSharp } from 'solid-icons/io'
-import { TbOutlineMountain, TbOutlineSunrise, TbOutlineSunset } from 'solid-icons/tb'
+import { TbOutlineClock, TbOutlineMountain, TbOutlineSunrise, TbOutlineSunset } from 'solid-icons/tb'
 import { Component, Match, Show, Switch, createEffect, createMemo, createSignal, onCleanup } from 'solid-js'
 import { createStore, reconcile } from 'solid-js/store'
 import * as SunCalc from 'suncalc'
@@ -400,14 +400,14 @@ const AirportSearchDetail: Component = () => {
 			</div>
 			<Switch>
 				<Match when={airportStore.airport === undefined && airportRequest.loading}>
-					<div class="dark:text-white-dark flex h-full justify-center text-gray-700">
+					<div class="dark:text-white-dark flex h-full justify-center text-slate-800">
 						<ImSpinner5 class="m-auto w-16 animate-spin" size={36} />
 					</div>
 				</Match>
 				<Match when={shouldShowFullError()}>
-					<div class="dark:text-white-dark mx-auto flex flex-col items-center gap-4 py-16 text-center text-gray-700">
+					<div class="dark:text-white-dark mx-auto flex flex-col items-center gap-4 py-16 text-center text-slate-800">
 						<p class="text-lg font-medium">We couldn't load the latest weather data.</p>
-						<p class="max-w-xl text-sm text-gray-500 dark:text-gray-300">
+						<p class="max-w-xl text-sm text-slate-700 dark:text-gray-300">
 							Please check your connection and try again. If the issue persists, refresh the page to
 							recover.
 						</p>
@@ -418,7 +418,7 @@ const AirportSearchDetail: Component = () => {
 					<Show when={hasNetworkError()}>
 						<div
 							role="alert"
-							class="mx-auto mb-6 flex max-w-4xl flex-col gap-2 rounded-2xl border border-rose-200/80 bg-rose-50/70 px-5 py-4 text-sm text-rose-900 shadow-sm dark:border-rose-400/30 dark:bg-rose-500/10 dark:text-rose-100">
+							class="mx-auto mb-6 flex max-w-4xl flex-col gap-2 rounded-2xl border border-rose-200/80 bg-rose-50/70 px-5 py-4 text-sm text-rose-900 shadow-none dark:border-rose-400/30 dark:bg-rose-500/10 dark:text-rose-100 dark:shadow-sm">
 							<p class="font-semibold tracking-wide uppercase">Connection issue</p>
 							<p>Unable to refresh the live report right now. Showing the last loaded data.</p>
 							<div>
@@ -449,7 +449,7 @@ const AirportSearchDetail: Component = () => {
 										delay={1000}>
 										<button
 											type="button"
-											class="absolute cursor-pointer rounded-full p-1 text-slate-500 transition-colors hover:text-amber-400 focus-visible:ring-2 focus-visible:ring-amber-300 focus-visible:ring-offset-2 focus-visible:ring-offset-white focus-visible:outline-hidden dark:text-slate-500 dark:hover:text-amber-300 dark:focus-visible:ring-amber-300/70 dark:focus-visible:ring-offset-slate-900"
+											class="absolute cursor-pointer rounded-full p-1 text-slate-700 transition-colors hover:text-amber-400 focus-visible:ring-2 focus-visible:ring-amber-300 focus-visible:ring-offset-2 focus-visible:ring-offset-white focus-visible:outline-hidden dark:text-slate-500 dark:hover:text-amber-300 dark:focus-visible:ring-amber-300/70 dark:focus-visible:ring-offset-slate-900"
 											onClick={() =>
 												favoritePayload() && favoriteActions.toggleFavorite(favoritePayload()!)
 											}
@@ -476,7 +476,7 @@ const AirportSearchDetail: Component = () => {
 							</Tag>
 							<Show when={airportStore.airport!.timezone}>
 								<Tag>
-									<HiSolidClock class="my-auto" />
+									<TbOutlineClock class="my-auto" />
 									Local time{' '}
 									{now().toLocaleTimeString([], {
 										hour: 'numeric',

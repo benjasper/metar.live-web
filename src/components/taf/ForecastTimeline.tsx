@@ -461,7 +461,7 @@ const ForecastTimeline: Component<ForecastTimelineProps> = props => {
 			<Show
 				when={rows().length > 0}
 				fallback={
-					<div class="rounded-xl border border-dashed border-slate-300/70 bg-white/70 px-4 py-10 text-center text-sm text-slate-500 dark:border-slate-700/70 dark:bg-slate-900/40 dark:text-slate-400">
+					<div class="rounded-xl border border-dashed border-slate-300/70 bg-slate-50/85 px-4 py-10 text-center text-sm text-slate-700 dark:border-slate-700/70 dark:bg-slate-900/40 dark:text-slate-400">
 						No structured forecast segments were returned with this TAF.
 					</div>
 				}>
@@ -537,7 +537,7 @@ const ForecastTimeline: Component<ForecastTimelineProps> = props => {
 										/>
 									)}
 								</For>
-								<div class="relative mt-5 border-t border-slate-500 pt-4 text-xs text-slate-500 dark:border-slate-700 dark:text-slate-400">
+								<div class="relative mt-5 border-t border-slate-500 pt-4 text-xs text-slate-700 dark:border-slate-700 dark:text-slate-400">
 									<div class="relative h-8" style={axisStyle()}>
 										<Show when={isCurrentWithinTimeline()}>
 											<div
@@ -571,7 +571,7 @@ const ForecastTimeline: Component<ForecastTimelineProps> = props => {
 														}}>
 														<span>{tick.label}</span>
 														<Show when={tick.secondary}>
-															<span class="text-[0.6rem] font-normal text-slate-400 dark:text-slate-500">
+															<span class="text-[0.6rem] font-normal text-slate-700 dark:text-slate-500">
 																{tick.secondary}
 															</span>
 														</Show>

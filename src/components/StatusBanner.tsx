@@ -42,7 +42,7 @@ const StatusBanner: Component = () => {
 		<Show when={isStale()}>
 			<div
 				role="alert"
-				class="mb-6 rounded-xl border border-amber-300/60 bg-linear-to-r from-amber-100/80 to-orange-100/80 text-amber-950 shadow-lg shadow-amber-200/50 transition-all dark:border-amber-400/40 dark:from-amber-500/15 dark:via-amber-600/10 dark:to-amber-500/15 dark:text-amber-100 dark:shadow-amber-900/20">
+				class="mb-6 rounded-xl border border-amber-300/60 bg-linear-to-r from-amber-100/80 to-orange-100/80 text-amber-950 shadow-none transition-all dark:border-amber-400/40 dark:from-amber-500/15 dark:via-amber-600/10 dark:to-amber-500/15 dark:text-amber-100 dark:shadow-lg dark:shadow-amber-900/20">
 				<div class="flex flex-col gap-3 rounded-xl border border-transparent px-5 py-4 md:flex-row md:items-center md:gap-4">
 					<div class="self-start rounded-full bg-amber-200/60 p-2 text-amber-700 transition-colors md:self-center dark:bg-amber-500/25 dark:text-amber-200">
 						<FiAlertTriangle size={22} />

@@ -89,7 +89,7 @@ const RunwayPopup = (props: {
 	const tailwindComponent = () => (headwindComponent() ? -headwindComponent()! : undefined)
 
 	return (
-		<div class="flex flex-col gap-2 text-[0.75rem] text-slate-500 dark:text-slate-300">
+		<div class="flex flex-col gap-2 text-[0.75rem] text-slate-700 dark:text-slate-300">
 			<div class="flex items-center justify-between">
 				<span class="text-sm font-semibold text-slate-800 dark:text-white">
 					Runway {props.runwayDirection.runway}
@@ -109,7 +109,7 @@ const RunwayPopup = (props: {
 								'bg-emerald-400': props.runwayDirection.favourableLevel === 2,
 							}}
 						/>
-						<span class="text-slate-400 dark:text-slate-400">
+						<span class="text-slate-700 dark:text-slate-400">
 							{favourableToText(props.runwayDirection.favourableLevel)}
 						</span>
 					</span>
@@ -118,9 +118,9 @@ const RunwayPopup = (props: {
 
 			<div class="flex flex-col gap-1.5">
 				<div class="flex items-center justify-between">
-					<span class="flex items-center gap-1 text-slate-500 dark:text-slate-400">
+					<span class="flex items-center gap-1 text-slate-700 dark:text-slate-400">
 						<RiMapCompass4Line
-							class="h-3.5 w-3.5 text-slate-400 transition-colors dark:text-slate-500"
+							class="h-3.5 w-3.5 text-slate-700 transition-colors dark:text-slate-500"
 							style={{
 								rotate: `${props.runwayDirection.heading - 45}deg`,
 							}}
@@ -132,8 +132,8 @@ const RunwayPopup = (props: {
 					</span>
 				</div>
 				<div class="flex items-center justify-between">
-					<span class="flex items-center gap-1 text-slate-500 dark:text-slate-400">
-						<CgArrowsVAlt class="h-3.5 w-3.5 text-slate-400 transition-colors dark:text-slate-500" />
+					<span class="flex items-center gap-1 text-slate-700 dark:text-slate-400">
+						<CgArrowsVAlt class="h-3.5 w-3.5 text-slate-700 transition-colors dark:text-slate-500" />
 						Length
 					</span>
 					<span class="font-semibold text-slate-800 dark:text-white">
@@ -142,8 +142,8 @@ const RunwayPopup = (props: {
 					</span>
 				</div>
 				<div class="flex items-center justify-between">
-					<span class="flex items-center gap-1 text-slate-500 dark:text-slate-400">
-						<CgArrowsVAlt class="h-3.5 w-3.5 rotate-90 transform text-slate-400 transition-colors dark:text-slate-500" />
+					<span class="flex items-center gap-1 text-slate-700 dark:text-slate-400">
+						<CgArrowsVAlt class="h-3.5 w-3.5 rotate-90 transform text-slate-700 transition-colors dark:text-slate-500" />
 						Width
 					</span>
 					<span class="font-semibold text-slate-800 dark:text-white">
@@ -172,7 +172,7 @@ const RunwayPopup = (props: {
 						}>
 						<div class="flex items-center justify-between">
 							<span class="flex items-center gap-1">
-								<BsArrowUp class="h-3.5 w-3.5 rotate-180 text-slate-400 dark:text-slate-300" />
+								<BsArrowUp class="h-3.5 w-3.5 rotate-180 text-slate-700 dark:text-slate-300" />
 								Headwind
 							</span>
 							<span class="font-semibold text-slate-800 dark:text-white">
@@ -191,7 +191,7 @@ const RunwayPopup = (props: {
 						<div class="flex items-center justify-between">
 							<span class="flex items-center gap-1">
 								<BsArrowUp
-									class="h-3.5 w-3.5 text-slate-400 dark:text-slate-300"
+									class="h-3.5 w-3.5 text-slate-700 dark:text-slate-300"
 									style={{
 										rotate:
 											crosswindDirection() === 'right'
@@ -204,7 +204,7 @@ const RunwayPopup = (props: {
 							<span class="font-semibold text-slate-800 dark:text-white">
 								{Math.round(selectedSpeedUnit().conversionFunction(crosswindComponent()!))}{' '}
 								{selectedSpeedUnit().symbol}{' '}
-								<span class="text-[0.6rem] text-slate-400 uppercase dark:text-slate-500">
+								<span class="text-[0.6rem] text-slate-700 uppercase dark:text-slate-500">
 									from {crosswindDirection()}
 								</span>
 							</span>
@@ -219,7 +219,7 @@ const RunwayPopup = (props: {
 						}>
 						<div class="flex items-center justify-between">
 							<span class="flex items-center gap-1">
-								<BsArrowUp class="h-3.5 w-3.5 text-slate-400 dark:text-slate-300" />
+								<BsArrowUp class="h-3.5 w-3.5 text-slate-700 dark:text-slate-300" />
 								Tailwind
 							</span>
 							<span class="font-semibold text-slate-800 dark:text-white">
@@ -393,7 +393,7 @@ const RunwayAndWindRenderer = (props: {
 
 	return (
 		<Show when={runways().length > 0}>
-			<div class="relative mx-auto flex w-full items-center justify-center rounded-[2.5rem] bg-white/20 backdrop-blur-sm transition-colors md:mx-0 dark:bg-transparent dark:backdrop-blur-none">
+			<div class="relative mx-auto flex w-full items-center justify-center rounded-[2.5rem] bg-slate-100/30 backdrop-blur-sm transition-colors md:mx-0 dark:bg-transparent dark:backdrop-blur-none">
 				<svg
 					class="flex h-full w-full"
 					viewBox={`${-centerX()} ${-centerY()}  ${realDiagonal() * 2} ${realDiagonal() * 2}`}
