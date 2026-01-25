@@ -158,7 +158,7 @@ const WindElement: Component<WindElementProps> = props => {
 					/>
 				</Show>
 			</Show>
-			<div class="dark:text-white/90 flex flex-col text-center">
+			<div class="flex flex-col text-center dark:text-white/90">
 				<span class="text-lg">
 					<Show when={props.windData.windSpeed && props.windData.windSpeed != 0} fallback="Wind calm">
 						<Show

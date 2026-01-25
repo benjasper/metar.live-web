@@ -306,10 +306,10 @@ const PrecipitationConditionElement: Component<{ condition: string }> = props =>
 			<Show
 				when={hasMapping()}
 				fallback={
-					<span class="dark:text-white/90 text-base font-medium text-slate-800">{props.condition}</span>
+					<span class="text-base font-medium text-slate-800 dark:text-white/90">{props.condition}</span>
 				}>
 				<Show when={icon()}>
-					<div class="dark:text-white/90 my-auto text-slate-800">{icon()}</div>
+					<div class="my-auto text-slate-800 dark:text-white/90">{icon()}</div>
 				</Show>
 
 				<Show when={intensity()}>
@@ -363,7 +363,7 @@ const PrecipitationElement: Component<PrecipitationElementProps> = props => {
 				props.previousWeather ? extractWeatherTokens(props.previousWeather).join(', ') : undefined
 			}
 			updatePingNewValue={extractWeatherTokens(props.weather).join(', ')}>
-			<div class="dark:text-white/90 flex flex-col items-center gap-1 text-center">
+			<div class="flex flex-col items-center gap-1 text-center dark:text-white/90">
 				<For each={extractWeatherTokens(props.weather)}>
 					{condition => <PrecipitationConditionElement condition={condition} />}
 				</For>
