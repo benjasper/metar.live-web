@@ -150,7 +150,7 @@ const SkyConditionsElement: Component<SkyConditionsElementProps> = props => {
 			updatePing={UpdatePing.Neutral}
 			updatePingOldValue={skyConditionsToText(selected, convert, previousSortedSkyConditions())}
 			updatePingNewValue={skyConditionsToText(selected, convert, sortedSkyConditions())}>
-			<div class="dark:text-white-dark flex flex-col gap-2 text-center text-xl">
+			<div class="dark:text-white/90 flex flex-col gap-2 text-center text-xl">
 				<Show when={props.skyConditions.length > 1}>
 					<For each={sortedSkyConditions()}>
 						{(condition, i) => (

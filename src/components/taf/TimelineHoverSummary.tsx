@@ -179,7 +179,7 @@ const TimelineHoverSummary: Component<TimelineHoverSummaryProps> = props => {
 	})
 
 	const renderMetricText = (value: string) => (
-		<span class="text-base font-medium text-slate-900 dark:text-white">{value}</span>
+		<span class="text-base font-medium text-slate-900 dark:text-white/90">{value}</span>
 	)
 
 	const metrics = createMemo<SummaryMetric[]>(() => {
@@ -215,7 +215,7 @@ const TimelineHoverSummary: Component<TimelineHoverSummaryProps> = props => {
 				badge: sourceBadge('clouds'),
 				icon: <TbOutlineCloud class="text-base" />,
 				content: (
-					<div class="flex flex-wrap gap-x-3 gap-y-1 text-base font-medium text-slate-900 dark:text-white">
+					<div class="flex flex-wrap gap-x-3 gap-y-1 text-base font-medium text-slate-900 dark:text-white/90">
 						<For each={clouds}>
 							{detail => (
 								<span class="flex items-center gap-1">
@@ -250,7 +250,7 @@ const TimelineHoverSummary: Component<TimelineHoverSummaryProps> = props => {
 				badge: sourceBadge('weather'),
 				icon: <TbOutlineCloudRain class="text-base" />,
 				content: (
-					<div class="flex flex-wrap gap-x-3 gap-y-1 text-base font-medium text-slate-900 dark:text-white">
+					<div class="flex flex-wrap gap-x-3 gap-y-1 text-base font-medium text-slate-900 dark:text-white/90">
 						<For each={precipitation}>
 							{detail => {
 								const icon = getWeatherIconForCondition(detail.token)

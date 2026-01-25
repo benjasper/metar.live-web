@@ -37,7 +37,7 @@ const FlightCategoryElement: Component<FlightCategoryElementProps> = props => {
 			updatePingNewValue={props.latestMetar.flightCategory?.toString()}>
 			<div class="flex flex-col text-center">
 				<FlightCategorySymbol size="large" class="mb-2" flightCategory={props.latestMetar.flightCategory!} />
-				<p class="dark:text-white-dark mx-auto text-center text-base">{props.latestMetar.flightCategory}</p>
+				<p class="dark:text-white/90 mx-auto text-center text-base">{props.latestMetar.flightCategory}</p>
 			</div>
 		</WeatherElementLayout>
 	)
