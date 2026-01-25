@@ -636,7 +636,7 @@ const RunwayAndWindRenderer = (props: {
 									<circle
 										class="stroke-white/80 transition-colors dark:stroke-white/20"
 										classList={{
-											'fill-slate-400/70 dark:fill-slate-600/65':
+											'fill-slate-500/85 dark:fill-slate-600/65':
 												r.direction1.favourableLevel === 0,
 											'fill-sky-500/95 dark:fill-sky-400/75': r.direction1.favourableLevel === 1,
 											'fill-emerald-500/95 dark:fill-emerald-400/75':
@@ -660,7 +660,7 @@ const RunwayAndWindRenderer = (props: {
 									<circle
 										class="stroke-white/80 transition-colors dark:stroke-white/20"
 										classList={{
-											'fill-slate-400/70 dark:fill-slate-600/65':
+											'fill-slate-500/85 dark:fill-slate-600/65':
 												r.direction2.favourableLevel === 0,
 											'fill-sky-500/95 dark:fill-sky-400/75': r.direction2.favourableLevel === 1,
 											'fill-emerald-500/95 dark:fill-emerald-400/75':
