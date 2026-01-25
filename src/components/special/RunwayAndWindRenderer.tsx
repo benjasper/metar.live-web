@@ -18,11 +18,26 @@ const cartesianCoordinates = (lat: number, lon: number) => {
 const calculateMinMaxOfCoordinates = (
 	runways: Runway[]
 ): { minX: number; minY: number; maxX: number; maxY: number } => {
-	const maxX = Math.max(...runways.map(runway => Math.max(runway.direction1.x, runway.direction2.x)))
-	const minX = Math.min(...runways.map(runway => Math.min(runway.direction1.x, runway.direction2.x)))
+	let maxX = -Infinity
+	let minX = Infinity
+	let maxY = -Infinity
+	let minY = Infinity
 
-	const maxY = Math.max(...runways.map(runway => Math.max(runway.direction1.y, runway.direction2.y)))
-	const minY = Math.min(...runways.map(runway => Math.min(runway.direction1.y, runway.direction2.y)))
+	for (const runway of runways) {
+		const points = [
+			{ x: runway.direction1.x, y: runway.direction1.y },
+			{ x: runway.direction2.x, y: runway.direction2.y },
+			{ x: runway.direction1.labelX, y: runway.direction1.labelY },
+			{ x: runway.direction2.labelX, y: runway.direction2.labelY },
+		]
+
+		for (const point of points) {
+			if (point.x > maxX) maxX = point.x
+			if (point.x < minX) minX = point.x
+			if (point.y > maxY) maxY = point.y
+			if (point.y < minY) minY = point.y
+		}
+	}
 
 	return { minX, minY, maxX, maxY }
 }
@@ -39,6 +54,8 @@ interface RunwayDirection {
 	heading: number
 	x: number
 	y: number
+	labelX: number
+	labelY: number
 	windAngle?: number
 	favourableLevel: number
 }
@@ -51,6 +68,94 @@ const favourableToText = (favourableLevel: number) => {
 			return 'favourable'
 		case 2:
 			return 'very favourable'
+	}
+}
+
+const positionRunwayLabels = (runways: Runway[]) => {
+	type LabelNode = {
+		direction: RunwayDirection
+		baseX: number
+		baseY: number
+		axisX: number
+		axisY: number
+		axisSign: number
+		length: number
+	}
+
+	const nodes: LabelNode[] = []
+
+	for (const runway of runways) {
+		const dx = runway.direction2.x - runway.direction1.x
+		const dy = runway.direction2.y - runway.direction1.y
+		const length = Math.hypot(dx, dy) || 1
+		const axisX = dx / length
+		const axisY = dy / length
+		nodes.push({
+			direction: runway.direction1,
+			baseX: runway.direction1.x,
+			baseY: runway.direction1.y,
+			axisX,
+			axisY,
+			axisSign: -1,
+			length,
+		})
+
+		nodes.push({
+			direction: runway.direction2,
+			baseX: runway.direction2.x,
+			baseY: runway.direction2.y,
+			axisX,
+			axisY,
+			axisSign: 1,
+			length,
+		})
+	}
+
+	nodes.sort((a, b) => b.length - a.length)
+
+	const baseOffset = 1.6
+	const step = 0.6
+	const maxAxisOffset = 4.2
+	const minDistance = 3.8
+	const minDistanceSq = minDistance * minDistance
+	const placed: { x: number; y: number }[] = []
+
+	const isCollision = (x: number, y: number) => {
+		for (const point of placed) {
+			const dx = x - point.x
+			const dy = y - point.y
+			if (dx * dx + dy * dy < minDistanceSq) {
+				return true
+			}
+		}
+		return false
+	}
+
+	const placeNode = (node: LabelNode) => {
+		if (!isCollision(node.baseX, node.baseY)) {
+			node.direction.labelX = node.baseX
+			node.direction.labelY = node.baseY
+			placed.push({ x: node.baseX, y: node.baseY })
+			return
+		}
+
+		for (let offset = baseOffset; offset <= maxAxisOffset; offset += step) {
+			const x = node.baseX + node.axisX * offset * node.axisSign
+			const y = node.baseY + node.axisY * offset * node.axisSign
+			if (!isCollision(x, y)) {
+				node.direction.labelX = x
+				node.direction.labelY = y
+				placed.push({ x, y })
+				return
+			}
+		}
+		node.direction.labelX = node.baseX
+		node.direction.labelY = node.baseY
+		placed.push({ x: node.baseX, y: node.baseY })
+	}
+
+	for (const node of nodes) {
+		placeNode(node)
 	}
 }
 
@@ -287,6 +392,8 @@ const RunwayAndWindRenderer = (props: {
 					heading: runway.lowRunwayHeading ?? 0,
 					x: direction1.x,
 					y: direction1.y,
+					labelX: direction1.x,
+					labelY: direction1.y,
 					favourableLevel: 0,
 					windAngle: props.windDirection
 						? 180 - Math.abs(Math.abs((runway.lowRunwayHeading ?? 0) - props.windDirection) - 180)
@@ -297,6 +404,8 @@ const RunwayAndWindRenderer = (props: {
 					heading: runway.highRunwayHeading ?? 0,
 					x: direction2.x,
 					y: direction2.y,
+					labelX: direction2.x,
+					labelY: direction2.y,
 					favourableLevel: 0,
 					windAngle: props.windDirection
 						? 180 - Math.abs(Math.abs((runway.highRunwayHeading ?? 0) - props.windDirection) - 180)
@@ -338,7 +447,14 @@ const RunwayAndWindRenderer = (props: {
 			runway.direction1.y = (runway.direction1.y - minY) / scaling
 			runway.direction2.x = (runway.direction2.x - minX) / scaling
 			runway.direction2.y = (runway.direction2.y - minY) / scaling
+
+			runway.direction1.labelX = runway.direction1.x
+			runway.direction1.labelY = runway.direction1.y
+			runway.direction2.labelX = runway.direction2.x
+			runway.direction2.labelY = runway.direction2.y
 		}
+
+		positionRunwayLabels(preparingRunways)
 
 		const maximums = calculateMinMaxOfCoordinates(preparingRunways)
 		const normalizedWidth = maximums.maxX - maximums.minX
@@ -358,6 +474,8 @@ const RunwayAndWindRenderer = (props: {
 
 	const realCenterX = () => -centerX() + realDiagonal()
 	const realCenterY = () => -centerY() + realDiagonal()
+	const hasLabelOffset = (direction: RunwayDirection) =>
+		Math.hypot(direction.labelX - direction.x, direction.labelY - direction.y) > 0.2
 
 	// Calculate the wind arrow from the wind direction and variable wind if present
 	const windArrows = (): { angle: number; x: number; y: number; isVariable: boolean }[] => {
@@ -472,6 +590,36 @@ const RunwayAndWindRenderer = (props: {
 						)}
 					</For>
 
+					{/* Runway label leader lines */}
+					<For each={runways()}>
+						{r => (
+							<>
+								<Show when={hasLabelOffset(r.direction1)}>
+									<line
+										x1={r.direction1.x}
+										y1={r.direction1.y}
+										x2={r.direction1.labelX}
+										y2={r.direction1.labelY}
+										class="stroke-slate-500/80 transition-colors dark:stroke-white/50"
+										stroke-linecap="round"
+										stroke-width="0.55"
+									/>
+								</Show>
+								<Show when={hasLabelOffset(r.direction2)}>
+									<line
+										x1={r.direction2.x}
+										y1={r.direction2.y}
+										x2={r.direction2.labelX}
+										y2={r.direction2.labelY}
+										class="stroke-slate-500/80 transition-colors dark:stroke-white/50"
+										stroke-linecap="round"
+										stroke-width="0.55"
+									/>
+								</Show>
+							</>
+						)}
+					</For>
+
 					{/* Runway bubbles outside when favourable */}
 					<For each={runways()}>
 						{(r, i) => (
@@ -490,12 +638,12 @@ const RunwayAndWindRenderer = (props: {
 										classList={{
 											'fill-slate-400/70 dark:fill-slate-600/65':
 												r.direction1.favourableLevel === 0,
-											'fill-sky-400/80 dark:fill-sky-400/60': r.direction1.favourableLevel === 1,
-											'fill-emerald-400/80 dark:fill-emerald-400/60':
+											'fill-sky-500/95 dark:fill-sky-400/75': r.direction1.favourableLevel === 1,
+											'fill-emerald-500/95 dark:fill-emerald-400/75':
 												r.direction1.favourableLevel === 2,
 										}}
-										cx={r.direction1.x}
-										cy={r.direction1.y}
+										cx={r.direction1.labelX}
+										cy={r.direction1.labelY}
 										r={r.direction1.favourableLevel === 0 ? 1.75 : 2}
 										stroke-width="0.25"
 									/>
@@ -514,12 +662,12 @@ const RunwayAndWindRenderer = (props: {
 										classList={{
 											'fill-slate-400/70 dark:fill-slate-600/65':
 												r.direction2.favourableLevel === 0,
-											'fill-sky-400/80 dark:fill-sky-400/60': r.direction2.favourableLevel === 1,
-											'fill-emerald-400/80 dark:fill-emerald-400/60':
+											'fill-sky-500/95 dark:fill-sky-400/75': r.direction2.favourableLevel === 1,
+											'fill-emerald-500/95 dark:fill-emerald-400/75':
 												r.direction2.favourableLevel === 2,
 										}}
-										cx={r.direction2.x}
-										cy={r.direction2.y}
+										cx={r.direction2.labelX}
+										cy={r.direction2.labelY}
 										r={r.direction2.favourableLevel === 0 ? 1.75 : 2}
 										stroke-width="0.25"
 									/>
@@ -534,8 +682,8 @@ const RunwayAndWindRenderer = (props: {
 							<>
 								<text
 									class="pointer-events-none fill-white text-[1.3px] font-semibold tracking-wide drop-shadow-[0_1px_1px_rgba(15,23,42,0.35)]"
-									x={r.direction1.x}
-									y={r.direction1.y}
+									x={r.direction1.labelX}
+									y={r.direction1.labelY}
 									dominant-baseline="middle"
 									text-rendering="optimizeLegibility"
 									text-anchor="middle">
@@ -543,8 +691,8 @@ const RunwayAndWindRenderer = (props: {
 								</text>
 								<text
 									class="pointer-events-none fill-white text-[1.3px] font-semibold tracking-wide drop-shadow-[0_1px_1px_rgba(15,23,42,0.35)]"
-									x={r.direction2.x}
-									y={r.direction2.y}
+									x={r.direction2.labelX}
+									y={r.direction2.labelY}
 									dominant-baseline="middle"
 									text-rendering="optimizeLegibility"
 									text-anchor="middle">
