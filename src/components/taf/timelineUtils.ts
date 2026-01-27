@@ -44,6 +44,12 @@ export interface EffectiveConditions {
 	snapshot: ForecastSnapshot
 	contributors: ForecastFragment[]
 	sources: SnapshotFieldSources
+	activeSnapshots: ForecastSnapshotEntry[]
+}
+
+export interface ForecastSnapshotEntry {
+	forecast: ForecastFragment
+	snapshot: ForecastSnapshot
 }
 
 const toDate = (value: ForecastFragment['fromTime']) => new Date(value)
@@ -64,6 +70,10 @@ const indicatorWeight = (forecast: ForecastFragment): number => {
 			return 4
 	}
 }
+
+const isSupplementalIndicator = (forecast: ForecastFragment): boolean =>
+	forecast.changeIndicator === ForecastChangeIndicator.Tempo ||
+	forecast.changeIndicator === ForecastChangeIndicator.Prob
 
 export const sortForecasts = (forecasts: ForecastFragment[] = []): ForecastFragment[] =>
 	[...forecasts].sort((a, b) => {
@@ -331,16 +341,24 @@ export const resolveEffectiveForecast = (
 
 	active.sort((a, b) => indicatorWeight(a) - indicatorWeight(b))
 
-	const baseIndex = active.findIndex(
+	const activeSnapshots: ForecastSnapshotEntry[] = active.map(forecast => ({
+		forecast,
+		snapshot: cloneForecast(forecast),
+	}))
+
+	const supplementalForecasts = active.filter(isSupplementalIndicator)
+	const primaryForecasts = active.filter(forecast => !isSupplementalIndicator(forecast))
+
+	const baseIndex = primaryForecasts.findIndex(
 		forecast => !forecast.changeIndicator || forecast.changeIndicator === ForecastChangeIndicator.Fm
 	)
-	const baseForecast = baseIndex >= 0 ? active[baseIndex] : active[0]
+	const baseForecast = baseIndex >= 0 ? primaryForecasts[baseIndex] : primaryForecasts[0] ?? active[0]
 	const snapshot = cloneForecast(baseForecast)
 	const sources: SnapshotFieldSources = {}
 	seedSourcesFromForecast(baseForecast, sources)
 	const contributors: ForecastFragment[] = [baseForecast]
 
-	active.forEach(forecast => {
+	primaryForecasts.forEach(forecast => {
 		if (forecast === baseForecast) {
 			return
 		}
@@ -348,10 +366,18 @@ export const resolveEffectiveForecast = (
 		mergeSnapshot(snapshot, forecast, sources)
 	})
 
+	supplementalForecasts.forEach(forecast => {
+		if (forecast === baseForecast) {
+			return
+		}
+		contributors.push(forecast)
+	})
+
 	return {
 		snapshot,
 		contributors,
 		sources,
+		activeSnapshots,
 	}
 }
 

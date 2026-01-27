@@ -15,11 +15,17 @@ import { Unit, useUnitStore } from '../../context/UnitStore'
 import WeatherElementLayout, { ParsedWeatherElementLayoutProps, UpdatePing } from '../../layouts/WeatherElementLayout'
 import { AirportSearchFragment, SkyConditionFragment, SkyConditionSkyCover } from '../../queries/generated/graphql'
 
-export const SkyConditionIcon = (props: { skyCover: SkyConditionSkyCover; class: string; isDayTime: boolean }) => {
+export const SkyConditionIcon = (props: {
+	skyCover: SkyConditionSkyCover
+	class: string
+	isDayTime: boolean
+	containerClass?: string
+}) => {
 	const classes = () => `h-auto ${props.class ?? ''}`
+	const containerClasses = () => props.containerClass ?? 'text-slate-800 dark:text-white-light'
 
 	return (
-		<div class="dark:text-white-light text-slate-800">
+		<div class={containerClasses()}>
 			<Switch>
 				<Match when={props.skyCover === SkyConditionSkyCover.Few}>
 					<Show when={props.isDayTime} fallback={<RiWeatherMoonCloudyLine class={classes()} />}>

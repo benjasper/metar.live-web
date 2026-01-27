@@ -1,16 +1,16 @@
-import { Component, For, Match, Show, Switch, createMemo } from 'solid-js'
+import { Component, For, Show, createMemo } from 'solid-js'
 import type { JSX } from 'solid-js'
 import { useUnitStore } from '../../context/UnitStore'
-import { SkyConditionSkyCover } from '../../queries/generated/graphql'
+import { ForecastChangeIndicator, ForecastFragment, SkyConditionSkyCover } from '../../queries/generated/graphql'
 import { indicatorClassesForForecast } from './indicatorPalette'
-import { EffectiveConditions, ForecastSnapshot, SnapshotFieldKey, describeIndicator } from './timelineUtils'
+import { EffectiveConditions, ForecastSnapshot, describeIndicator } from './timelineUtils'
 import {
 	extractWeatherTokens,
 	getWeatherIconForCondition,
 	summarizeWeatherCondition,
 } from '../weather-elements/PrecipitationElement'
 import { SkyConditionIcon } from '../weather-elements/SkyConditionsElement'
-import { TbOutlineCloud, TbOutlineCloudRain, TbOutlineEye, TbOutlineGauge, TbOutlineWind } from 'solid-icons/tb'
+import { TbOutlineCloud, TbOutlineCloudRain, TbOutlineEye, TbOutlineWind } from 'solid-icons/tb'
 
 interface TimelineHoverSummaryProps {
 	focusTime: Date
@@ -31,9 +31,22 @@ interface MetricSourceBadge {
 interface SummaryMetric {
 	key: string
 	label: string
-	badge?: MetricSourceBadge
 	icon: JSX.Element
 	content: JSX.Element
+	isEmpty?: boolean
+}
+
+interface MetricChip {
+	id: string
+	label: string
+	className: string
+	content: JSX.Element
+	title: string
+}
+
+interface MetricChipContent {
+	content: JSX.Element
+	title: string
 }
 
 const getSkyCoverLabel = (cover: SkyConditionSkyCover) => {
@@ -64,14 +77,14 @@ const formatSkyLayer = (
 const TimelineHoverSummary: Component<TimelineHoverSummaryProps> = props => {
 	const [unitStore] = useUnitStore()
 
-	const sourceBadge = (key: SnapshotFieldKey): MetricSourceBadge | undefined => {
-		const source = props.effective?.sources[key]
-		if (!source) {
-			return undefined
-		}
-		const palette = indicatorClassesForForecast(source)
+	const chipBadge = (forecast: ForecastFragment): MetricSourceBadge => {
+		const palette = indicatorClassesForForecast(forecast)
+		const probability =
+			forecast.changeProbability !== null && forecast.changeProbability !== undefined
+				? `${forecast.changeProbability}%`
+				: ''
 		return {
-			label: describeIndicator(source),
+			label: probability,
 			className: `${palette.background} ${palette.text} ${palette.border}`,
 		}
 	}
@@ -79,7 +92,6 @@ const TimelineHoverSummary: Component<TimelineHoverSummaryProps> = props => {
 	const speedUnit = () => unitStore.speed.units[unitStore.speed.selected]
 	const lengthUnit = () => unitStore.length.units[unitStore.length.selected]
 	const heightUnit = () => unitStore.height.units[unitStore.height.selected]
-	const pressureUnit = () => unitStore.pressure.units[unitStore.pressure.selected]
 
 	const timeLabel = createMemo(() =>
 		props.focusTime.toLocaleString([], {
@@ -92,28 +104,28 @@ const TimelineHoverSummary: Component<TimelineHoverSummaryProps> = props => {
 		})
 	)
 
-	const snapshot = () => props.effective?.snapshot
+	const activeSnapshots = () => props.effective?.activeSnapshots ?? []
 
-	const formatWind = () => {
-		const windSpeed = snapshot()?.windSpeed
+	const formatWind = (valueSnapshot?: ForecastSnapshot) => {
+		const windSpeed = valueSnapshot?.windSpeed
 		if (windSpeed === undefined || windSpeed === null) {
 			return undefined
 		}
 		const convertedSpeed = Math.round(speedUnit().conversionFunction(windSpeed))
-		const direction = snapshot()?.windDirection
-		const gust = snapshot()?.windGust
+		const direction = valueSnapshot?.windDirection
+		const gust = valueSnapshot?.windGust
 		const gustText = gust ? ` G${Math.round(speedUnit().conversionFunction(gust))}` : ''
 		const baseDirection = direction ? `${direction.toString().padStart(3, '0')}°` : 'VRB'
 		return `${baseDirection} @ ${convertedSpeed} ${speedUnit().symbol}${gustText}`
 	}
 
-	const formatVisibility = () => {
-		const visibility = snapshot()?.visibilityHorizontal
+	const formatVisibility = (valueSnapshot?: ForecastSnapshot) => {
+		const visibility = valueSnapshot?.visibilityHorizontal
 		if (visibility === undefined || visibility === null) {
 			return undefined
 		}
 		const converted = lengthUnit().conversionFunction(visibility)
-		const isMoreThan = snapshot()?.visibilityHorizontalIsMoreThan ?? false
+		const isMoreThan = valueSnapshot?.visibilityHorizontalIsMoreThan ?? false
 		if (isMoreThan) {
 			const rounded = Math.round(converted)
 			return `≥ ${rounded} ${lengthUnit().symbol}`
@@ -122,20 +134,8 @@ const TimelineHoverSummary: Component<TimelineHoverSummaryProps> = props => {
 		return `${formatted} ${lengthUnit().symbol}`
 	}
 
-	const formatAltimeter = () => {
-		const altimeter = snapshot()?.altimeter
-		if (altimeter === undefined || altimeter === null) {
-			return undefined
-		}
-		const converted = pressureUnit().conversionFunction(altimeter)
-		const precision = pressureUnit().symbol === 'inHg' ? 2 : 0
-		return `${converted.toFixed(precision)} ${pressureUnit().symbol}`
-	}
-
-	const weatherTokens = createMemo(() => extractWeatherTokens(snapshot()?.weather ?? ''))
-
-	const skyLayerDetails = createMemo(() => {
-		const layers = snapshot()?.skyConditions
+	const buildSkyLayerDetails = (valueSnapshot?: ForecastSnapshot) => {
+		const layers = valueSnapshot?.skyConditions
 		if (!layers || layers.length === 0) {
 			return []
 		}
@@ -153,10 +153,10 @@ const TimelineHoverSummary: Component<TimelineHoverSummaryProps> = props => {
 				layer,
 				label: formatSkyLayer(layer, convert, unitSymbol),
 			}))
-	})
+	}
 
-	const precipitationDetails = createMemo(() => {
-		const tokens = weatherTokens()
+	const buildPrecipitationDetails = (valueSnapshot?: ForecastSnapshot) => {
+		const tokens = extractWeatherTokens(valueSnapshot?.weather ?? '')
 		const seen = new Set<string>()
 		const details: Array<{ token: string; label: string }> = []
 
@@ -176,104 +176,148 @@ const TimelineHoverSummary: Component<TimelineHoverSummaryProps> = props => {
 		}
 
 		return details
+	}
+
+	const buildTextChipContent = (value: string): MetricChipContent => ({
+		title: value,
+		content: <span class="min-w-0 truncate font-medium normal-case">{value}</span>,
 	})
 
-	const renderMetricText = (value: string) => (
-		<span class="text-base font-medium text-slate-900 dark:text-white/90">{value}</span>
-	)
+	const buildCloudChipContents = (valueSnapshot?: ForecastSnapshot): MetricChipContent[] => {
+		const layers = buildSkyLayerDetails(valueSnapshot)
+		return layers.map(layer => ({
+			title: layer.label,
+			content: (
+				<span class="flex min-w-0 items-center gap-1">
+					<SkyConditionIcon
+						skyCover={layer.layer.skyCover}
+						isDayTime={props.isDaytime}
+						class="w-4"
+						containerClass="text-current"
+					/>
+					<span class="min-w-0 truncate font-medium normal-case">{layer.label}</span>
+				</span>
+			),
+		}))
+	}
+
+	const buildPrecipitationChipContents = (valueSnapshot?: ForecastSnapshot): MetricChipContent[] => {
+		const details = buildPrecipitationDetails(valueSnapshot)
+		return details.map(detail => {
+			const icon = getWeatherIconForCondition(detail.token)
+			return {
+				title: detail.label,
+				content: (
+					<span class="flex min-w-0 items-center gap-1">
+						{icon ? <span class="text-base leading-none text-current">{icon}</span> : null}
+						<span class="min-w-0 truncate font-medium normal-case">{detail.label}</span>
+					</span>
+				),
+			}
+		})
+	}
+
+	const buildMetricChips = (
+		formatter: (valueSnapshot?: ForecastSnapshot) => MetricChipContent | MetricChipContent[] | undefined
+	) => {
+		const chips: MetricChip[] = []
+		activeSnapshots().forEach((entry, index) => {
+			const metric = formatter(entry.snapshot)
+			if (!metric) {
+				return
+			}
+			const metrics = Array.isArray(metric) ? metric : [metric]
+			if (metrics.length === 0) {
+				return
+			}
+			const badge = chipBadge(entry.forecast)
+			const indicatorLabel = describeIndicator(entry.forecast)
+			metrics.forEach((item, itemIndex) => {
+				chips.push({
+					id: `${entry.forecast.fromTime}-${entry.forecast.toTime}-${index}-${itemIndex}`,
+					label: badge.label,
+					className: badge.className,
+					content: item.content,
+					title: indicatorLabel ? `${indicatorLabel} · ${item.title}` : item.title,
+				})
+			})
+		})
+		return chips
+	}
+
+	const renderMetricChips = (chips: MetricChip[]) => {
+		const placeholderText = props.effective ? '—' : 'No data'
+		return (
+			<div class="flex min-h-[1.5rem] items-center gap-2 overflow-x-auto whitespace-nowrap">
+				<Show
+					when={chips.length > 0}
+					fallback={<span class="text-[0.7rem] text-slate-500/70 dark:text-slate-400">{placeholderText}</span>}>
+					<For each={chips}>
+						{chip => (
+							<span
+								class={`inline-flex h-7 min-w-0 max-w-[22rem] items-center overflow-hidden rounded-full border text-[0.75rem] font-semibold ${chip.className}`}
+								title={chip.title}>
+								<Show when={chip.label}>
+									<span class="flex h-full shrink-0 items-center">
+										<span class="flex h-full items-center border-r border-current/30 bg-current/5 px-2.5 text-current dark:border-current/40 dark:bg-current/10">
+											<span class="text-[0.6rem] font-semibold leading-none text-current">
+												{chip.label}
+											</span>
+										</span>
+									</span>
+								</Show>
+								<span class="flex h-full min-w-0 items-center gap-1 px-2.5">{chip.content}</span>
+							</span>
+						)}
+					</For>
+				</Show>
+			</div>
+		)
+	}
 
 	const metrics = createMemo<SummaryMetric[]>(() => {
-		if (!props.effective) {
-			return []
-		}
 		const entries: SummaryMetric[] = []
-		const windValue = formatWind()
-		if (windValue) {
-			entries.push({
-				key: 'wind',
-				label: 'Wind',
-				badge: sourceBadge('wind'),
-				icon: <TbOutlineWind class="text-base" />,
-				content: renderMetricText(windValue),
-			})
-		}
-		const visibilityValue = formatVisibility()
-		if (visibilityValue) {
-			entries.push({
-				key: 'visibility',
-				label: 'Visibility',
-				badge: sourceBadge('visibility'),
-				icon: <TbOutlineEye class="text-base" />,
-				content: renderMetricText(visibilityValue),
-			})
-		}
-		const clouds = skyLayerDetails()
-		if (clouds.length > 0) {
-			entries.push({
-				key: 'clouds',
-				label: 'Clouds',
-				badge: sourceBadge('clouds'),
-				icon: <TbOutlineCloud class="text-base" />,
-				content: (
-					<div class="flex flex-wrap gap-x-3 gap-y-1 text-base font-medium text-slate-900 dark:text-white/90">
-						<For each={clouds}>
-							{detail => (
-								<span class="flex items-center gap-1">
-									<SkyConditionIcon
-										skyCover={detail.layer.skyCover}
-										isDayTime={props.isDaytime}
-										class="w-4"
-									/>
-									<span class="leading-tight whitespace-nowrap">{detail.label}</span>
-								</span>
-							)}
-						</For>
-					</div>
-				),
-			})
-		}
-		const altimeterValue = formatAltimeter()
-		if (altimeterValue) {
-			entries.push({
-				key: 'altimeter',
-				label: 'Altimeter',
-				badge: sourceBadge('altimeter'),
-				icon: <TbOutlineGauge class="text-base" />,
-				content: renderMetricText(altimeterValue),
-			})
-		}
-		const precipitation = precipitationDetails()
-		if (precipitation.length > 0) {
-			entries.push({
-				key: 'precipitation',
-				label: 'Precipitation',
-				badge: sourceBadge('weather'),
-				icon: <TbOutlineCloudRain class="text-base" />,
-				content: (
-					<div class="flex flex-wrap gap-x-3 gap-y-1 text-base font-medium text-slate-900 dark:text-white/90">
-						<For each={precipitation}>
-							{detail => {
-								const icon = getWeatherIconForCondition(detail.token)
-								return (
-									<span class="flex items-center gap-1">
-										<Show when={icon}>
-											<span class="text-base leading-none text-slate-800 dark:text-slate-200">
-												{icon}
-											</span>
-										</Show>
-										<span class="leading-tight whitespace-nowrap">{detail.label}</span>
-									</span>
-								)
-							}}
-						</For>
-					</div>
-				),
-			})
-		}
-		return entries
+		const windChips = buildMetricChips(valueSnapshot => {
+			const value = formatWind(valueSnapshot)
+			return value ? buildTextChipContent(value) : undefined
+		})
+		entries.push({
+			key: 'wind',
+			label: 'Wind',
+			icon: <TbOutlineWind class="text-base" />,
+			content: renderMetricChips(windChips),
+			isEmpty: windChips.length === 0,
+		})
+		const visibilityChips = buildMetricChips(valueSnapshot => {
+			const value = formatVisibility(valueSnapshot)
+			return value ? buildTextChipContent(value) : undefined
+		})
+		entries.push({
+			key: 'visibility',
+			label: 'Visibility',
+			icon: <TbOutlineEye class="text-base" />,
+			content: renderMetricChips(visibilityChips),
+			isEmpty: visibilityChips.length === 0,
+		})
+		const cloudsChips = buildMetricChips(buildCloudChipContents)
+		entries.push({
+			key: 'clouds',
+			label: 'Clouds',
+			icon: <TbOutlineCloud class="text-base" />,
+			content: renderMetricChips(cloudsChips),
+			isEmpty: cloudsChips.length === 0,
+		})
+		const precipitationChips = buildMetricChips(buildPrecipitationChipContents)
+		entries.push({
+			key: 'precipitation',
+			label: 'Precipitation',
+			icon: <TbOutlineCloudRain class="text-base" />,
+			content: renderMetricChips(precipitationChips),
+			isEmpty: precipitationChips.length === 0,
+		})
+		return props.effective ? entries.filter(entry => !entry.isEmpty) : entries
 	})
 
-	const showEmptyState = () => !props.effective || metrics().length === 0
 	const canShowFollowLive = () => props.isPinned || props.canFollowLive
 
 	const handleFollowLiveClick = () => {
@@ -302,43 +346,27 @@ const TimelineHoverSummary: Component<TimelineHoverSummaryProps> = props => {
 					</button>
 				</div>
 			</div>
-			<Switch>
-				<Match when={!showEmptyState()}>
-					<div class="grid gap-2 sm:grid-cols-2 2xl:auto-cols-fr 2xl:grid-flow-col 2xl:grid-cols-none">
-						<For each={metrics()}>
-							{metric => (
-								<div class="flex items-start gap-3 rounded-xl border border-slate-300/60 bg-slate-50/80 px-3 py-2 dark:border-slate-700/60 dark:bg-slate-900/50">
-									<div class="my-auto rounded-md bg-slate-900/5 p-1.5 text-slate-800 dark:bg-white/10 dark:text-slate-200">
-										{metric.icon}
-									</div>
-									<div class="min-w-0 flex-1 space-y-1">
-										<div class="flex items-center justify-between gap-2">
-											<span class="text-xs font-semibold tracking-[0.2em] text-slate-700 uppercase dark:text-slate-400">
-												{metric.label}
-											</span>
-											<Show when={metric.badge} keyed>
-												{badge => (
-													<span
-														class={`rounded-full border px-2 py-0.5 text-[0.5rem] font-semibold tracking-wider uppercase ${badge.className}`}>
-														{badge.label}
-													</span>
-												)}
-											</Show>
-										</div>
-										{metric.content}
-									</div>
+			<div class="grid gap-2 sm:grid-cols-2 2xl:auto-cols-fr 2xl:grid-flow-col 2xl:grid-cols-none">
+				<For each={metrics()}>
+					{metric => (
+						<div
+							class="flex items-start gap-3 rounded-xl border border-slate-300/60 bg-slate-50/80 px-3 py-2 dark:border-slate-700/60 dark:bg-slate-900/50"
+							classList={{ 'opacity-60': metric.isEmpty }}>
+							<div class="my-auto rounded-md bg-slate-900/5 p-1.5 text-slate-800 dark:bg-white/10 dark:text-slate-200">
+								{metric.icon}
+							</div>
+							<div class="min-w-0 flex-1 space-y-1">
+								<div class="flex items-center justify-between gap-2">
+									<span class="text-xs font-semibold tracking-[0.2em] text-slate-700 uppercase dark:text-slate-400">
+										{metric.label}
+									</span>
 								</div>
-							)}
-						</For>
-					</div>
-				</Match>
-				<Match when={showEmptyState()}>
-					<div class="rounded-xl border border-dashed border-slate-300/70 bg-slate-50/85 px-4 py-6 text-center text-sm text-slate-700 dark:border-slate-700/70 dark:bg-slate-900/40 dark:text-slate-400">
-						No forecast data is published for this instant. Hover or drag across the timeline to inspect
-						another time.
-					</div>
-				</Match>
-			</Switch>
+								{metric.content}
+							</div>
+						</div>
+					)}
+				</For>
+			</div>
 		</div>
 	)
 }
