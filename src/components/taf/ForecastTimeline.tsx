@@ -245,7 +245,7 @@ const ForecastTimeline: Component<ForecastTimelineProps> = props => {
 	})
 
 	const effectiveConditions = createMemo<EffectiveConditions | null>(() =>
-		resolveEffectiveForecast(sortedForecasts(), focusTime())
+		resolveEffectiveForecast(sortedForecasts(), focusTime(), validTo())
 	)
 
 	let initialScrollSynced = false

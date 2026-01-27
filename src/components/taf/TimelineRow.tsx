@@ -145,7 +145,8 @@ const TimelineRow: Component<TimelineRowProps> = props => {
 					{entry => {
 						const segment = entry.segment
 						const { width, left } = getPosition(segment, props.validFrom, props.validTo)
-						const isActive = () => (width > 0 ? isInstantWithinForecast(props.activeTime, segment) : false)
+						const isActive = () =>
+							width > 0 ? isInstantWithinForecast(props.activeTime, segment, props.validTo) : false
 						const indicator = describeIndicator(segment.forecast)
 						return (
 							<Show when={width > 0}>

@@ -319,22 +319,24 @@ const mergeSnapshot = (target: ForecastSnapshot, source: ForecastFragment, sourc
 	}
 }
 
-const isWithin = (instant: Date, forecast: ForecastFragment) => {
+const isWithin = (instant: Date, forecast: ForecastFragment, timelineEnd?: Date) => {
 	const start = toDate(forecast.fromTime).getTime()
 	const end = toDate(forecast.toTime).getTime()
 	const time = instant.getTime()
-	return time >= start && time <= end
+	const includesEnd = timelineEnd ? end === timelineEnd.getTime() : false
+	return time >= start && (time < end || (includesEnd && time === end))
 }
 
 export const resolveEffectiveForecast = (
 	forecasts: ForecastFragment[] = [],
-	instant: Date
+	instant: Date,
+	timelineEnd?: Date
 ): EffectiveConditions | null => {
 	if (!forecasts.length) {
 		return null
 	}
 
-	const active = forecasts.filter(forecast => isWithin(instant, forecast))
+	const active = forecasts.filter(forecast => isWithin(instant, forecast, timelineEnd))
 	if (active.length === 0) {
 		return null
 	}
@@ -403,7 +405,9 @@ export const describeIndicator = (forecast: ForecastFragment): string => {
 export const clampDate = (value: Date, min: Date, max: Date): Date =>
 	new Date(Math.min(Math.max(value.getTime(), min.getTime()), max.getTime()))
 
-export const isInstantWithinForecast = (instant: Date, segment: TimelineSegment) => {
+export const isInstantWithinForecast = (instant: Date, segment: TimelineSegment, timelineEnd?: Date) => {
 	const target = instant.getTime()
-	return target >= segment.from.getTime() && target <= segment.to.getTime()
+	const end = segment.to.getTime()
+	const includesEnd = timelineEnd ? end === timelineEnd.getTime() : false
+	return target >= segment.from.getTime() && (target < end || (includesEnd && target === end))
 }
