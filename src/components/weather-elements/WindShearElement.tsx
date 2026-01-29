@@ -2,6 +2,7 @@ import { BsArrowUp } from 'solid-icons/bs'
 import { TbOutlineWindmill } from 'solid-icons/tb'
 import { Component } from 'solid-js'
 import WeatherElementLayout from '../../layouts/WeatherElementLayout'
+import { formatWindDirection } from '../../models/weather'
 
 interface WindShearElementProps {
 	direction: number
@@ -21,7 +22,7 @@ const WindShearElement: Component<WindShearElementProps> = props => {
 			/>
 			<div class="flex flex-col text-center">
 				<span>
-					{props.direction}° at {props.speed} kt
+					{formatWindDirection(props.direction) ?? '---'}° at {props.speed} kt
 				</span>
 				<span>at {props.height} ft</span>
 			</div>

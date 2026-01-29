@@ -3,7 +3,7 @@ import { TbOutlineWind } from 'solid-icons/tb'
 import { Component, createEffect, createMemo, Show } from 'solid-js'
 import { Unit, useUnitStore } from '../../context/UnitStore'
 import WeatherElementLayout, { ParsedWeatherElementLayoutProps } from '../../layouts/WeatherElementLayout'
-import { parseVariableWindFromMetar, VariableWind } from '../../models/weather'
+import { formatWindDirection, parseVariableWindFromMetar, VariableWind } from '../../models/weather'
 import { AirportSearchFragment, MetarFragment } from '../../queries/generated/graphql'
 import RunwayAndWindRenderer from '../special/RunwayAndWindRenderer'
 
@@ -22,14 +22,6 @@ interface WindElementProps {
 	previousWindDate?: WindData
 
 	size: 'large' | 'small'
-}
-
-const formatDirection = (value?: number | null): string | undefined => {
-	if (value === undefined || value === null) {
-		return undefined
-	}
-	const normalized = ((value % 360) + 360) % 360
-	return normalized === 0 ? '000' : normalized.toString().padStart(3, '0')
 }
 
 function getWindText(
@@ -53,7 +45,7 @@ function getWindText(
 		return windText
 	}
 
-	const directionText = formatDirection(windDirection)
+	const directionText = formatWindDirection(windDirection)
 	if (directionText) {
 		windText += `${directionText}°`
 	} else {
@@ -63,8 +55,8 @@ function getWindText(
 	windText += ` @ ${windSpeed} ${selected().symbol}`
 
 	if (variableWindDirection) {
-		const from = formatDirection(variableWindDirection.from) ?? variableWindDirection.from.toString()
-		const to = formatDirection(variableWindDirection.to) ?? variableWindDirection.to.toString()
+		const from = formatWindDirection(variableWindDirection.from) ?? variableWindDirection.from.toString()
+		const to = formatWindDirection(variableWindDirection.to) ?? variableWindDirection.to.toString()
 		windText += ` and variable from ${from}° to ${to}°`
 	}
 
@@ -165,7 +157,7 @@ const WindElement: Component<WindElementProps> = props => {
 							when={props.windData.windDirection !== null && props.windData.windDirection !== undefined}
 							fallback="Variable">
 							{(() => {
-								const formatted = formatDirection(props.windData.windDirection)
+								const formatted = formatWindDirection(props.windData.windDirection)
 								return `${formatted ?? '---'}°`
 							})()}
 						</Show>{' '}
@@ -175,8 +167,8 @@ const WindElement: Component<WindElementProps> = props => {
 				<Show when={variableWind()}>
 					<span>
 						{(() => {
-							const from = formatDirection(variableWind()!.from)
-							const to = formatDirection(variableWind()!.to)
+							const from = formatWindDirection(variableWind()!.from)
+							const to = formatWindDirection(variableWind()!.to)
 							return `variable from ${from ?? '---'}° to ${to ?? '---'}°`
 						})()}
 					</span>

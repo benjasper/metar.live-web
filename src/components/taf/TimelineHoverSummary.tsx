@@ -11,6 +11,7 @@ import {
 } from '../weather-elements/PrecipitationElement'
 import { SkyConditionIcon } from '../weather-elements/SkyConditionsElement'
 import { TbOutlineCloud, TbOutlineCloudRain, TbOutlineEye, TbOutlineWind } from 'solid-icons/tb'
+import { formatWindDirection } from '../../models/weather'
 
 interface TimelineHoverSummaryProps {
 	focusTime: Date
@@ -115,7 +116,8 @@ const TimelineHoverSummary: Component<TimelineHoverSummaryProps> = props => {
 		const direction = valueSnapshot?.windDirection
 		const gust = valueSnapshot?.windGust
 		const gustText = gust ? ` G${Math.round(speedUnit().conversionFunction(gust))}` : ''
-		const baseDirection = direction ? `${direction.toString().padStart(3, '0')}°` : 'VRB'
+		const formattedDirection = formatWindDirection(direction)
+		const baseDirection = formattedDirection ? `${formattedDirection}°` : 'VRB'
 		return `${baseDirection} @ ${convertedSpeed} ${speedUnit().symbol}${gustText}`
 	}
 
@@ -248,19 +250,21 @@ const TimelineHoverSummary: Component<TimelineHoverSummaryProps> = props => {
 	const renderMetricChips = (chips: MetricChip[]) => {
 		const placeholderText = props.effective ? '—' : 'No data'
 		return (
-			<div class="flex min-h-[1.5rem] items-center gap-2 overflow-x-auto whitespace-nowrap">
+			<div class="flex min-h-6 flex-wrap items-center gap-2 sm:flex-nowrap sm:overflow-x-auto sm:whitespace-nowrap">
 				<Show
 					when={chips.length > 0}
-					fallback={<span class="text-[0.7rem] text-slate-500/70 dark:text-slate-400">{placeholderText}</span>}>
+					fallback={
+						<span class="text-[0.7rem] text-slate-500/70 dark:text-slate-400">{placeholderText}</span>
+					}>
 					<For each={chips}>
 						{chip => (
 							<span
-								class={`inline-flex h-7 min-w-0 max-w-[22rem] items-center overflow-hidden rounded-full border text-[0.75rem] font-semibold ${chip.className}`}
+								class={`inline-flex h-7 max-w-88 min-w-0 items-center overflow-hidden rounded-full border text-[0.75rem] font-semibold ${chip.className}`}
 								title={chip.title}>
 								<Show when={chip.label}>
 									<span class="flex h-full shrink-0 items-center">
 										<span class="flex h-full items-center border-r border-current/30 bg-current/5 px-2.5 text-current dark:border-current/40 dark:bg-current/10">
-											<span class="text-[0.6rem] font-semibold leading-none text-current">
+											<span class="text-[0.6rem] leading-none font-semibold text-current">
 												{chip.label}
 											</span>
 										</span>

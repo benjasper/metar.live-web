@@ -2,7 +2,7 @@ import { A } from '@solidjs/router'
 import { AiFillStar } from 'solid-icons/ai'
 import { Component, Show, createMemo } from 'solid-js'
 import { useUnitStore } from '../context/UnitStore'
-import { parseVariableWindFromMetar } from '../models/weather'
+import { formatWindDirection, parseVariableWindFromMetar } from '../models/weather'
 import { MultipleAirportsByIdsQuery } from '../queries/generated/graphql'
 import AirportClassification from './AirportClassification'
 import FlightCategorySymbol from './FlightCategorySymbol'
@@ -74,7 +74,8 @@ export const FavoriteAirportTile: Component<FavoriteAirportTileProps> = props =>
 			return 'Wind calm'
 		}
 
-		const directionLabel = windDirection() !== undefined ? `${windDirection()}°` : 'VRB'
+		const formattedDirection = formatWindDirection(windDirection() ?? undefined)
+		const directionLabel = formattedDirection ? `${formattedDirection}°` : 'VRB'
 		return `${directionLabel} at ${formattedWindSpeed()} ${selectedSpeedUnit().symbol}`
 	}
 

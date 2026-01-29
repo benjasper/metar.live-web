@@ -4,7 +4,7 @@ import { CgArrowsVAlt } from 'solid-icons/cg'
 import { RiMapCompass4Line } from 'solid-icons/ri'
 import { createEffect, createSignal, For, Show } from 'solid-js'
 import { useUnitStore } from '../../context/UnitStore'
-import { VariableWind } from '../../models/weather'
+import { formatWindDirection, VariableWind } from '../../models/weather'
 import { AirportSearchFragment } from '../../queries/generated/graphql'
 import Tooltip from '../Tooltip'
 
@@ -233,7 +233,7 @@ const RunwayPopup = (props: {
 						Heading
 					</span>
 					<span class="font-semibold text-slate-800 dark:text-white">
-						{Math.round(props.runwayDirection.heading)}°
+						{formatWindDirection(props.runwayDirection.heading) ?? '---'}°
 					</span>
 				</div>
 				<div class="flex items-center justify-between">
@@ -264,7 +264,7 @@ const RunwayPopup = (props: {
 						<div class="flex items-baseline justify-between">
 							<span>Wind angle</span>
 							<span class="font-semibold text-slate-800 dark:text-white">
-								{Math.round(props.runwayDirection.windAngle!)}°
+								{formatWindDirection(Math.round(props.runwayDirection.windAngle!)) ?? '---'}°
 							</span>
 						</div>
 					</Show>
