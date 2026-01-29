@@ -350,7 +350,7 @@ const TimelineHoverSummary: Component<TimelineHoverSummaryProps> = props => {
 					</button>
 				</div>
 			</div>
-			<div class="grid gap-2 sm:grid-cols-2 2xl:auto-cols-fr 2xl:grid-flow-col 2xl:grid-cols-none">
+			<div class="grid gap-2 sm:grid-cols-2">
 				<For each={metrics()}>
 					{metric => (
 						<div
