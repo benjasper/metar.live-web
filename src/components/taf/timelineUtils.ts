@@ -354,7 +354,7 @@ export const resolveEffectiveForecast = (
 	const baseIndex = primaryForecasts.findIndex(
 		forecast => !forecast.changeIndicator || forecast.changeIndicator === ForecastChangeIndicator.Fm
 	)
-	const baseForecast = baseIndex >= 0 ? primaryForecasts[baseIndex] : primaryForecasts[0] ?? active[0]
+	const baseForecast = baseIndex >= 0 ? primaryForecasts[baseIndex] : (primaryForecasts[0] ?? active[0])
 	const snapshot = cloneForecast(baseForecast)
 	const sources: SnapshotFieldSources = {}
 	seedSourcesFromForecast(baseForecast, sources)
