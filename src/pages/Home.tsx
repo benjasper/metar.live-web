@@ -39,7 +39,7 @@ const Home: Component = () => {
 				contentFullHeight={false}
 				containerOnMobile={false}>
 				<Header />
-				<div class="mt-16 flex flex-col gap-8 transition-all md:mt-[20vh]">
+				<div class="mt-16 flex flex-col gap-8 transition-all md:mt-[14vh]">
 					<div class="relative mx-auto w-full max-w-3xl">
 						<div class="pointer-events-none absolute -inset-8 rounded-[40px] bg-[radial-gradient(circle_at_top,rgba(59,130,246,0.18),transparent_68%),radial-gradient(circle_at_bottom,rgba(99,102,241,0.12),transparent_72%)] blur-3xl dark:hidden" />
 						<div class="pointer-events-none absolute -inset-8 hidden rounded-[40px] bg-linear-to-b from-white/10 via-white/5 to-transparent blur-3xl dark:block" />
