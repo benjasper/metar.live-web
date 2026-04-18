@@ -233,7 +233,7 @@ const RunwayPopup = (props: {
 						Heading
 					</span>
 					<span class="font-semibold text-slate-800 dark:text-white">
-						{formatWindDirection(props.runwayDirection.heading) ?? '---'}°
+						{formatWindDirection(Math.round(props.runwayDirection.heading)) ?? '---'}°
 					</span>
 				</div>
 				<div class="flex items-center justify-between">
