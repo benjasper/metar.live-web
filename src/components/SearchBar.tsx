@@ -4,7 +4,6 @@ import {
 	type ComboboxInputValueChangeDetails,
 	type ComboboxItemProps,
 	type ComboboxValueChangeDetails,
-	type UseComboboxContext,
 	useListCollection,
 } from '@ark-ui/solid/combobox'
 import { debounce } from '@solid-primitives/scheduled'
@@ -28,6 +27,7 @@ import { createAbortableGraphQLClient } from '../context/GraphQLClient'
 import { AIRPORT_SEARCH } from '../queries/AirportQueries'
 import { AirportSearchQuery, AirportSearchQueryVariables } from '../queries/generated/graphql'
 import { A } from '@solidjs/router'
+import { Portal } from 'solid-js/web'
 import Button from './Button'
 
 type AirportEdge = NonNullable<AirportSearchQuery['getAirports']>['edges'][number]
@@ -48,6 +48,7 @@ const SearchBar: Component<SearchBarProps> = (properties: SearchBarProps) => {
 	const [queryVars, setQueryVars] = createSignal<AirportSearchQueryVariables | null>(null)
 	const [currentInput, setCurrentInput] = createSignal<string>('')
 	const [openInNewTabIntent, setOpenInNewTabIntent] = createSignal(false)
+	const [isOpen, setIsOpen] = createSignal(false)
 	let inputRef: HTMLInputElement | undefined
 
 	const { client: searchClient, abort: abortSearch } = createAbortableGraphQLClient('https://api.metar.live/graphql')
@@ -175,6 +176,9 @@ const SearchBar: Component<SearchBarProps> = (properties: SearchBarProps) => {
 			inputValue={currentInput()}
 			inputBehavior="autohighlight"
 			selectionBehavior="preserve"
+			open={isOpen()}
+			onOpenChange={details => setIsOpen(details.open)}
+			positioning={{ sameWidth: true, gutter: 12, placement: 'bottom', flip: false, strategy: 'fixed' }}
 			onInputValueChange={(details: ComboboxInputValueChangeDetails) => {
 				if (details.reason && details.reason !== 'input-change') {
 					return
@@ -215,7 +219,10 @@ const SearchBar: Component<SearchBarProps> = (properties: SearchBarProps) => {
 							spellcheck={false}
 							autocomplete="off"
 							placeholder={props.placeholder}
-							onFocus={() => setIsFocused(true)}
+							onFocus={() => {
+								setIsFocused(true)
+								setIsOpen(true)
+							}}
 							onBlur={() => setIsFocused(false)}
 							onKeyDown={event => {
 								if (event.key !== 'Enter') {
@@ -261,24 +268,15 @@ const SearchBar: Component<SearchBarProps> = (properties: SearchBarProps) => {
 							</div>
 						</Transition>
 					</Combobox.Control>
-					<Combobox.Context<AirportEdge>>
-						{(combobox: UseComboboxContext<AirportEdge>) => (
-							<Transition
-								class="my-auto flex flex-col gap-32"
-								show={combobox().open && (hasResults() || isEmptyState() || hasError())}
-								enter="transform transition duration-200"
-								enterFrom="opacity-0"
-								enterTo="opacity-100"
-								leave="transform duration-200 transition ease-in-out"
-								leaveFrom="opacity-100 rotate-0"
-								leaveTo="opacity-0">
-								<Combobox.Content
-									asChild={(props: ComboboxContentRenderProps) => (
-										<ul
-											{...props({
-												'aria-label': 'Airport selection search bar',
-												class: 'ring-opacity-5 absolute left-0 z-50 mt-3 w-full origin-top-right overflow-y-auto rounded-2xl border border-slate-300/60 bg-slate-50/95 p-2 shadow-none ring-1 ring-slate-900/5 backdrop-blur-md focus:outline-hidden dark:border-white/10 dark:bg-slate-900/90 dark:ring-white/10 dark:shadow-lg dark:backdrop-blur-xl',
-											})}>
+					<Portal>
+						<Combobox.Positioner class="data-[state=closed]:pointer-events-none data-[state=closed]:invisible">
+						<Combobox.Content
+							asChild={(props: ComboboxContentRenderProps) => (
+								<ul
+									{...props({
+										'aria-label': 'Airport selection search bar',
+										class: `ring-opacity-5 z-[9999] w-full origin-top-right overflow-y-auto rounded-2xl border border-slate-300/60 bg-slate-50/95 p-2 shadow-none ring-1 ring-slate-900/5 backdrop-blur-md transition-opacity duration-150 data-[state=closed]:pointer-events-none data-[state=closed]:opacity-0 data-[state=open]:opacity-100 focus:outline-hidden dark:border-white/10 dark:bg-slate-900/90 dark:ring-white/10 dark:shadow-lg dark:backdrop-blur-xl ${hasResults() || isEmptyState() || hasError() ? '' : 'invisible'}`,
+									})}>
 											<Show when={hasResults()}>
 												<For each={airportResults()}>
 													{airportNode => {
@@ -370,12 +368,11 @@ const SearchBar: Component<SearchBarProps> = (properties: SearchBarProps) => {
 													</Button>
 												</li>
 											</Show>
-										</ul>
-									)}
-								/>
-							</Transition>
-						)}
-					</Combobox.Context>
+									</ul>
+								)}
+							/>
+						</Combobox.Positioner>
+					</Portal>
 				</div>
 			</div>
 		</Combobox.Root>
