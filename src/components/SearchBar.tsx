@@ -127,6 +127,7 @@ const SearchBar: Component<SearchBarProps> = (properties: SearchBarProps) => {
 		props.onSearch(airportIdentifier.toUpperCase(), options)
 		setCurrentInput('')
 		resetResults()
+		inputRef?.blur()
 	}
 
 	onMount(() => {
