@@ -219,8 +219,7 @@ const AirportSearchDetail: Component = () => {
 		}
 	})
 
-	const hasNetworkError = () => Boolean(airportRequest.error)
-	const shouldShowFullError = () => airportStore.airport === undefined && hasNetworkError()
+	const shouldShowFullError = () => airportStore.airport === undefined && Boolean(airportRequest.error)
 
 	const title = createMemo(() => {
 		if (airportStore.airport === undefined) {
@@ -415,19 +414,6 @@ const AirportSearchDetail: Component = () => {
 					</div>
 				</Match>
 				<Match when={airportStore.airport !== undefined}>
-					<Show when={hasNetworkError()}>
-						<div
-							role="alert"
-							class="mx-auto mb-6 flex max-w-4xl flex-col gap-2 rounded-2xl border border-rose-200/80 bg-rose-50/70 px-5 py-4 text-sm text-rose-900 shadow-none dark:border-rose-400/30 dark:bg-rose-500/10 dark:text-rose-100 dark:shadow-sm">
-							<p class="font-semibold tracking-wide uppercase">Connection issue</p>
-							<p>Unable to refresh the live report right now. Showing the last loaded data.</p>
-							<div>
-								<Button class="mt-2" onClick={refreshAirport}>
-									Retry now
-								</Button>
-							</div>
-						</div>
-					</Show>
 					<Link href={`https://metar.live/airport/${airportStore.airport?.identifier}`} rel="canonical" />
 					<div class="dark:text-white-dark mx-auto flex flex-col py-16 text-center">
 						<h1 class="font-semibold text-slate-900 dark:text-white">

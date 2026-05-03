@@ -5,7 +5,7 @@ import { useTimeStore } from '../context/TimeStore'
 import Duration from '../models/duration'
 import { useStatusStore } from '../context/StatusStore'
 
-const TEN_MINUTES_IN_MS = 10 * 60 * 1000
+const STALE_THRESHOLD_MS = 20 * 60 * 1000
 
 const StatusBanner: Component = () => {
 	const [lastWeatherSync] = useStatusStore()
@@ -27,7 +27,7 @@ const StatusBanner: Component = () => {
 			return false
 		}
 
-		return now().getTime() - last.getTime() >= TEN_MINUTES_IN_MS
+		return now().getTime() - last.getTime() >= STALE_THRESHOLD_MS
 	})
 
 	const lastSyncDuration = createMemo(() => {
