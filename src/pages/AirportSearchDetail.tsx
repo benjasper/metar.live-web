@@ -6,12 +6,12 @@ import { AiFillStar, AiOutlineStar } from 'solid-icons/ai'
 import { CgWebsite } from 'solid-icons/cg'
 import { FiExternalLink } from 'solid-icons/fi'
 import { HiOutlineClock, HiSolidClock } from 'solid-icons/hi'
-import { ImSpinner5 } from 'solid-icons/im'
 import { IoLocationSharp } from 'solid-icons/io'
 import { TbOutlineClock, TbOutlineMountain, TbOutlineSunrise, TbOutlineSunset } from 'solid-icons/tb'
 import { Component, Match, Show, Switch, createEffect, createMemo, createSignal, onCleanup } from 'solid-js'
 import { createStore, reconcile } from 'solid-js/store'
 import * as SunCalc from 'suncalc'
+import AirportDetailSkeleton from '../components/skeletons/AirportDetailSkeleton'
 import AirportClassification from '../components/AirportClassification'
 import AirportsInVicinity from '../components/AirportsInVicinity'
 import Button from '../components/Button'
@@ -399,9 +399,7 @@ const AirportSearchDetail: Component = () => {
 			</div>
 			<Switch>
 				<Match when={airportStore.airport === undefined && airportRequest.loading}>
-					<div class="dark:text-white-dark flex h-full justify-center text-slate-800">
-						<ImSpinner5 class="m-auto w-16 animate-spin" size={36} />
-					</div>
+					<AirportDetailSkeleton />
 				</Match>
 				<Match when={shouldShowFullError()}>
 					<div class="dark:text-white-dark mx-auto flex flex-col items-center gap-4 py-16 text-center text-slate-800">
