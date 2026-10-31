@@ -40,5 +40,5 @@ unless intentionally updated.
 ## GraphQL & Configuration Tips
 
 Stay aligned with the backend by running `pnpm generate` whenever queries or schemas change and committing the outputs.
-Use the Volta-pinned toolchain (`node` 22, `pnpm` 10.18.2`) and validate environment tweaks locally before updating the
-Vercel config.
+Use the toolchain pinned in `package.json` (`node` 26.13.0 via `devEngines.runtime`, `pnpm` 12.16.1 via
+`packageManager`), e.g. with mise, and validate environment tweaks locally before updating the Vercel config.

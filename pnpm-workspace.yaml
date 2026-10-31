@@ -1,6 +1,5 @@
-onlyBuiltDependencies:
-    - '@tailwindcss/oxide'
-    - esbuild
+allowBuilds:
+  esbuild: true
 
 overrides:
     ajv@<6.14.0: '>=6.14.0'

@@ -8,19 +8,12 @@ jobs:
 
         steps:
             - name: Checkout
-              uses: actions/checkout@v3
+              uses: actions/checkout@v7
 
-            - name: Install Node.js
-              uses: actions/setup-node@v3
-              with:
-                  node-version: 18
-
-            - name: Enable Corepack
-              run: corepack enable
-
-            - name: Install pnpm
-              id: pnpm-install
-              run: corepack prepare pnpm@10 --activate
+            - name: Install Node.js and pnpm
+              uses: jdx/mise-action@v5
+              env:
+                  MISE_IDIOMATIC_VERSION_FILE_ENABLE_TOOLS: node,pnpm
 
             - name: Get pnpm store directory
               id: pnpm-cache
@@ -28,7 +21,7 @@ jobs:
               run: |
                   echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
 
-            - uses: actions/cache@v3
+            - uses: actions/cache@v6
               name: Setup pnpm cache
               with:
                   path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
